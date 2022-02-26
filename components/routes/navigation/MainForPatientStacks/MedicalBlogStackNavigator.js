@@ -1,49 +1,33 @@
 import React from "react";
-import { View, Text, Dimensions, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 
-const Locations = () => (
+const MedicalBlog = () => (
   <ScrollView style={styles.scrollview}>
     <View style={styles.view}>
-      <Text style={styles.title}>
-        You can find us at the following locations:
-      </Text>
-      <Text style={styles.subtitle2}>
-        34 Observatorului Street, Cluj-Napoca, Romania
-      </Text>
-      <Text style={styles.subtitle2}>
-        26-28 George Baritiu Street, Cluj-Napoca, Romania
-      </Text>
-      <Text style={styles.subtitle2}>
-        71-73 Dorobantilor Street, Cluj-Napoca, Romania
-      </Text>
-      <Text style={styles.subtitle2}>
-        103-105 Muncii Boulevard, Cluj-Napoca, Romania
-      </Text>
-      <Text style={styles.subtitle2}>
-        128-130 21 Decembrie 1989 Boulevard, Cluj-Napoca, Romania
-      </Text>
+      <Text style={styles.title}>Medical Blog </Text>
     </View>
   </ScrollView>
 );
 
-const LocationsStackNavigator = () => {
+const MedicalBlogStackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name="LocationsScreen" component={Locations} />
+      <Stack.Screen name="MedicalBlog" component={MedicalBlog} />
     </Stack.Navigator>
   );
 };
 
-export default LocationsStackNavigator;
+export default MedicalBlogStackNavigator;
+
 const styles = StyleSheet.create({
   title: {
     marginTop: HEIGHT / 20,
