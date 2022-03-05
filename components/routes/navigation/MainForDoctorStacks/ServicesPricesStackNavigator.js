@@ -1,59 +1,45 @@
-import React, { useState } from "react";
-import { View, Text, ScrollView, StyleSheet, Dimensions } from "react-native";
+import React from "react";
+import { View, Text, Dimensions, ScrollView, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-//import Client from "../../../../api/Client";
+
+const Stack = createStackNavigator();
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
-const Stack = createStackNavigator();
 
-const Blog = () => {
-  /*
-  const [data, setData] = useState([]);
+const ServicesPrices = () => (
+  <ScrollView style={styles.scrollview}>
+    <View style={styles.view}>
+      <Text style={styles.title}>Services and Prices</Text>
+    </View>
+  </ScrollView>
+);
 
-  async function fetchPosts() {
-    try {
-      const {data} = await Client
-          .get("/blog")
-          .then((response) => setData(response.data));
-    } catch(error){
-      console.log("Can't fetch posts ", error);
-    }
-  }
-*/
-  return (
-    <ScrollView style={styles.scrollview}>
-      <View style={styles.view}>
-        <Text style={styles.title}> </Text>
-      </View>
-    </ScrollView>
-  );
-};
-
-const BlogStackNavigator = () => {
+const ServicesPricesStackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Blog" component={Blog} />
+      <Stack.Screen name="ServicesPrices" component={ServicesPrices} />
     </Stack.Navigator>
   );
 };
 
-export default BlogStackNavigator;
+export default ServicesPricesStackNavigator;
 
 const styles = StyleSheet.create({
   title: {
     marginTop: HEIGHT / 20,
+    textAlign: "center",
     justifyContent: "flex-start",
     fontSize: WIDTH / 15,
     color: "#734F96",
     marginBottom: WIDTH / 12,
   },
   subtitle: {
-    textAlign: "center",
+    textAlign: "justify",
     fontSize: WIDTH / 22,
     marginTop: HEIGHT / 200,
     color: "#800020",
@@ -76,6 +62,7 @@ const styles = StyleSheet.create({
     marginLeft: WIDTH / 15,
     marginRight: WIDTH / 15,
     marginBottom: HEIGHT / 15,
+    alignItems: "center",
   },
   view2: {
     marginLeft: WIDTH / 10,
