@@ -1,18 +1,34 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, Text, ScrollView, StyleSheet, Dimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+//import Client from "../../../../api/Client";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const Stack = createStackNavigator();
 
-const Blog = () => (
+const Blog = () => {
+  /*
+  const [data, setData] = useState([]);
+
+  async function fetchPosts() {
+    try {
+      const {data} = await Client
+          .get("/blog")
+          .then((response) => setData(response.data));
+    } catch(error){
+      console.log("Can't fetch posts ", error);
+    }
+  }
+*/
+return(
   <ScrollView style={styles.scrollview}>
     <View style={styles.view}>
-      <Text style={styles.title}>Blog </Text>
+      <Text style={styles.title}>{data} </Text>
     </View>
   </ScrollView>
 );
+};
 
 const BlogStackNavigator = () => {
   return (
