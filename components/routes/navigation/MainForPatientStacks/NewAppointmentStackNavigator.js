@@ -110,6 +110,9 @@ const NewAppointment = () => {
           .then(response => {
             Alert.alert(JSON.stringify(response.data));
           })
+          .catch(error => {
+            console.log(error);
+          })
     } else {
       Alert.alert("Invalid options selected!");
     }
@@ -252,15 +255,17 @@ const styles = StyleSheet.create({
     fontSize: WIDTH / 23,
   },
   appointmentButton: {
-    backgroundColor: "#2f1a3b",
-    alignItems: "center",
+    backgroundColor: "#734F96",
+    fontSize: WIDTH / 16,
+    borderRadius: WIDTH / 8,
+    borderColor: "#734AF1",
     alignContent: "center",
-    borderRadius: (HEIGHT * 3) / 100,
-    marginTop: (HEIGHT * 3) / 100,
-    width: (WIDTH * 40) / 100,
-    height: (HEIGHT * 6) / 100,
-    borderColor: "white",
-    borderWidth: 3,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 5,
+    padding: WIDTH / 100,
+    marginLeft: WIDTH / 10,
+    marginRight: WIDTH / 10,
   },
   appointmentButtonText: {
     color: "#FFFFFF",
