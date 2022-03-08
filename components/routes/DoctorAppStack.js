@@ -8,8 +8,10 @@ import LocationsStackNavigator from "./navigation/MainForDoctorStacks/LocationsS
 import ServicesPricesStackNavigator from "./navigation/MainForDoctorStacks/ServicesPricesStackNavigator";
 import ManualTrackerStackNavigator from "./navigation/MainForDoctorStacks/ManualTrackerStackNavigator";
 import BlogStackNavigator from "./navigation/MainForDoctorStacks/BlogStackNavigator";
+import CreateBlogPostStackNavigator from "./navigation/MainForDoctorStacks/CreateBlogPostStackNavigator";
 import AboutUsStackNavigator from "./navigation/MainForDoctorStacks/AboutUsStackNavigator";
 import ContactStackNavigator from "./navigation/MainForDoctorStacks/ContactStackNavigator";
+import RegisterNewDoctorNavigator from './navigation/MainForDoctorStacks/RegisterNewDoctorNavigator';
 import BottomTabNavigator from "./PatientBottomTabNavigator";
 
 const Drawer = createDrawerNavigator();
@@ -41,6 +43,7 @@ export const DoctorAppStack = () => {
         component={ManualTrackerStackNavigator}
       />
       <Drawer.Screen name="BlogStack" component={BlogStackNavigator} />
+      <Drawer.Screen name="CreateBlogPost" component={CreateBlogPostStackNavigator} />
       <Drawer.Screen
         name="ServicesPricesStack"
         component={ServicesPricesStackNavigator}

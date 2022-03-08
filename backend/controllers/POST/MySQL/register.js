@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 exports.register = function (req, res) {
   var username = req.body.username;
   var password = req.body.password;
+  var fullname = req.body.fullname;
   var saltRounds = 9;
   var ok = true;
   mysqldb.query(
@@ -19,8 +20,8 @@ exports.register = function (req, res) {
             console.log("Error occured in hashing password: " + err);
           } else {
             mysqldb.query(
-              "INSERT INTO registeredusers (username,password ) VALUES (?,?)",
-              [username, hash],
+              "INSERT INTO registeredusers (username,password,fullname ) VALUES (?,?,?)",
+              [username, hash, fullname],
               function (error, results) {
                 if (error) throw error;
                 res.json(results);

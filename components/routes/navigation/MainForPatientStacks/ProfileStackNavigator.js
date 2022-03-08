@@ -24,33 +24,37 @@ const Stack = createStackNavigator();
 
 //let LoginData = "";
 
-var user = "";
-var LoginData = "";
+//var user = "";
 
 const Profile = () => {
   const { setIsLoggedIn } = React.useContext(AuthContext);
 
-  useEffect(() => {
-    const getLoginData = async () => {
-      let parsed = await AsyncStorage.getItem("LoginData");
-      LoginData = JSON.parse(parsed);
-      console.log(LoginData.username);
-      user = LoginData.username;
-    };
-    getLoginData();
-  }, []);
+  const [profileElements,setProfileElements] = React.useState("");
+  const [username,setUsername] = React.useState("");
+  const [fullname,setFullname] = React.useState("");
+
+  React.useEffect(()=>{
+    const getProfile = async () => {
+      var profileElements = await AsyncStorage.getItem('LoginData');
+      profileElements = JSON.parse(profileElements);
+      setUsername(profileElements.username);
+      setFullname(profileElements.fullname);
+    }
+    getProfile();
+  },[profileElements])
 
   const logout = async () => {
     //await AsyncStorage.removeItem('@token');
     await AsyncStorage.clear();
     setIsLoggedIn(false);
   };
-  console.log("SSSSS + ", LoginData);
+
   return (
     <ScrollView style={styles.scrollview}>
       <View style={styles.view}>
         <Text style={styles.title}>My profile</Text>
-        <Text style={styles.subtitle}>{user}</Text>
+        <Text style={styles.subtitle}>Username: {username}</Text>
+        <Text style={styles.subtitle}>Patient name: {fullname}</Text>
         <TouchableOpacity
           onPress={logout}
           style={styles.logoutButton}
@@ -80,7 +84,6 @@ export default ProfileStackNavigator;
 const styles = StyleSheet.create({
   logoutButton: {
     backgroundColor: "#2f1a3b",
-    height: (HEIGHT * 4) / 100,
     alignItems: "center",
     borderRadius: (HEIGHT * 3) / 100,
     marginTop: (HEIGHT * 3) / 100,

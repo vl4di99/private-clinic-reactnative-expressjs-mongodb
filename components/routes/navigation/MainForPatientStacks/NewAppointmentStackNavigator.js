@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -7,10 +7,13 @@ import {
   Dimensions,
   TouchableOpacity,
   Platform,
+    Alert
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Dropdown } from "react-native-material-dropdown";
+import { Dropdown } from "react-native-material-dropdown-v2";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Client from '../../../../api/Client';
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -23,6 +26,55 @@ const NewAppointment = () => {
   const [show, setShow] = useState(false);
   const [timeText, setTimeText] = useState("");
   const [dateText, setDateText] = useState("");
+  const [selectedDepartment,setSelectedDepartment] = useState("");
+  const [selectedDoctor, setSelectedDoctor] = useState("");
+  const [user, setUser] = useState("");
+  var dropDownData = "";
+  var departmentData = [];
+  var doctorData = "";
+  var doctorDropdown = [];
+
+  const dropDownJSON = (object,outputobject) => {
+    for(let i=0; i<object.length;i++){
+      outputobject[i]={};
+      outputobject[i].value = object[i].department;
+    }
+    return outputobject;
+  }
+
+  const dropDownDoctorJSON = (object,outputobject) => {
+    for(let i=0; i<object.length;i++){
+      outputobject[i]={};
+      outputobject[i].value = object[i].fullname;
+    }
+    return outputobject;
+  }
+
+  useEffect(()=>{
+    Client.get('/getDepartmentDropdown')
+        .then(response => {dropDownData = response.data;
+        dropDownJSON(dropDownData,departmentData);})
+        .catch((err) => {
+          console.log(err);
+        });
+    Client.post('/getDoctorsDropdown', {department:selectedDepartment})
+        .then(response => {doctorData = response.data;
+          dropDownDoctorJSON(doctorData,doctorDropdown);
+          })
+        .catch((err) => {
+          console.log(err);
+        });
+    const getUser = async () => {
+      try{
+        var profileElements = await AsyncStorage.getItem('LoginData');
+        profileElements = JSON.parse(profileElements);
+        setUser(profileElements.fullname);
+      }catch(error){
+        console.log("Cannot get username in appointment ", error);
+      }
+    }
+    getUser();
+  },[departmentData,doctorDropdown,user]);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -31,11 +83,11 @@ const NewAppointment = () => {
 
     let tempDate = new Date(currentDate);
     let fDate =
-      tempDate.getDate() +
-      "." +
-      (tempDate.getMonth() + 1) +
-      "." +
-      tempDate.getFullYear();
+        tempDate.getFullYear() +
+        "-" +
+        (tempDate.getMonth() + 1) +
+        "-" +
+      tempDate.getDate();
     let fTime = tempDate.getHours() + ":" + tempDate.getMinutes();
     setDateText(fDate);
     setTimeText(fTime);
@@ -46,6 +98,23 @@ const NewAppointment = () => {
     setMode(currentMode);
   };
 
+  const setAppointmentNow = () => {
+    var patient = user;
+    var doctor = selectedDoctor;
+    var date = dateText;
+    var time = timeText;
+    var department = selectedDepartment;
+    //Client.post('/createAppointment',{user,selectedDoctor,dateText,timeText,selectedDepartment})
+    if(user!=='' && selectedDoctor!=='' && dateText!=='' && timeText!=='' && selectedDepartment!=='') {
+      Client.post('/createAppointment', {patient, doctor, date, time, department})
+          .then(response => {
+            Alert.alert(JSON.stringify(response.data));
+          })
+    } else {
+      Alert.alert("Invalid options selected!");
+    }
+  }
+
   return (
     <ScrollView style={styles.scrollview}>
       <View style={styles.view}>
@@ -53,9 +122,9 @@ const NewAppointment = () => {
 
         <View style={styles.view2}>
           <Text style={styles.subtitle}>Choose a department</Text>
-          <Dropdown label="Departments" /*data={data}*/ />
+          <Dropdown label="Departments" data={departmentData} onChangeText={(value)=>{setSelectedDepartment(value)}}/>
           <Text style={styles.subtitle}>Choose a doctor</Text>
-          <Dropdown label="Doctors" /*data={data}*/ />
+          <Dropdown label="Doctors" data={doctorDropdown} onChangeText={(value)=>{setSelectedDoctor(value)}} />
           <View>
             <Text style={styles.subtitle}>Choose a date</Text>
             <TouchableOpacity
@@ -77,16 +146,26 @@ const NewAppointment = () => {
           <View>
             <Text style={styles.subtitle3}>
               You selected:
-              {"\n\n"}Date: {dateText} {"\n"}Hour: {timeText}
+              {"\n\n"}Department: {selectedDepartment} {"\n"}Doctor: {selectedDoctor}
+              {"\n"}Date: {dateText} {"\n"}Hour: {timeText} {"\n"}User: {user}
             </Text>
+            <TouchableOpacity
+                onPress={setAppointmentNow}
+                style={styles.appointmentButton}
+                activeOpacity={0.5}
+            >
+              <Text style={styles.appointmentButtonText}>Set Appointment</Text>
+            </TouchableOpacity>
           </View>
 
           {show && (
             <DateTimePicker
               testID="dateTimePicker"
               value={date}
+              minimumDate={new Date()}
               mode={mode}
               is24Hour={true}
+              minuteInterval={30}
               display="default"
               onChange={onChange}
             />
@@ -143,7 +222,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: WIDTH / 15,
     marginRight: WIDTH / 15,
-    marginBottom: HEIGHT / 15,
+    marginBottom: HEIGHT / 5,
   },
   view2: {
     marginLeft: WIDTH / 10,
@@ -171,5 +250,22 @@ const styles = StyleSheet.create({
   text: {
     color: "#800020",
     fontSize: WIDTH / 23,
+  },
+  appointmentButton: {
+    backgroundColor: "#2f1a3b",
+    alignItems: "center",
+    alignContent: "center",
+    borderRadius: (HEIGHT * 3) / 100,
+    marginTop: (HEIGHT * 3) / 100,
+    width: (WIDTH * 40) / 100,
+    height: (HEIGHT * 6) / 100,
+    borderColor: "white",
+    borderWidth: 3,
+  },
+  appointmentButtonText: {
+    color: "#FFFFFF",
+    paddingVertical: (HEIGHT * 1.2) / 100,
+    fontSize: (HEIGHT * 2) / 100,
+    textAlign: "center",
   },
 });

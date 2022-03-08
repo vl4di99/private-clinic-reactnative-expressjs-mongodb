@@ -25,7 +25,7 @@ const Login = ({navigation}) => {
       setIsLoggedIn(true);
       let token = "PATIENT";
       await AsyncStorage.setItem('@token',token);
-      await AsyncStorage.setItem("LoginData",JSON.stringify(LoginData));
+      await AsyncStorage.setItem('LoginData',JSON.stringify(LoginData));
     }
 
     const [userName, setUserName] = useState("");
@@ -37,23 +37,6 @@ const Login = ({navigation}) => {
 
 
     Client.defaults.withCredentials = true;
-    // Lines below moved to "router"
-    /*
-    useEffect(() => {
-      Client.get("/login").then((response) => {
-        if (response.data.loggedIn === true) {
-          setLoggedIn(response.data.loggedIn);
-          setLoginStatus(response.data.user.username);
-          console.log(loginStatus);
-          const contextId = response.data.user.id;
-          const contextUsername = loginStatus;
-          setAuth({contextId, contextUsername});
-          Alert.alert("User " + loginStatus + " already logged in!");
-          //navigation.navigate("MainForPatient");
-        }
-      });
-    }, [] );
-    */
 
     const login_now = () => {
           Client.post("/login", { username: userName, password: passWord })
@@ -137,7 +120,6 @@ export default Login;
 const styles = StyleSheet.create({
       loginButton: {
         backgroundColor: "#2f1a3b",
-        height: (HEIGHT * 4) / 100,
         alignItems: "center",
         borderRadius: (HEIGHT * 3) / 100,
         marginTop: (HEIGHT * 3) / 100,

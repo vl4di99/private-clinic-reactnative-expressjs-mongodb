@@ -4,8 +4,14 @@ const postSchema = mongoose.Schema({
   title: String,
   author: String,
   content: String,
-  tag: String,
-  image: String,
+ /* img:
+      {
+        data: Buffer,
+        contentType: String
+      }
+
+  */
+  //image: String,
   /*createdAt: {
     type: Date,
     default: new Date(),

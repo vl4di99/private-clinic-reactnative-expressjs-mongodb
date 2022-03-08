@@ -1,30 +1,45 @@
-import React, { useState } from "react";
-import { View, Text, ScrollView, StyleSheet, Dimensions } from "react-native";
+import React, {useEffect, useState} from "react";
+import { View, Text, ScrollView, StyleSheet, Dimensions, Button } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-//import Client from "../../../../api/Client";
+import Client from "../../../../api/Client";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const Stack = createStackNavigator();
 
 const Blog = () => {
-  /*
+
   const [data, setData] = useState([]);
 
-  async function fetchPosts() {
+  useEffect(()=>{
+    async function fetchPosts() {
     try {
-      const {data} = await Client
+      await Client
           .get("/blog")
-          .then((response) => setData(response.data));
+          .then((response) => {setData(response.data);
+            console.log(JSON.stringify(response.data));
+
+          });
     } catch(error){
       console.log("Can't fetch posts ", error);
     }
   }
-*/
+  fetchPosts();
+  },[data])
+
+
   return (
     <ScrollView style={styles.scrollview}>
       <View style={styles.view}>
-        <Text style={styles.title}> </Text>
+        {data.map(see =>
+                <View style={styles.blogView}>
+                  <Text style={styles.blogTitle}>{see.title}</Text>
+                  <Text style={styles.subtitle}>{see.content}</Text>
+                  <Text style={styles.subtitle2}>{see.author}</Text>
+
+                </View>
+        )}
+
       </View>
     </ScrollView>
   );
@@ -104,4 +119,17 @@ const styles = StyleSheet.create({
     color: "#800020",
     fontSize: WIDTH / 23,
   },
+  blogView:{
+    borderColor: "#734F96",
+    borderWidth: 5,
+    borderRadius: 10,
+    marginBottom: 20
+  },
+  blogTitle:{
+    //marginTop: HEIGHT / 2,
+    justifyContent: "flex-start",
+    fontSize: WIDTH / 15,
+    color: "#734F96",
+    //marginBottom: WIDTH / 12,
+  }
 });

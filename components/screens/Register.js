@@ -11,6 +11,7 @@ const { height: HEIGHT } = Dimensions.get("window");
 
 const Register = ({navigation}) => {
 
+    const [fullName, setFullName] = useState("");
     const [userName, setUserName] = useState("");
     const [passWord, setPassWord] = useState("");
     const [confPassWord, setConfPassWord] = useState("");
@@ -24,6 +25,7 @@ const Register = ({navigation}) => {
         .post("/register", {
           username: userName,
           password: passWord,
+            fullname: fullName,
         })
         .then((response) => {
           if(response.data === false)
@@ -65,6 +67,26 @@ const Register = ({navigation}) => {
                 paddingHorizontal: 5,
               }}
       />
+        <FloatingLabelInput
+            label={'Full Name'}
+            value={fullName}
+            onChangeText={(value) => setFullName(value)}
+            containerStyles={{
+                marginBottom: "5%",
+                borderColor: "#ABDEE6",
+                borderWidth: 3,
+                borderRadius: 15,
+                height: (HEIGHT * 7) / 100,
+                paddingHorizontal: 20,
+            }}
+            customLabelStyles={{
+                colorFocused: 'red',
+                fontSizeFocused: 12,
+            }}
+            labelStyles={{
+                paddingHorizontal: 5,
+            }}
+        />
 
       <FloatingLabelInput
         label={'Password'}
@@ -129,7 +151,6 @@ export default Register;
 const styles = StyleSheet.create({
       loginButton: {
         backgroundColor: "#2f1a3b",
-        height: (HEIGHT * 4) / 100,
         alignItems: "center",
         borderRadius: (HEIGHT * 3) / 100,
         marginTop: (HEIGHT * 3) / 100,

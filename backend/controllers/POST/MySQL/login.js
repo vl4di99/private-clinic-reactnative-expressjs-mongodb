@@ -2,8 +2,8 @@ const bcrypt = require('bcrypt');
 const mysqldb = require('../../../database').connection;
 
 exports.login = function(req, res) {
-    var username = req.body.u;
-    var password = req.body.p;
+    var username = req.body.username;
+    var password = req.body.password;
   
     mysqldb.query(
       "SELECT * FROM registeredusers WHERE username = ?;",
