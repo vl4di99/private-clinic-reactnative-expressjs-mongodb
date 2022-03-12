@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { AntDesign, Ionicons, Fontisto } from "@expo/vector-icons";
 
 import HomeStackNavigator from "./navigation/MainForPatientStacks/HomeStackNavigatior";
 import LocationsStackNavigator from "./navigation/MainForDoctorStacks/LocationsStackNavigator";
@@ -11,8 +12,9 @@ import BlogStackNavigator from "./navigation/MainForDoctorStacks/BlogStackNaviga
 import CreateBlogPostStackNavigator from "./navigation/MainForDoctorStacks/CreateBlogPostStackNavigator";
 import AboutUsStackNavigator from "./navigation/MainForDoctorStacks/AboutUsStackNavigator";
 import ContactStackNavigator from "./navigation/MainForDoctorStacks/ContactStackNavigator";
-import RegisterNewDoctorNavigator from './navigation/MainForDoctorStacks/RegisterNewDoctorNavigator';
-import BottomTabNavigator from "./PatientBottomTabNavigator";
+import RegisterNewDoctorNavigator from "./navigation/MainForDoctorStacks/RegisterNewDoctorNavigator";
+import TermsAndConditionsStackNavigator from "./navigation/MainForDoctorStacks/TermsAndConditionsStackNavigator";
+import DoctorBottomTabNavigator from "./DoctorBottomTabNavigator";
 
 const Drawer = createDrawerNavigator();
 
@@ -33,23 +35,133 @@ export const DoctorAppStack = () => {
         ),
       })}
     >
-      <Drawer.Screen name="HomeTabs" component={BottomTabNavigator} />
       <Drawer.Screen
-        name="LocationsStack"
+        name="Home"
+        component={DoctorBottomTabNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <AntDesign size={18} name={"home"} color="#F33A6A"></AntDesign>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#F33A6A",
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="Locations"
         component={LocationsStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <Ionicons
+              size={18}
+              name="location-outline"
+              color="#2495D4"
+            ></Ionicons>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#2495D4",
+          },
+        }}
       />
       <Drawer.Screen
-        name="ManualTrackerStack"
-        component={ManualTrackerStackNavigator}
-      />
-      <Drawer.Screen name="BlogStack" component={BlogStackNavigator} />
-      <Drawer.Screen name="CreateBlogPost" component={CreateBlogPostStackNavigator} />
-      <Drawer.Screen
-        name="ServicesPricesStack"
+        name="Services and Prices"
         component={ServicesPricesStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <AntDesign
+              size={18}
+              name={"creditcard"}
+              color="#F33A6A"
+            ></AntDesign>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#F33A6A",
+          },
+        }}
       />
-      <Drawer.Screen name="AboutUsStack" component={AboutUsStackNavigator} />
-      <Drawer.Screen name="ContactStack" component={ContactStackNavigator} />
+      <Drawer.Screen
+        name="ManualTracker"
+        component={ManualTrackerStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <AntDesign size={18} name={"hearto"} color="#2495D4"></AntDesign>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#2495D4",
+          },
+        }}
+      />
+
+      <Drawer.Screen
+        name="CreateBlogPost"
+        component={CreateBlogPostStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <Ionicons
+              size={18}
+              name={"reader-outline"}
+              color="#F33A6A"
+            ></Ionicons>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#F33A6A",
+          },
+        }}
+      />
+
+      <Drawer.Screen
+        name="AboutUs"
+        component={AboutUsStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <Ionicons size={18} name={"information"} color="#2495D4"></Ionicons>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#2495D4",
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="ContactStack"
+        component={ContactStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <Ionicons
+              size={18}
+              name={"call-outline"}
+              color="#F33A6A"
+            ></Ionicons>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#F33A6A",
+          },
+        }}
+      />
+
+      <Drawer.Screen
+        name="Terms and Conditions"
+        component={TermsAndConditionsStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <Ionicons
+              size={18}
+              name={"bookmark-outline"}
+              color="#2495D4"
+            ></Ionicons>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#2495D4",
+          },
+        }}
+      />
     </Drawer.Navigator>
   );
 };

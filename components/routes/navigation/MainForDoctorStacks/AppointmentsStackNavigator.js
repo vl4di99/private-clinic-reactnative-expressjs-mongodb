@@ -7,9 +7,9 @@ import {
   Dimensions,
   TouchableOpacity,
   Platform,
+  FlatList,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Dropdown } from "react-native-material-dropdown";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const { width: WIDTH } = Dimensions.get("window");
@@ -21,7 +21,7 @@ const NewAppointment = () => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const [timeText, setTimeText] = useState("");
+  // const [timeText, setTimeText] = useState("");
   const [dateText, setDateText] = useState("");
 
   const onChange = (event, selectedDate) => {
@@ -49,13 +49,8 @@ const NewAppointment = () => {
   return (
     <ScrollView style={styles.scrollview}>
       <View style={styles.view}>
-        <Text style={styles.title}>Schedule an appointment</Text>
-
+        <Text style={styles.title}>My scheduled appointments</Text>
         <View style={styles.view2}>
-          <Text style={styles.subtitle}>Choose a department</Text>
-          <Dropdown label="Departments" /*data={data}*/ />
-          <Text style={styles.subtitle}>Choose a doctor</Text>
-          <Dropdown label="Doctors" /*data={data}*/ />
           <View>
             <Text style={styles.subtitle}>Choose a date</Text>
             <TouchableOpacity
@@ -66,18 +61,9 @@ const NewAppointment = () => {
             </TouchableOpacity>
           </View>
           <View>
-            <Text style={styles.subtitle}>Choose an hour</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => showMode("time")}
-            >
-              <Text style={styles.text}>Hour</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
             <Text style={styles.subtitle3}>
               You selected:
-              {"\n\n"}Date: {dateText} {"\n"}Hour: {timeText}
+              {"\n\n"}Date: {dateText}
             </Text>
           </View>
 
@@ -91,6 +77,23 @@ const NewAppointment = () => {
               onChange={onChange}
             />
           )}
+          <FlatList
+            data={[
+              { key: "Devin" },
+              { key: "Dan" },
+              { key: "Dominic" },
+              { key: "Jackson" },
+              { key: "James" },
+              { key: "Joel" },
+              { key: "John" },
+              { key: "Jillian" },
+              { key: "Jimmy" },
+              { key: "Julie" },
+            ]}
+            renderItem={({ item }) => (
+              <Text style={styles.item}>{item.key}</Text>
+            )}
+          />
         </View>
       </View>
     </ScrollView>
