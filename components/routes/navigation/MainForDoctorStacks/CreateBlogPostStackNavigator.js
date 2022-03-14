@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, StyleSheet, Dimensions, TextInput, Button, Alert } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Dimensions, TextInput, Button, Alert, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 import Client from "../../../../api/Client";
 
 const { width: WIDTH } = Dimensions.get("window");
@@ -11,12 +13,16 @@ const CreateBlogPost = () => {
     const [titleText, setTitleText] = useState("");
     const [authorText, setAuthorText] = useState("");
     const [contentText, setContentText] = useState("");
+    const [imageBuffer, setImageBuffer] = useState("");
+    const [image,setImage] = useState(null);
 
     const saveBlogPost = () => {
         var title = titleText;
         var author = authorText;
         var content = contentText;
-        Client.post('/blog', {title, author, content})
+        var img = imageBuffer;
+
+        Client.post('/blog', {title, author, content, img})
             .then((response) => {
                 console.log(response);
                 if(response.status == "201") {
@@ -30,12 +36,30 @@ const CreateBlogPost = () => {
             })
     }
 
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [16, 9],
+            quality: 1,
+        });
+
+        const base64 = await FileSystem.readAsStringAsync(result.uri, { encoding: 'base64' });
+        setImageBuffer(base64);
+        if (!result.cancelled) {
+            setImage(result.uri);
+        }
+    }
+
     return (
         <View>
             <View>
                 <TextInput placeholder="Title" style={styles.text_input} onChangeText={(event) => setTitleText(event)}/>
                 <TextInput placeholder="Author" style={styles.text_input} onChangeText={(event) => setAuthorText(event)}/>
                 <TextInput placeholder="Content" style={styles.textarea_input} NumberOfLines={15} onChangeText={(event) => setContentText(event)}/>
+                {image && <Image source={{ uri: image }} style={{ width: 300, height: 200 }} />}
+                <Button title="Pick an image from camera roll" onPress={pickImage} />
                 <Button style={styles.saveButton} title="SAVE" onPress={saveBlogPost}/>
             </View>
         </View>

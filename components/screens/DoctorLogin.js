@@ -12,19 +12,22 @@ import Client from "../../api/Client";
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 
+var DoctorLoginData = "";
+
 const DoctorLogin = ({navigation}) => {
 
     const { setDoctorIsLoggedIn } = useContext(AuthContext);
-    const { setItem } = useAsyncStorage('@token');
+    // const { setItem } = useAsyncStorage('@token');
 
     const logInDoctor = async () => {
       setDoctorIsLoggedIn(true);
-      await setItem("DOCTOR");
+      let token = "DOCTOR";
+      await AsyncStorage.setItem('@token',token);
+      await AsyncStorage.setItem('DoctorLoginData',JSON.stringify(DoctorLoginData));
     }
 
     const [userName, setUserName] = useState("");
     const [passWord, setPassWord] = useState("");
-    const [loginStatus, setLoginStatus] = useState("");
     const { show } = useState(false);
 
     Client.defaults.withCredentials = true;
@@ -33,12 +36,11 @@ const DoctorLogin = ({navigation}) => {
         Client.post("/doctorLogin", { username: userName, password: passWord })
           .then((response) => {
             if (response.data.message) {
-              setLoginStatus(response.data.message);
-              console.log(setLoginStatus(response.data.message));
+              console.log("Login Message: "+response.data.message);
               Alert.alert(response.data.message);
             } else {
-              setLoginStatus(response.data.username);
-              console.log(response.data.username);        
+              DoctorLoginData = response.data;
+              console.log(DoctorLoginData);
               logInDoctor();
               Alert.alert(
                 "Doctor " + response.data.username + " logged in successfully"
@@ -115,7 +117,6 @@ export default DoctorLogin;
 const styles = StyleSheet.create({
     loginButton: {
       backgroundColor: "#2f1a3b",
-      height: (HEIGHT * 4) / 100,
       alignItems: "center",
       borderRadius: (HEIGHT * 3) / 100,
         marginTop: (HEIGHT * 3) / 100,

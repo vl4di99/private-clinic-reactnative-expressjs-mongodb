@@ -17,7 +17,7 @@ const Blog = () => {
       await Client
           .get("/blog")
           .then((response) => {setData(response.data);
-            console.log(JSON.stringify(response.data));
+           // console.log(JSON.stringify(response.data));
 
           });
     } catch(error){
@@ -36,7 +36,6 @@ const Blog = () => {
                   <Text style={styles.blogTitle}>{see.title}</Text>
                   <Text style={styles.subtitle}>{see.content}</Text>
                   <Text style={styles.subtitle2}>{see.author}</Text>
-
                 </View>
         )}
 
