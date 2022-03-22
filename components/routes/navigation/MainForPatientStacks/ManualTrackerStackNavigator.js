@@ -7,12 +7,12 @@ import {
     ScrollView,
     TouchableOpacity,
     Pressable,
+    Alert
 } from "react-native";
 import {Checkbox} from "react-native-paper";
 import {createStackNavigator} from "@react-navigation/stack";
 import NumberPlease from "react-native-number-please";
 import {Rating, AirbnbRating} from "react-native-ratings";
-import {Alert} from "react-native-web";
 import {Ionicons} from "react-native-vector-icons";
 import EmojiPick from "../../../elements/EmojiPick";
 
@@ -27,15 +27,15 @@ const ManualTracker = () => {
     const [checked4, setChecked4] = React.useState(false);
     const [checked5, setChecked5] = React.useState(false);
 
-    const initialValues = [{id: "systolic", value: 3}];
+    const initialValues = {id: "systolic", value: 3};
     const [systolic, setSystolic] = useState(initialValues);
     const systolicNumbers = [{id: "systolic", min: 50, max: 300}];
 
-    const initialValues2 = [{id: "diastolic", value: 3}];
-    const [diastolic, setDiastolic] = useState(2);
+    const initialValues2 = {id: "diastolic", value: 3};
+    const [diastolic, setDiastolic] = useState(initialValues2);
     const diastolicNumbers = [{id: "diastolic", min: 20, max: 200}];
 
-    const initialValues3 = [{id: "hr", value: 100}];
+    const initialValues3 = {id: "hr", value: 150};
     const [hr, setHr] = useState(initialValues3);
     const hrNumbers = [{id: "hr", min: 20, max: 200}];
 
@@ -51,7 +51,7 @@ const ManualTracker = () => {
     const [selectedMood, setSelectedMood] = useState(moodOptions);
 
     const submitTracker = () => {
-        console.log(selectedMood.description);
+        Alert.alert(selectedMood.description+hr.value);
     }
 
     return (
@@ -151,6 +151,7 @@ const ManualTracker = () => {
                         <View style={styles.view2}>
                             <Text style={styles.subtitle2}>Systolic:</Text>
                             <NumberPlease
+
                                 digits={systolicNumbers}
                                 values={systolic}
                                 onChange={(values) => setSystolic(values)}
@@ -340,5 +341,9 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: WIDTH/17,
         marginTop: WIDTH/40,
+    },
+    NumberPlease: {
+        fontSize: 15,
+        fontWeight: "bold"
     }
 });
