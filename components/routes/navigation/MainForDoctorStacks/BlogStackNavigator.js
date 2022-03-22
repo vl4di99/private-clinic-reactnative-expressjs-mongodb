@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { View, Text, ScrollView, StyleSheet, Dimensions, Button } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Dimensions, Button, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Client from "../../../../api/Client";
 
@@ -25,17 +25,17 @@ const Blog = () => {
     }
   }
   fetchPosts();
-  },[data])
-
+  },[data]);
 
   return (
     <ScrollView style={styles.scrollview}>
       <View style={styles.view}>
         {data.map(see =>
-                <View style={styles.blogView}>
+                <View style={styles.blogView} key={see.id}>
                   <Text style={styles.blogTitle}>{see.title}</Text>
                   <Text style={styles.subtitle}>{see.content}</Text>
                   <Text style={styles.subtitle2}>{see.author}</Text>
+                    <Image source={{uri: 'data:image/jpeg;base64,${see.img}'}} />
                 </View>
         )}
 
