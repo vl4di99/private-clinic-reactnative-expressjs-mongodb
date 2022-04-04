@@ -99,8 +99,8 @@ const CreateBlogPost = () => {
 
         if (!result.cancelled) {
             const fileInfo = await getFileInfo(result.uri);
-            const isLt15MB = isLessThanTheMB(fileInfo.size, 10);
-            if (!isLt15MB) {
+            const isLt10MB = isLessThanTheMB(fileInfo.size, 10);
+            if (!isLt10MB) {
                 Alert.alert('Image too big!', 'Image size must be smaller than 10MB!');
                 return
             } else {
