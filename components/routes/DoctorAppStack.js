@@ -14,6 +14,7 @@ import AboutUsStackNavigator from "./navigation/MainForDoctorStacks/AboutUsStack
 import ContactStackNavigator from "./navigation/MainForDoctorStacks/ContactStackNavigator";
 import RegisterNewDoctorNavigator from "./navigation/MainForDoctorStacks/RegisterNewDoctorNavigator";
 import TermsAndConditionsStackNavigator from "./navigation/MainForDoctorStacks/TermsAndConditionsStackNavigator";
+import AddNewDoctorStackNavigator from "./navigation/MainForDoctorStacks/AddNewDoctorStackNavigator";
 import DoctorBottomTabNavigator from "./DoctorBottomTabNavigator";
 
 const Drawer = createDrawerNavigator();
@@ -23,16 +24,9 @@ export const DoctorAppStack = () => {
     <Drawer.Navigator
       screenOptions={({ navigation }) => ({
         headerStyle: {
-          backgroundColor: "#551E18",
-        },
-        headerLeft: () => (
-          <TouchableOpacity
-            onPress={() => navigation.toggleDrawer()}
-            style={styles.headerLeft}
-          >
-            <Icon name="bars" size={25} color="#fff" />
-          </TouchableOpacity>
-        ),
+          backgroundColor: "#FFDBCC",
+        }
+
       })}
     >
       <Drawer.Screen
@@ -113,6 +107,24 @@ export const DoctorAppStack = () => {
           },
         }}
       />
+
+        <Drawer.Screen
+            name="AddNewDoctor"
+            component={AddNewDoctorStackNavigator}
+            options={{
+                drawerIcon: (config) => (
+                    <Ionicons
+                        size={18}
+                        name={"person-add-outline"}
+                        color="#F33A6A"
+                    ></Ionicons>
+                ),
+                drawerLabelStyle: {
+                    fontSize: 14,
+                    color: "#F33A6A",
+                },
+            }}
+        />
 
       <Drawer.Screen
         name="AboutUs"

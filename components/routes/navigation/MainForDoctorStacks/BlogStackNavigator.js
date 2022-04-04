@@ -31,11 +31,16 @@ const Blog = () => {
     <ScrollView style={styles.scrollview}>
       <View style={styles.view}>
         {data.map(see =>
-                <View style={styles.blogView} key={see.id}>
+                <View style={styles.blogView} key={see._id}>
                   <Text style={styles.blogTitle}>{see.title}</Text>
                   <Text style={styles.subtitle}>{see.content}</Text>
-                  <Text style={styles.subtitle2}>{see.author}</Text>
-                    <Image source={{uri: 'data:image/jpeg;base64,${see.img}'}} />
+                  <Image
+                      style={{width: '100%', height: HEIGHT/3.3,    resizeMode: "contain",
+                        alignSelf: "center"}}
+                      source={{uri:see.img}}
+                      resizeMode="stretch"
+                  />
+                  <Text style={styles.subtitle2}>Author: {see.author}</Text>
                 </View>
         )}
 
@@ -67,15 +72,17 @@ const styles = StyleSheet.create({
     marginBottom: WIDTH / 12,
   },
   subtitle: {
-    textAlign: "center",
+    textAlign: "left",
+    marginLeft: WIDTH*0.03,
     fontSize: WIDTH / 22,
     marginTop: HEIGHT / 200,
     color: "#800020",
   },
   subtitle2: {
-    textAlign: "center",
-    fontSize: WIDTH / 23,
-    marginTop: HEIGHT / 30,
+    textAlign: "right",
+    marginRight: WIDTH*0.05,
+    fontSize: WIDTH / 28,
+    marginTop: HEIGHT *0.005,
     color: "#800020",
   },
   subtitle3: {

@@ -8,7 +8,7 @@ const saltRounds = 10; // Password salting increases password hash complexity
 
 const app = express();
 const port = 3000;
-app.use(express.json({ limit: "50mb" }));
+//app.use(express.json() );
 
 app.use(
   cors({
@@ -18,7 +18,9 @@ app.use(
   })
 );
 
-app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser({limit: '50mb'}));
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(
   session({
@@ -45,6 +47,9 @@ app.get("/getALL", getALL.getALL);
 const getByUser = require("./controllers/GET/MySQL/getByUser");
 app.get("/getByUser", getByUser.getByUser);
 
+const getServicesPrices = require("./controllers/GET/MySQL/getServicesPrices");
+app.get("/getServicesPrices", getServicesPrices.getServicesPrices);
+
 const loginGet = require("./controllers/GET/MySQL/login");
 app.get("/login", loginGet.login);
 
@@ -56,6 +61,9 @@ app.get("/logout", logout.logout);
 
 const register = require("./controllers/POST/MySQL/register");
 app.post("/register", register.register);
+
+const doctorRegister = require("./controllers/POST/MySQL/doctorRegister");
+app.post("/doctorRegister",doctorRegister.register);
 
 const doctorLoginPost = require("./controllers/POST/MySQL/doctorLogin");
 app.post("/doctorLogin", doctorLoginPost.doctorLogin);
@@ -82,11 +90,12 @@ app.listen(port, () => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const mongoose = require("mongoose");
+require("dotenv/config");
 
 const uri =
   "mongodb+srv://dnec99:diana@cluster0.tk6jx.mongodb.net/PrivateClinic?retryWrites=true&w=majority";
 
-mongoose.connect(uri, { useNewUrlParser: true }, function (err) {
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, function (err) {
   if (err) throw err;
 });
 
