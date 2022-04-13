@@ -29,24 +29,24 @@ const Stack = createStackNavigator();
 const Profile = () => {
   const { setIsLoggedIn } = React.useContext(AuthContext);
 
-  const [profileElements,setProfileElements] = React.useState("");
-  const [username,setUsername] = React.useState("");
-  const [fullname,setFullname] = React.useState("");
+  const [profileElements, setProfileElements] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [fullname, setFullname] = React.useState("");
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     const getProfile = async () => {
-      var profileElements = await AsyncStorage.getItem('LoginData');
+      var profileElements = await AsyncStorage.getItem("LoginData");
       profileElements = JSON.parse(profileElements);
       setUsername(profileElements.username);
       setFullname(profileElements.fullname);
-    }
+    };
     getProfile();
-  },[profileElements])
+  }, [profileElements]);
 
   const logout = async () => {
     //await AsyncStorage.removeItem('@token');
     await AsyncStorage.clear();
-    setIsLoggedIn(false);
+    await setIsLoggedIn(false);
   };
 
   return (

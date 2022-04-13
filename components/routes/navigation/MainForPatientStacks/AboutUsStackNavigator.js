@@ -6,7 +6,7 @@ const Stack = createStackNavigator();
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 
-const AboutUs = () => (
+const AboutUsC = () => (
   <ScrollView style={styles.scrollview}>
     <View style={styles.aboutUs}>
       <Text style={styles.textContact}>
@@ -39,7 +39,7 @@ const AboutUsStackNavigator = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="AboutUs" component={AboutUs} />
+      <Stack.Screen name="About Us" component={AboutUsC} />
     </Stack.Navigator>
   );
 };

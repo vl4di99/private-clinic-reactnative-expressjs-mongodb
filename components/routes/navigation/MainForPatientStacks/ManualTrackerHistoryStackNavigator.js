@@ -13,13 +13,15 @@ import {
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Client from "../../../../api/Client";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const Stack = createStackNavigator();
 
-const Blog = () => {
+const ManualTrackerHistory = () => {
   const [data, setData] = useState([]);
+  const [loginData, setLoginData] = useState([]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalData, setModalData] = useState("");
@@ -37,10 +39,29 @@ const Blog = () => {
   const [authorText, setAuthorText] = useState("");
   const [contentText, setContentText] = useState("");
 
+  const getUsername = async () => {
+    try {
+      let parsed = await AsyncStorage.getItem("LoginData");
+      setLoginData(JSON.parse(parsed).username);
+      //parsed = await JSON.parse(parsed);
+      //console.log(parsed);
+      //setLoginData(parsed.username);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchPosts = useCallback(async () => {
-    await Client.get("/blog")
+    await getUsername();
+    console.log(loginData);
+    let user = loginData;
+
+    await Client.get("/tracker", { data: { username: user } })
       .then((response) => {
+        console.log(JSON.stringify(response.data));
         setData(response.data);
+        //console.log(JSON.stringify(data));
+        //console.log(response.data);
         // console.log(JSON.stringify(response.data));
       })
       .catch((error) => {
@@ -50,64 +71,14 @@ const Blog = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [fetchPosts]);
+  }, []);
 
-  const deleteBlogItem = (id) => {
-    Client.delete(`/blog/${id}`)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const editBlogItem = (id) => {
-    var title = titleText;
-    var author = authorText;
-    var content = contentText;
-    Client.patch(`/blog/${id}`, { title, author, content })
-      .then(() => {
-        displayEditModal(!editModalVisible);
-        Alert.alert("Saved!", "Edit saved successfully");
-      })
-      .catch((error) => {
-        console.log(error);
-        Alert.alert("Failed!", "Please contact the developer!");
-      });
-  };
   return (
     <ScrollView style={styles.scrollview}>
       <View style={styles.view}>
         {data.map((see) => (
           <View style={styles.blogView} key={see._id}>
-            <Text style={styles.blogTitle}>{see.title}</Text>
-            <TouchableOpacity
-              style={styles.delete}
-              onPress={() => deleteBlogItem(see._id)}
-            >
-              <Text>🗑</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.edit}
-              onPress={() => {
-                setEditModalData(see);
-                displayEditModal(true);
-              }}
-            >
-              <Text>✏️</Text>
-            </TouchableOpacity>
-
-            <Image
-              style={{
-                width: "100%",
-                height: HEIGHT / 3.3,
-                resizeMode: "contain",
-                alignSelf: "center",
-              }}
-              source={{ uri: see.img }}
-              resizeMode="stretch"
-            />
+            <Text style={styles.blogTitle}>{see}</Text>
             <TouchableOpacity
               style={styles.read}
               onPress={() => {
@@ -189,19 +160,22 @@ const Blog = () => {
   );
 };
 
-const BlogStackNavigator = () => {
+const ManualTrackerHistoryStackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Blog" component={Blog} />
+      <Stack.Screen
+        name="ManualTrackerHistory"
+        component={ManualTrackerHistory}
+      />
     </Stack.Navigator>
   );
 };
 
-export default BlogStackNavigator;
+export default ManualTrackerHistoryStackNavigator;
 
 const styles = StyleSheet.create({
   title: {

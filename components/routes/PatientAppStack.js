@@ -15,6 +15,8 @@ import MedicalBlogStackNavigator from "./navigation/MainForPatientStacks/Medical
 import ContactStackNavigator from "./navigation/MainForPatientStacks/ContactStackNavigator";
 import TermsAndConditionsStackNavigator from "./navigation/MainForPatientStacks/TermsAndConditionsStackNavigator";
 import ManualTrackerStackNavigator from "./navigation/MainForPatientStacks/ManualTrackerStackNavigator";
+import ManualTrackerHistoryStackNavigator from "./navigation/MainForPatientStacks/ManualTrackerHistoryStackNavigator";
+import ViewAppointmentsStackNavigator from "./navigation/MainForPatientStacks/ViewAppointments";
 
 const Drawer = createDrawerNavigator();
 
@@ -116,6 +118,32 @@ export const PatientAppStack = () => {
       <Drawer.Screen
         name="Manual tracker"
         component={ManualTrackerStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <AntDesign size={18} name={"hearto"} color="#2495D4"></AntDesign>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#2495D4",
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="Manual Tracker History"
+        component={ManualTrackerHistoryStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <AntDesign size={18} name={"hearto"} color="#2495D4"></AntDesign>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#2495D4",
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="View Appointments"
+        component={ViewAppointmentsStackNavigator}
         options={{
           drawerIcon: (config) => (
             <AntDesign size={18} name={"hearto"} color="#2495D4"></AntDesign>

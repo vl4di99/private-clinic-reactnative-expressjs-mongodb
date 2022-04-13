@@ -1,7 +1,6 @@
-const decode = require("base64-arraybuffer");
+//const decode = require("base64-arraybuffer");
 //const RNFS = require("react-native-fs");
 const express = require("express");
-
 
 const allBlogElements = require("../../controllers/GET/MongoDB/allBlogElements");
 const singleBlogElement = require("../../controllers/GET/MongoDB/singleBlogElement");
@@ -10,15 +9,12 @@ const updatePost = require("../../controllers/PATCH/MongoDB/updatePost");
 const deletePost = require("../../controllers/DELETE/MongoDB/deletePost");
 const Blog = require("../../models/Blog");
 
-
-
-const router = express.Router()
-router.get('/', allBlogElements.getAllBlogElements);
-router.get('/:id', singleBlogElement.getSingleBlogElement);
-router.post('/', createBlogPost.createPostRN);
+const router = express.Router();
+router.get("/", allBlogElements.getAllBlogElements);
+router.get("/:id", singleBlogElement.getSingleBlogElement);
+router.post("/", createBlogPost.createPostRN);
 router.patch("/:id", updatePost.updatePost);
 router.delete("/:id", deletePost.deletePost);
-
 
 /*
 const awsAPI = require("../../../api/AWSApi");

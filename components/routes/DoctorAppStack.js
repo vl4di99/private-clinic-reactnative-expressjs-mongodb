@@ -16,6 +16,7 @@ import RegisterNewDoctorNavigator from "./navigation/MainForDoctorStacks/Registe
 import TermsAndConditionsStackNavigator from "./navigation/MainForDoctorStacks/TermsAndConditionsStackNavigator";
 import AddNewDoctorStackNavigator from "./navigation/MainForDoctorStacks/AddNewDoctorStackNavigator";
 import DoctorBottomTabNavigator from "./DoctorBottomTabNavigator";
+import ViewAppointmentsStackNavigator from "./navigation/MainForDoctorStacks/ViewAppointments";
 
 const Drawer = createDrawerNavigator();
 
@@ -25,8 +26,7 @@ export const DoctorAppStack = () => {
       screenOptions={({ navigation }) => ({
         headerStyle: {
           backgroundColor: "#FFDBCC",
-        }
-
+        },
       })}
     >
       <Drawer.Screen
@@ -77,7 +77,7 @@ export const DoctorAppStack = () => {
         }}
       />
       <Drawer.Screen
-        name="ManualTracker"
+        name="Manual Tracker"
         component={ManualTrackerStackNavigator}
         options={{
           drawerIcon: (config) => (
@@ -91,7 +91,7 @@ export const DoctorAppStack = () => {
       />
 
       <Drawer.Screen
-        name="CreateBlogPost"
+        name="Create Blog Post"
         component={CreateBlogPostStackNavigator}
         options={{
           drawerIcon: (config) => (
@@ -108,26 +108,44 @@ export const DoctorAppStack = () => {
         }}
       />
 
-        <Drawer.Screen
-            name="AddNewDoctor"
-            component={AddNewDoctorStackNavigator}
-            options={{
-                drawerIcon: (config) => (
-                    <Ionicons
-                        size={18}
-                        name={"person-add-outline"}
-                        color="#F33A6A"
-                    ></Ionicons>
-                ),
-                drawerLabelStyle: {
-                    fontSize: 14,
-                    color: "#F33A6A",
-                },
-            }}
-        />
+      <Drawer.Screen
+        name="View Appointments"
+        component={ViewAppointmentsStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <Ionicons
+              size={18}
+              name={"person-add-outline"}
+              color="#F33A6A"
+            ></Ionicons>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#F33A6A",
+          },
+        }}
+      />
 
       <Drawer.Screen
-        name="AboutUs"
+        name="Add New Doctor"
+        component={AddNewDoctorStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <Ionicons
+              size={18}
+              name={"person-add-outline"}
+              color="#F33A6A"
+            ></Ionicons>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#F33A6A",
+          },
+        }}
+      />
+
+      <Drawer.Screen
+        name="About Us"
         component={AboutUsStackNavigator}
         options={{
           drawerIcon: (config) => (
@@ -140,7 +158,7 @@ export const DoctorAppStack = () => {
         }}
       />
       <Drawer.Screen
-        name="ContactStack"
+        name="Contact Stack"
         component={ContactStackNavigator}
         options={{
           drawerIcon: (config) => (

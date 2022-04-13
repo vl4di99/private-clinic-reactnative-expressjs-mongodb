@@ -19,7 +19,7 @@ app.use(
 );
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser({limit: '50mb'}));
+app.use(bodyParser({ limit: "50mb" }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(
@@ -63,13 +63,24 @@ const register = require("./controllers/POST/MySQL/register");
 app.post("/register", register.register);
 
 const doctorRegister = require("./controllers/POST/MySQL/doctorRegister");
-app.post("/doctorRegister",doctorRegister.register);
+app.post("/doctorRegister", doctorRegister.register);
 
 const doctorLoginPost = require("./controllers/POST/MySQL/doctorLogin");
 app.post("/doctorLogin", doctorLoginPost.doctorLogin);
 
 const createAppointment = require("./controllers/POST/MySQL/createAppointment");
 app.post("/createAppointment", createAppointment.createAppointment);
+
+const getAppointments = require("./controllers/GET/MySQL/getAppointments");
+app.post("/getAppointmentForDoctor", getAppointments.getAppointmentForDoctor);
+
+const deleteAppointments = require("./controllers/DELETE/MySQL/deleteAppointments");
+app.delete("/deleteAppointmentById", deleteAppointments.deleteAppointmentById);
+
+app.post(
+  "/getAppointmentWherePatient",
+  getAppointments.getAppointmentWherePatient
+);
 
 const getDoctorsDropdown = require("./controllers/GET/MySQL/getDoctorsDropdown");
 app.post("/getDoctorsDropdown", getDoctorsDropdown.getDoctorsDropdown);
@@ -95,9 +106,13 @@ require("dotenv/config");
 const uri =
   "mongodb+srv://dnec99:diana@cluster0.tk6jx.mongodb.net/PrivateClinic?retryWrites=true&w=majority";
 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, function (err) {
-  if (err) throw err;
-});
+mongoose.connect(
+  uri,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  function (err) {
+    if (err) throw err;
+  }
+);
 
 const mongoData = mongoose.connection;
 mongoData.on("error", console.error.bind(console, "connection error: "));
@@ -108,3 +123,6 @@ mongoData.once("open", function () {
 const blogRoute = require("./routes/MongoDB/blog");
 
 app.use("/blog", blogRoute);
+
+const trackerRoute = require("./routes/MongoDB/tracker");
+app.use("/tracker", trackerRoute);

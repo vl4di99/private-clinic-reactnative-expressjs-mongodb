@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -16,6 +16,8 @@ import InputSpinner from "react-native-input-spinner";
 import { Rating, AirbnbRating } from "react-native-ratings";
 import { Ionicons } from "react-native-vector-icons";
 import EmojiPick from "../../../elements/EmojiPick";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Client from "../../../../api/Client";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -32,6 +34,9 @@ const ManualTracker = () => {
   const [diastolic, setDiastolic] = useState();
   const [hr, setHr] = useState();
 
+  const [username, setUsername] = useState("");
+  const [fullname, setFullname] = useState("");
+
   const moodOptions = [
     { emoji: "🤢", description: "Sick" },
     { emoji: "😓", description: "Sad" },
@@ -41,7 +46,47 @@ const ManualTracker = () => {
   ];
   const [selectedMood, setSelectedMood] = useState(moodOptions);
 
-  const submitTracker = () => {};
+  React.useEffect(() => {
+    const getProfile = async () => {
+      var profileElements = await AsyncStorage.getItem("LoginData");
+      profileElements = JSON.parse(profileElements);
+      setUsername(profileElements.username);
+      setFullname(profileElements.fullname);
+    };
+    getProfile();
+  }, []);
+
+  const submitTracker = () => {
+    var mood = selectedMood.description;
+    var sleep = checked;
+    var water = checked2;
+    var meditation = checked3;
+    var medication = checked4;
+    var exercise = checked5;
+    var date = new Date();
+
+    Client.post("/tracker", {
+      mood,
+      sleep,
+      water,
+      meditation,
+      medication,
+      exercise,
+      systolic,
+      diastolic,
+      hr,
+      date,
+      username,
+      fullname,
+    })
+      .then((response) => {
+        Alert.alert(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log("Error in saving traker: " + error);
+        Alert.alert("Error", "An error occured while saving your information!");
+      });
+  };
 
   return (
     <ScrollView style={styles.scrollview}>
@@ -50,7 +95,7 @@ const ManualTracker = () => {
           <Text style={styles.moodOptionsTitle}>How are you feeling?</Text>
           <View style={styles.moodOptions}>
             {moodOptions.map((option) => (
-              <View>
+              <View key={option.emoji}>
                 <Pressable
                   onPress={() => setSelectedMood(option)}
                   style={[

@@ -7,13 +7,13 @@ import {
   Dimensions,
   TouchableOpacity,
   Platform,
-    Alert
+  Alert,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Dropdown } from "react-native-material-dropdown-v2";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Client from '../../../../api/Client';
+import Client from "../../../../api/Client";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -26,7 +26,7 @@ const NewAppointment = () => {
   const [show, setShow] = useState(false);
   const [timeText, setTimeText] = useState("");
   const [dateText, setDateText] = useState("");
-  const [selectedDepartment,setSelectedDepartment] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [user, setUser] = useState("");
   var dropDownData = "";
@@ -34,47 +34,50 @@ const NewAppointment = () => {
   var doctorData = "";
   var doctorDropdown = [];
 
-  const dropDownJSON = (object,outputobject) => {
-    for(let i=0; i<object.length;i++){
-      outputobject[i]={};
+  const dropDownJSON = (object, outputobject) => {
+    for (let i = 0; i < object.length; i++) {
+      outputobject[i] = {};
       outputobject[i].value = object[i].department;
     }
     return outputobject;
-  }
+  };
 
-  const dropDownDoctorJSON = (object,outputobject) => {
-    for(let i=0; i<object.length;i++){
-      outputobject[i]={};
+  const dropDownDoctorJSON = (object, outputobject) => {
+    for (let i = 0; i < object.length; i++) {
+      outputobject[i] = {};
       outputobject[i].value = object[i].fullname;
     }
     return outputobject;
-  }
+  };
 
-  useEffect(()=>{
-    Client.get('/getDepartmentDropdown')
-        .then(response => {dropDownData = response.data;
-        dropDownJSON(dropDownData,departmentData);})
-        .catch((err) => {
-          console.log(err);
-        });
-    Client.post('/getDoctorsDropdown', {department:selectedDepartment})
-        .then(response => {doctorData = response.data;
-          dropDownDoctorJSON(doctorData,doctorDropdown);
-          })
-        .catch((err) => {
-          console.log(err);
-        });
+  useEffect(() => {
+    Client.get("/getDepartmentDropdown")
+      .then((response) => {
+        dropDownData = response.data;
+        dropDownJSON(dropDownData, departmentData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    Client.post("/getDoctorsDropdown", { department: selectedDepartment })
+      .then((response) => {
+        doctorData = response.data;
+        dropDownDoctorJSON(doctorData, doctorDropdown);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     const getUser = async () => {
-      try{
-        var profileElements = await AsyncStorage.getItem('LoginData');
+      try {
+        var profileElements = await AsyncStorage.getItem("LoginData");
         profileElements = JSON.parse(profileElements);
         setUser(profileElements.fullname);
-      }catch(error){
+      } catch (error) {
         console.log("Cannot get username in appointment ", error);
       }
-    }
+    };
     getUser();
-  },[departmentData,doctorDropdown,user]);
+  }, [departmentData, doctorDropdown, user]);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -83,10 +86,10 @@ const NewAppointment = () => {
 
     let tempDate = new Date(currentDate);
     let fDate =
-        tempDate.getFullYear() +
-        "-" +
-        (tempDate.getMonth() + 1) +
-        "-" +
+      tempDate.getFullYear() +
+      "-" +
+      (tempDate.getMonth() + 1) +
+      "-" +
       tempDate.getDate();
     let fTime = tempDate.getHours() + ":" + tempDate.getMinutes();
     setDateText(fDate);
@@ -98,25 +101,37 @@ const NewAppointment = () => {
     setMode(currentMode);
   };
 
-  const setAppointmentNow = () => {
+  const setAppointmentNow = async () => {
     var patient = user;
     var doctor = selectedDoctor;
     var date = dateText;
     var time = timeText;
     var department = selectedDepartment;
     //Client.post('/createAppointment',{user,selectedDoctor,dateText,timeText,selectedDepartment})
-    if(user!=='' && selectedDoctor!=='' && dateText!=='' && timeText!=='' && selectedDepartment!=='') {
-      Client.post('/createAppointment', {patient, doctor, date, time, department})
-          .then(response => {
-            Alert.alert(JSON.stringify(response.data));
-          })
-          .catch(error => {
-            console.log(error);
-          })
+    if (
+      user !== "" &&
+      selectedDoctor !== "" &&
+      dateText !== "" &&
+      timeText !== "" &&
+      selectedDepartment !== ""
+    ) {
+      await Client.post("/createAppointment", {
+        patient,
+        doctor,
+        date,
+        time,
+        department,
+      })
+        .then((response) => {
+          Alert.alert(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
       Alert.alert("Invalid options selected!");
     }
-  }
+  };
 
   return (
     <ScrollView style={styles.scrollview}>
@@ -125,9 +140,21 @@ const NewAppointment = () => {
 
         <View style={styles.view2}>
           <Text style={styles.subtitle}>Choose a department</Text>
-          <Dropdown label="Departments" data={departmentData} onChangeText={(value)=>{setSelectedDepartment(value)}}/>
+          <Dropdown
+            label="Departments"
+            data={departmentData}
+            onChangeText={(value) => {
+              setSelectedDepartment(value);
+            }}
+          />
           <Text style={styles.subtitle}>Choose a doctor</Text>
-          <Dropdown label="Doctors" data={doctorDropdown} onChangeText={(value)=>{setSelectedDoctor(value)}} />
+          <Dropdown
+            label="Doctors"
+            data={doctorDropdown}
+            onChangeText={(value) => {
+              setSelectedDoctor(value);
+            }}
+          />
           <View>
             <Text style={styles.subtitle}>Choose a date</Text>
             <TouchableOpacity
@@ -149,13 +176,14 @@ const NewAppointment = () => {
           <View>
             <Text style={styles.subtitle3}>
               You selected:
-              {"\n\n"}Department: {selectedDepartment} {"\n"}Doctor: {selectedDoctor}
+              {"\n\n"}Department: {selectedDepartment} {"\n"}Doctor:{" "}
+              {selectedDoctor}
               {"\n"}Date: {dateText} {"\n"}Hour: {timeText} {"\n"}User: {user}
             </Text>
             <TouchableOpacity
-                onPress={setAppointmentNow}
-                style={styles.appointmentButton}
-                activeOpacity={0.5}
+              onPress={setAppointmentNow}
+              style={styles.appointmentButton}
+              activeOpacity={0.5}
             >
               <Text style={styles.appointmentButtonText}>Set Appointment</Text>
             </TouchableOpacity>

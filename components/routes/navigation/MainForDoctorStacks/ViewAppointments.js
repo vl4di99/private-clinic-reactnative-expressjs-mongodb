@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,8 +7,11 @@ import {
   StyleSheet,
   Image,
   ActivityIndicator,
+  Alert,
+  Button,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
 
 const Stack = createStackNavigator();
@@ -16,36 +19,71 @@ const Stack = createStackNavigator();
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 
-const ServicesPrices = () => {
+const ViewAppointments = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [date, setDate] = useState("");
+  const [doctorLoginData, setDoctorLoginData] = useState("");
+  const [doctor, setDoctor] = useState("");
+  const [department, setDepartment] = useState("");
+
+  const fetchData = async () => {
+    let parsed = await AsyncStorage.getItem("DoctorLoginData");
+    parsed = JSON.parse(parsed);
+    console.log(parsed);
+    setDoctorLoginData(parsed);
+    setDoctor(doctorLoginData.fullname);
+    setDepartment(doctorLoginData.department);
+
+    //We set the date
+    let tempDate = new Date();
+    let fDate =
+      tempDate.getFullYear() +
+      "-" +
+      (tempDate.getMonth() + 1) +
+      "-" +
+      tempDate.getDate();
+    setDate(fDate);
+  };
+
+  const fetch2 = async () => {
+    //setLoading(true);
+
+    await Client.post("/getAppointmentForDoctor", {
+      doctor,
+      department,
+      date,
+    })
+      .then((response) => {
+        setData(response.data);
+        // console.log(JSON.stringify(response.data));
+        //setLoading(false);
+      })
+      .catch((error) => {
+        console.log("Can't fetch appointments " + error);
+      });
+  };
 
   useEffect(() => {
-    async function fetchSP() {
-      setLoading(true);
-      try {
-        await Client.get("/getServicesPrices").then((response) => {
-          setData(response.data);
-          console.log(data);
-          // console.log(JSON.stringify(response.data));
-          setLoading(false);
-        });
-      } catch (error) {
-        console.log("Can't fetch servicesPrices ", error);
-      }
-      return data;
-    }
-    fetchSP();
+    fetchData();
+    fetch2();
   }, []);
 
   return (
     <ScrollView style={styles.scrollview}>
+      <Button
+        title="Refresh"
+        onPress={async () => {
+          await fetchData();
+          await fetch2();
+        }}
+      ></Button>
       <View style={styles.view}>
         {data.map((see) => (
           <View style={styles.view2} key={see.id}>
-            <Text style={styles.service}>{see.service}</Text>
-            <Text style={styles.department}>{see.department}</Text>
-            <Text style={styles.price}>RON {see.price}</Text>
+            <Text style={styles.service}>{see.patient}</Text>
+            <Text style={styles.department}>{see.date}</Text>
+            <Text style={styles.price}>{see.time}</Text>
           </View>
         ))}
       </View>
@@ -53,19 +91,19 @@ const ServicesPrices = () => {
   );
 };
 
-const ServicesPricesStackNavigator = () => {
+const ViewAppointmentsStackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name="ServicesPrices" component={ServicesPrices} />
+      <Stack.Screen name="ViewAppointments" component={ViewAppointments} />
     </Stack.Navigator>
   );
 };
 
-export default ServicesPricesStackNavigator;
+export default ViewAppointmentsStackNavigator;
 
 const styles = StyleSheet.create({
   title: {
