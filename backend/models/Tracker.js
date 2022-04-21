@@ -13,6 +13,7 @@ const postSchema = mongoose.Schema({
   username: String,
   fullname: String,
   date: Date,
+  isDoctor: Boolean,
 });
 
 const Tracker = mongoose.model("Tracker", postSchema);

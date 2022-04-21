@@ -29,6 +29,7 @@ const ManualTracker = () => {
   const [checked3, setChecked3] = React.useState(false);
   const [checked4, setChecked4] = React.useState(false);
   const [checked5, setChecked5] = React.useState(false);
+  const isDoctor = React.useState(false);
 
   const [systolic, setSystolic] = useState();
   const [diastolic, setDiastolic] = useState();
@@ -78,6 +79,7 @@ const ManualTracker = () => {
       date,
       username,
       fullname,
+      isDoctor,
     })
       .then((response) => {
         Alert.alert(JSON.stringify(response.data));

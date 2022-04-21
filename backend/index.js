@@ -86,6 +86,9 @@ const getDoctorsDropdown = require("./controllers/GET/MySQL/getDoctorsDropdown")
 app.post("/getDoctorsDropdown", getDoctorsDropdown.getDoctorsDropdown);
 app.get("/getDepartmentDropdown", getDoctorsDropdown.getDoctorsDepartment);
 
+const changePassword = require("./controllers/POST/MySQL/changePassword");
+app.post("/changePasswordDoctor",changePassword.changePassDoc);
+
 app.listen(port, () => {
   console.log("Database Server is running at http://localhost:" + port);
 });

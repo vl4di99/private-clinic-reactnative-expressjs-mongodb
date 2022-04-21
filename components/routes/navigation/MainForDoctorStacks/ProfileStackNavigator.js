@@ -8,11 +8,15 @@ import {
   ScrollView,
   AppState,
   ActivityIndicator,
+    Modal,
+    Alert,
+    TextInput
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage, {
   useAsyncStorage,
 } from "@react-native-async-storage/async-storage";
+import Client from "../../../../api/Client";
 
 import { AuthContext } from "../../../contexts/AuthProvider";
 
@@ -28,6 +32,14 @@ const Profile = () => {
   const { setDoctorIsLoggedIn } = React.useContext(AuthContext);
   const [DoctorLoginData, setDoctorLoginData] = useState("");
   const [DoctorFullname, setDoctorFullname] = useState("");
+  const [department, setDepartment] = useState("");
+  const [startHour, setStartHour] = useState("");
+  const [endHour, setEndHour] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [pass1, setPass1] = useState("");
+  const [pass2, setPass2] = useState("");
+  const [pass3, setPass3] = useState("");
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     const getLoginData = async () => {
@@ -35,9 +47,34 @@ const Profile = () => {
       parsed = JSON.parse(parsed);
       setDoctorLoginData(parsed);
       setDoctorFullname(DoctorLoginData.fullname);
+      setDepartment(DoctorLoginData.department);
+      setStartHour(DoctorLoginData.start_work_hour);
+      setEndHour(DoctorLoginData.end_work_hour);
+      setUsername(DoctorLoginData.username);
     };
     getLoginData();
   }, [DoctorLoginData]);
+
+  const changePassword = async () => {
+    if(pass2!==pass3){
+      Alert.alert("Check passwords", "New Password does not match with confirmed password");
+    } else {
+      var password = pass1;
+      var new_password = pass2;
+      Client.post("/changePasswordDoctor",{username, password, new_password})
+          .then((response) => {
+        if (response.data.message) {
+          Alert.alert("Error!", response.data.message);
+        } else {
+          Alert.alert("Saved!", response.data);
+
+        }
+      })
+          .catch((err) => {
+            console.log(err);
+          });
+    }
+  }
 
   const logout = async () => {
     //await AsyncStorage.removeItem('@token');
@@ -50,6 +87,57 @@ const Profile = () => {
       <View style={styles.view}>
         <Text style={styles.title}>My profile</Text>
         <Text style={styles.subtitle}>Doctor: {DoctorFullname}</Text>
+        <Text style={styles.subtitle}>Department: {department}</Text>
+        <Text style={styles.subtitle}>Start Working Hour: {startHour}</Text>
+        <Text style={styles.subtitle}>End Working Hour: {endHour}</Text>
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.title}>Enter your password:</Text>
+              <Text style={styles.label}>Old password</Text>
+              <TextInput
+                  style={styles.input}
+                  onChangeText={(text)=>setPass1(text)}
+              />
+              <Text style={styles.label}>New password</Text>
+              <TextInput
+                  style={styles.input}
+                  onChangeText={(text)=>setPass2(text)}
+              />
+              <Text style={styles.label}>Confirm new password</Text>
+              <TextInput
+                  style={styles.input}
+                  onChangeText={(text)=>setPass3(text)}
+              />
+              <TouchableOpacity
+                  onPress={changePassword}
+                  style={styles.logoutButton}
+                  activeOpacity={0.8}
+              >
+                <Text style={styles.logoutButtonText}>Save</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                  onPress={()=> setModalVisible(!modalVisible)}
+                  style={styles.logoutButton}
+                  activeOpacity={0.8}
+              >
+                <Text style={styles.logoutButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+        </Modal>
+        <TouchableOpacity
+            onPress={()=>setModalVisible(true)}
+            style={styles.logoutButton}
+            activeOpacity={0.5}
+        >
+          <Text style={styles.logoutButtonText}>Change Password</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={logout}
           style={styles.logoutButton}
@@ -154,4 +242,35 @@ const styles = StyleSheet.create({
     color: "#800020",
     fontSize: WIDTH / 23,
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  input: {
+    height: HEIGHT*0.05,
+    margin: 12,
+    borderWidth: 1,
+    width: WIDTH*0.8,
+    padding: 5,
+  },
+  label:{
+    fontSize: WIDTH*0.04,
+  }
 });
