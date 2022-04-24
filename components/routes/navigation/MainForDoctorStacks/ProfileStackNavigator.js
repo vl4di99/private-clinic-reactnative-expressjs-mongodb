@@ -86,10 +86,14 @@ const Profile = () => {
     <ScrollView style={styles.scrollview}>
       <View style={styles.view}>
         <Text style={styles.title}>My profile</Text>
-        <Text style={styles.subtitle}>Doctor: {DoctorFullname}</Text>
-        <Text style={styles.subtitle}>Department: {department}</Text>
-        <Text style={styles.subtitle}>Start Working Hour: {startHour}</Text>
-        <Text style={styles.subtitle}>End Working Hour: {endHour}</Text>
+        <Text style={styles.subtitle}>Doctor: </Text>
+        <Text style={styles.subtitle2}>{DoctorFullname}</Text>
+        <Text style={styles.subtitle}>Department: </Text>
+        <Text style={styles.subtitle2}>{DoctorLoginData.department}</Text>
+        <Text style={styles.subtitle}>Working hours: </Text>
+        <Text style={styles.subtitle2}>
+          {DoctorLoginData.start_work_hour}-{DoctorLoginData.end_work_hour}
+        </Text>
         <Modal
             animationType="slide"
             transparent={true}
@@ -182,24 +186,23 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   title: {
-    marginTop: HEIGHT / 20,
-    textAlign: "center",
-    justifyContent: "flex-start",
+    marginTop: HEIGHT / 25,
+    alignContent: "flex-start",
     fontSize: WIDTH / 15,
-    color: "#734F96",
-    marginBottom: WIDTH / 12,
+    color: "#158FAD",
+    marginBottom: WIDTH / 10,
   },
   subtitle: {
     textAlign: "center",
-    fontSize: WIDTH / 22,
+    fontSize: WIDTH / 20,
     marginTop: HEIGHT / 200,
-    color: "#800020",
+    color: "#96C3EB",
   },
   subtitle2: {
     textAlign: "center",
-    fontSize: WIDTH / 23,
-    marginTop: HEIGHT / 30,
-    color: "#800020",
+    fontSize: WIDTH / 19,
+    marginBottom: HEIGHT / 30,
+    color: "#B8255F",
   },
   subtitle3: {
     textAlign: "center",

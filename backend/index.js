@@ -129,3 +129,6 @@ app.use("/blog", blogRoute);
 
 const trackerRoute = require("./routes/MongoDB/tracker");
 app.use("/tracker", trackerRoute);
+
+const medicalHistoryRoute = require("./routes/MongoDB/medicalHistory");
+app.use("/medicalHistory", medicalHistoryRoute);

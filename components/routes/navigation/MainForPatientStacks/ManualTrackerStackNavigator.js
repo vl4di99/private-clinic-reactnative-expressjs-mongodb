@@ -11,11 +11,7 @@ import {
 } from "react-native";
 import { Checkbox } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
-import NumberPlease from "react-native-number-please";
 import InputSpinner from "react-native-input-spinner";
-import { Rating, AirbnbRating } from "react-native-ratings";
-import { Ionicons } from "react-native-vector-icons";
-import EmojiPick from "../../../elements/EmojiPick";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
 
@@ -29,11 +25,11 @@ const ManualTracker = () => {
   const [checked3, setChecked3] = React.useState(false);
   const [checked4, setChecked4] = React.useState(false);
   const [checked5, setChecked5] = React.useState(false);
-  const isDoctor = React.useState(false);
+  const isDoctor = false;
 
-  const [systolic, setSystolic] = useState();
-  const [diastolic, setDiastolic] = useState();
-  const [hr, setHr] = useState();
+  const [systolic, setSystolic] = useState(null);
+  const [diastolic, setDiastolic] = useState(null);
+  const [hr, setHr] = useState(null);
 
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
@@ -57,7 +53,7 @@ const ManualTracker = () => {
     getProfile();
   }, []);
 
-  const submitTracker = () => {
+  const submitTracker = async () => {
     var mood = selectedMood.description;
     var sleep = checked;
     var water = checked2;
@@ -66,7 +62,7 @@ const ManualTracker = () => {
     var exercise = checked5;
     var date = new Date();
 
-    Client.post("/tracker", {
+    await Client.post("/tracker", {
       mood,
       sleep,
       water,
@@ -76,16 +72,16 @@ const ManualTracker = () => {
       systolic,
       diastolic,
       hr,
-      date,
       username,
       fullname,
-      isDoctor,
+      date,
+      isDoctor
     })
       .then((response) => {
         Alert.alert(JSON.stringify(response.data));
       })
       .catch((error) => {
-        console.log("Error in saving traker: " + error);
+        console.log("Error in saving tracker: " + error);
         Alert.alert("Error", "An error occured while saving your information!");
       });
   };
@@ -360,7 +356,7 @@ const styles = StyleSheet.create({
   moodOptions: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "90%",
+    width: "100%",
   },
 
   moodItem: {

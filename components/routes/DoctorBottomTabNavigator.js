@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import BlogStackNavigator from "./navigation/MainForDoctorStacks/BlogStackNavigator";
 import AppointmentsStackNavigator from "./navigation/MainForDoctorStacks/AppointmentsStackNavigator";
 import ProfileStackNavigator from "./navigation/MainForDoctorStacks/ProfileStackNavigator";
+import ViewAppointments from "./navigation/MainForDoctorStacks/ViewAppointments";
 
 const Tab = createBottomTabNavigator();
 
@@ -47,22 +48,22 @@ const DoctorBottomTabNavigator = () => {
       />
 
       <Tab.Screen
-        name="AppointmentStack"
-        component={AppointmentsStackNavigator}
+        name="ViewAppointmentsStack"
+        component={ViewAppointments}
         options={{
           tabBarIcon: ({ focused }) => (
             <FontAwesome5
-              name="plus"
+              name="book-medical"
               size={40}
               style={{
                 position: "absolute",
-                bottom: 5,
+                bottom: 6,
               }}
               color={focused ? "#551E18" : "#000"}
             />
           ),
           tabBarLabel: () => (
-            <Text style={styles.tabBarLabel}>Appointment</Text>
+            <Text style={styles.tabBarLabel}>Appointments</Text>
           ),
         }}
       />

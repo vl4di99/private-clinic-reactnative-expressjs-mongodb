@@ -14,30 +14,15 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import Client from "../../../../api/Client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Moment from "moment";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const Stack = createStackNavigator();
 
 const ManualTrackerHistory = () => {
-  const [data, setData] = useState([]);
+  const [dataR, setDataR] = useState([]);
   const [loginData, setLoginData] = useState([]);
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalData, setModalData] = useState("");
-  const displayModal = (show) => {
-    setModalVisible(show);
-  };
-
-  const [editModalVisible, setEditModalVisible] = useState(false);
-  const [editModalData, setEditModalData] = useState("");
-  const displayEditModal = (show) => {
-    setEditModalVisible(show);
-  };
-
-  const [titleText, setTitleText] = useState("");
-  const [authorText, setAuthorText] = useState("");
-  const [contentText, setContentText] = useState("");
 
   const getUsername = async () => {
     try {
@@ -53,13 +38,14 @@ const ManualTrackerHistory = () => {
 
   const fetchPosts = useCallback(async () => {
     await getUsername();
-    console.log(loginData);
+    //console.log(loginData);
     let user = loginData;
+    let doctor = false;
 
-    await Client.get("/tracker", { data: { username: user } })
+    await Client.post("/tracker/get",  {username: user, doctor: doctor})
       .then((response) => {
-        console.log(JSON.stringify(response.data));
-        setData(response.data);
+        //console.log(JSON.stringify(response.data));
+        setDataR(response.data);
         //console.log(JSON.stringify(data));
         //console.log(response.data);
         // console.log(JSON.stringify(response.data));
@@ -67,94 +53,39 @@ const ManualTrackerHistory = () => {
       .catch((error) => {
         console.log("Can't fetch blog posts: " + error);
       });
-  }, [data]);
+  }, [dataR]);
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [fetchPosts]);
+
+
 
   return (
     <ScrollView style={styles.scrollview}>
       <View style={styles.view}>
-        {data.map((see) => (
+        {dataR.map((see) => (
           <View style={styles.blogView} key={see._id}>
-            <Text style={styles.blogTitle}>{see}</Text>
-            <TouchableOpacity
-              style={styles.read}
-              onPress={() => {
-                setModalData(see);
-                displayModal(true);
-              }}
-            >
-              <Text>Read</Text>
-            </TouchableOpacity>
-            <Text style={styles.subtitle2}>Author: {see.author}</Text>
+            <Text style={styles.blogTitle}>{Moment(see.date).format('DD MMM YYYY HH:MM')} - {see.mood}</Text>
+            <View style={styles.inlineItemsContainer}>
+              <Text style={styles.modalText}>Sleep 8H: {see.sleep.toString()}</Text>
+              <Text style={styles.modalTextRight}>Water 2L: {see.water.toString()}</Text>
+            </View>
+            <View style={styles.inlineItemsContainer}>
+              <Text style={styles.modalText}>Meditation: {see.meditation.toString()}</Text>
+              <Text style={styles.modalTextRight}>Medication: {see.medication.toString()}</Text>
+            </View>
+            <Text style={styles.modalTextMiddle}>Exercise: {see.exercise.toString()}</Text>
+            <View style={styles.inlineItemsContainer}>
+              <Text style={[styles.modalTextMiddle,{ color: "red"}]}>Heart Info:</Text>
+
+              <Text style={styles.modalTextRight}>Sys: {see.systolic}</Text>
+              <Text style={styles.modalTextRight}>Dias: {see.diastolic}</Text>
+              <Text style={styles.modalTextRight}>HR: {see.hr}</Text>
+            </View>
+
           </View>
         ))}
-        <Modal
-          animationType={"slide"}
-          transparent={false}
-          visible={modalVisible}
-        >
-          <ScrollView>
-            <Text style={styles.modalText}>{modalData.content}</Text>
-            <Text
-              style={styles.closeModal}
-              onPress={() => {
-                displayModal(!modalVisible);
-              }}
-            >
-              Close
-            </Text>
-          </ScrollView>
-        </Modal>
-
-        <Modal
-          animationType={"slide"}
-          transparent={false}
-          visible={editModalVisible}
-        >
-          <ScrollView>
-            <TextInput
-              placeholder="Title"
-              style={styles.text_input}
-              defaultValue={editModalData.title}
-              onChangeText={(event) => setTitleText(event)}
-            />
-            <TextInput
-              placeholder="Author"
-              style={styles.text_input}
-              defaultValue={editModalData.author}
-              onChangeText={(event) => setAuthorText(event)}
-            />
-            <TextInput
-              placeholder="Content"
-              multiline={true}
-              style={styles.textarea_input}
-              NumberOfLines={15}
-              defaultValue={editModalData.content}
-              onChangeText={(event) => setContentText(event)}
-            />
-
-            <TouchableOpacity
-              style={styles.saveButton}
-              onPress={() => {
-                editBlogItem(editModalData._id);
-              }}
-            >
-              <Text style={styles.saveButtonText}>SAVE EDIT</Text>
-            </TouchableOpacity>
-
-            <Text
-              style={styles.closeModal}
-              onPress={() => {
-                displayEditModal(!editModalVisible);
-              }}
-            >
-              Close
-            </Text>
-          </ScrollView>
-        </Modal>
       </View>
     </ScrollView>
   );
@@ -238,9 +169,9 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
-    marginLeft: WIDTH / 15,
-    marginRight: WIDTH / 15,
-    marginBottom: HEIGHT / 15,
+    marginLeft: WIDTH *0.03,
+    marginRight: WIDTH *0.03,
+    marginTop: HEIGHT * 0.03,
   },
   view2: {
     marginLeft: WIDTH / 10,
@@ -279,7 +210,7 @@ const styles = StyleSheet.create({
     //marginTop: HEIGHT / 2,
     textAlign: "center",
     alignItems: "center",
-    fontSize: WIDTH / 15,
+    fontSize: WIDTH * 0.05,
     color: "#734F96",
     //marginBottom: WIDTH / 12,
   },
@@ -290,47 +221,26 @@ const styles = StyleSheet.create({
     marginTop: HEIGHT * 0.1,
   },
   modalText: {
-    fontSize: HEIGHT * 0.03,
-    marginBottom: HEIGHT * 0.1,
-    padding: HEIGHT * 0.1,
+    fontSize: HEIGHT * 0.02,
+    //marginTop: HEIGHT * 0.005,
+    padding: HEIGHT * 0.01,
+    textAlign: "left"
   },
-  text_input: {
-    width: WIDTH * 0.8,
-    borderWidth: 1,
-    borderRadius: 15,
-    borderColor: "turquoise",
-    alignSelf: "center",
-    margin: 10,
-    padding: WIDTH * 0.02,
+  modalTextRight: {
+    fontSize: HEIGHT * 0.02,
+    //marginTop: HEIGHT * 0.005,
+    padding: HEIGHT * 0.01,
+    textAlign: "right",
   },
-  textarea_input: {
-    width: WIDTH * 0.8,
-    borderWidth: 1,
-    borderRadius: 15,
-    borderColor: "red",
-    alignSelf: "center",
-    height: HEIGHT * 0.3,
-    textAlignVertical: "top",
-    padding: WIDTH * 0.02,
-  },
-  saveButton: {
-    height: HEIGHT * 0.05,
-    width: WIDTH * 0.4,
-    backgroundColor: "turquoise",
-    alignSelf: "center",
-    justifyContent: "center",
-    borderRadius: 15,
-    borderColor: "black",
-    borderWidth: 2,
-    shadowColor: "black",
-    shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 10,
-    marginTop: 15,
-  },
-  saveButtonText: {
-    fontSize: 16,
+  modalTextMiddle: {
+    fontSize: HEIGHT * 0.02,
+    //marginTop: HEIGHT * 0.005,
+    padding: HEIGHT * 0.01,
     textAlign: "center",
-    fontWeight: "bold",
   },
+  inlineItemsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+
 });

@@ -11,7 +11,6 @@ import ServicesPricesStackNavigator from "./navigation/MainForPatientStacks/Serv
 import BottomTabNavigator from "./PatientBottomTabNavigator";
 import AboutUsStackNavigator from "./navigation/MainForPatientStacks/AboutUsStackNavigator";
 import MedicalHistoryStackNavigator from "./navigation/MainForPatientStacks/MedicalHistoryStackNavigator";
-import MedicalBlogStackNavigator from "./navigation/MainForPatientStacks/MedicalBlogStackNavigator";
 import ContactStackNavigator from "./navigation/MainForPatientStacks/ContactStackNavigator";
 import TermsAndConditionsStackNavigator from "./navigation/MainForPatientStacks/TermsAndConditionsStackNavigator";
 import ManualTrackerStackNavigator from "./navigation/MainForPatientStacks/ManualTrackerStackNavigator";
@@ -98,23 +97,6 @@ export const PatientAppStack = () => {
         }}
       />
 
-      <Drawer.Screen
-        name="Medical Blog"
-        component={MedicalBlogStackNavigator}
-        options={{
-          drawerIcon: (config) => (
-            <Ionicons
-              size={18}
-              name={"reader-outline"}
-              color="#F33A6A"
-            ></Ionicons>
-          ),
-          drawerLabelStyle: {
-            fontSize: 14,
-            color: "#F33A6A",
-          },
-        }}
-      />
       <Drawer.Screen
         name="Manual tracker"
         component={ManualTrackerStackNavigator}

@@ -6,6 +6,6 @@ const Tracker = require("../../models/Tracker");
 
 const router = express.Router();
 router.post("/", postTracker.createPost);
-router.get("/", getTracker.getTrackingsbyName);
+router.post("/get", getTracker.getTrackingsbyName);
 
 module.exports = router;

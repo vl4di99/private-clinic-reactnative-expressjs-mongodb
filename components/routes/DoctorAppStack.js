@@ -17,6 +17,8 @@ import TermsAndConditionsStackNavigator from "./navigation/MainForDoctorStacks/T
 import AddNewDoctorStackNavigator from "./navigation/MainForDoctorStacks/AddNewDoctorStackNavigator";
 import DoctorBottomTabNavigator from "./DoctorBottomTabNavigator";
 import ViewAppointmentsStackNavigator from "./navigation/MainForDoctorStacks/ViewAppointments";
+import WritePatientHistoryStackNavigator from "./navigation/MainForDoctorStacks/WritePatientHistoryStackNavigator";
+import ManualTrackerHistoryStackNavigator from "./navigation/MainForDoctorStacks/ManualTrackerHistoryStackNavigator";
 
 const Drawer = createDrawerNavigator();
 
@@ -108,23 +110,41 @@ export const DoctorAppStack = () => {
         }}
       />
 
-      <Drawer.Screen
-        name="View Appointments"
-        component={ViewAppointmentsStackNavigator}
-        options={{
-          drawerIcon: (config) => (
-            <Ionicons
-              size={18}
-              name={"person-add-outline"}
-              color="#F33A6A"
-            ></Ionicons>
-          ),
-          drawerLabelStyle: {
-            fontSize: 14,
-            color: "#F33A6A",
-          },
-        }}
-      />
+        <Drawer.Screen
+            name="Write Patient History"
+            component={WritePatientHistoryStackNavigator}
+            options={{
+                drawerIcon: (config) => (
+                    <Ionicons
+                        size={18}
+                        name={"reader-outline"}
+                        color="#F33A6A"
+                    ></Ionicons>
+                ),
+                drawerLabelStyle: {
+                    fontSize: 14,
+                    color: "#F33A6A",
+                },
+            }}
+        />
+
+        <Drawer.Screen
+            name="Manual Tracker History"
+            component={ManualTrackerHistoryStackNavigator}
+            options={{
+                drawerIcon: (config) => (
+                    <Ionicons
+                        size={18}
+                        name={"reader-outline"}
+                        color="#F33A6A"
+                    ></Ionicons>
+                ),
+                drawerLabelStyle: {
+                    fontSize: 14,
+                    color: "#F33A6A",
+                },
+            }}
+        />
 
       <Drawer.Screen
         name="Add New Doctor"
