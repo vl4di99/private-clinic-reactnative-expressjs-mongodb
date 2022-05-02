@@ -21,21 +21,13 @@ const Drawer = createDrawerNavigator();
 
 export const PatientAppStack = () => {
   return (
-    <Drawer.Navigator
-      screenOptions={({ navigation }) => ({
-        headerStyle: {
-          backgroundColor: "#551E18",
-        },
-        headerLeft: () => (
-          <TouchableOpacity
-            onPress={() => navigation.toggleDrawer()}
-            style={styles.headerLeft}
-          >
-            <Icon name="bars" size={25} color="#fff" />
-          </TouchableOpacity>
-        ),
-      })}
-    >
+      <Drawer.Navigator
+          screenOptions={({ navigation }) => ({
+              headerStyle: {
+                  backgroundColor: "#FFDBCC",
+              },
+          })}
+      >
       <Drawer.Screen
         name="Home"
         component={BottomTabNavigator}
