@@ -1,5 +1,15 @@
-import React, {useEffect,useState} from "react";
-import {View, Text, Dimensions, StyleSheet, ScrollView, Alert, Image, TouchableOpacity, Modal} from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  Image,
+  TouchableOpacity,
+  Modal,
+} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
@@ -20,16 +30,22 @@ const MedicalHistory = () => {
     setModalVisible(show);
   };
 
-  const getHistory = async()=> {
-    Client.post("/medicalHistory/get",{fullname})
-        .then((response)=>{setData(response.data);
+  const getHistory = async () => {
+    Client.post("/medicalHistory/get", { fullname })
+      .then((response) => {
+        setData(response.data);
         //console.log(data);
-          })
-        .catch((error)=>{Alert.alert("Error", "An error occured while getting your history. Please contact the administrator");
-        console.log("Error while getting history: "+error);})
-  }
+      })
+      .catch((error) => {
+        Alert.alert(
+          "Error",
+          "An error occured while getting your history. Please contact the administrator"
+        );
+        console.log("Error while getting history: " + error);
+      });
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     const getProfile = async () => {
       var profileElements = await AsyncStorage.getItem("LoginData");
       profileElements = JSON.parse(profileElements);
@@ -37,49 +53,50 @@ const MedicalHistory = () => {
     };
     getProfile();
     getHistory();
+  }, [getHistory]);
 
-  },[getHistory])
-
-  return(
-  <ScrollView style={styles.scrollview}>
-    <View style={styles.view}>
-      <Text style={styles.title}>My Medical History </Text>
-      {data.map((see) => (
+  return (
+    <ScrollView style={styles.scrollview}>
+      <View style={styles.view}>
+        <Text style={styles.title}>My Medical History </Text>
+        {data.map((see) => (
           <View style={styles.blogView} key={see._id}>
-            <Text style={styles.blogTitle}>{Moment(see.date).format("DD.MM.YYYY")}</Text>
+            <Text style={styles.blogTitle}>
+              {Moment(see.date).format("DD.MM.YYYY")}
+            </Text>
             <TouchableOpacity
-                style={styles.read}
-                onPress={() => {
-                  setModalData(see);
-                  displayModal(true);
-                }}
+              style={styles.read}
+              onPress={() => {
+                setModalData(see);
+                displayModal(true);
+              }}
             >
               <Text>Read</Text>
             </TouchableOpacity>
             <Text style={styles.subtitle2}>Doctor: {see.doctor}</Text>
             <Text style={styles.subtitle2}>Department: {see.department}</Text>
           </View>
-      ))}
-      <Modal
+        ))}
+        <Modal
           animationType={"slide"}
           transparent={false}
           visible={modalVisible}
-      >
-        <ScrollView>
-          <Text style={styles.modalText}>{modalData.history}</Text>
-          <Text
+        >
+          <ScrollView>
+            <Text style={styles.modalText}>{modalData.history}</Text>
+            <Text
               style={styles.closeModal}
               onPress={() => {
                 displayModal(!modalVisible);
               }}
-          >
-            Close
-          </Text>
-        </ScrollView>
-      </Modal>
-    </View>
-  </ScrollView>
-  )
+            >
+              Close
+            </Text>
+          </ScrollView>
+        </Modal>
+      </View>
+    </ScrollView>
+  );
 };
 
 const MedicalHistoryStackNavigator = () => {
@@ -115,7 +132,7 @@ const styles = StyleSheet.create({
     fontSize: WIDTH / 23,
     marginTop: HEIGHT / 80,
     color: "#800020",
-    marginBottom: HEIGHT/300,
+    marginBottom: HEIGHT / 300,
   },
   subtitle3: {
     textAlign: "center",

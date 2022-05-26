@@ -75,7 +75,7 @@ const ManualTracker = () => {
       username,
       fullname,
       date,
-      isDoctor
+      isDoctor,
     })
       .then((response) => {
         Alert.alert(JSON.stringify(response.data));

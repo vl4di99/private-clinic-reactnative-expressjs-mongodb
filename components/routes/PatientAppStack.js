@@ -21,13 +21,13 @@ const Drawer = createDrawerNavigator();
 
 export const PatientAppStack = () => {
   return (
-      <Drawer.Navigator
-          screenOptions={({ navigation }) => ({
-              headerStyle: {
-                  backgroundColor: "#FFDBCC",
-              },
-          })}
-      >
+    <Drawer.Navigator
+      screenOptions={({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: "#FFDBCC",
+        },
+      })}
+    >
       <Drawer.Screen
         name="Home"
         component={BottomTabNavigator}
@@ -94,11 +94,11 @@ export const PatientAppStack = () => {
         component={ManualTrackerStackNavigator}
         options={{
           drawerIcon: (config) => (
-            <AntDesign size={18} name={"hearto"} color="#2495D4"></AntDesign>
+            <AntDesign size={18} name={"hearto"} color="#F33A6A"></AntDesign>
           ),
           drawerLabelStyle: {
             fontSize: 14,
-            color: "#2495D4",
+            color: "#F33A6A",
           },
         }}
       />
@@ -120,11 +120,11 @@ export const PatientAppStack = () => {
         component={ViewAppointmentsStackNavigator}
         options={{
           drawerIcon: (config) => (
-            <AntDesign size={18} name={"hearto"} color="#2495D4"></AntDesign>
+            <AntDesign size={18} name={"hearto"} color="#F33A6A"></AntDesign>
           ),
           drawerLabelStyle: {
             fontSize: 14,
-            color: "#2495D4",
+            color: "#F33A6A",
           },
         }}
       />
@@ -133,11 +133,11 @@ export const PatientAppStack = () => {
         component={AboutUsStackNavigator}
         options={{
           drawerIcon: (config) => (
-            <Ionicons size={18} name={"information"} color="#F33A6A"></Ionicons>
+            <Ionicons size={18} name={"information"} color="#2495D4"></Ionicons>
           ),
           drawerLabelStyle: {
             fontSize: 14,
-            color: "#F33A6A",
+            color: "#2495D4",
           },
         }}
       />
@@ -149,12 +149,12 @@ export const PatientAppStack = () => {
             <Ionicons
               size={18}
               name={"call-outline"}
-              color="#2495D4"
+              color="#F33A6A"
             ></Ionicons>
           ),
           drawerLabelStyle: {
             fontSize: 14,
-            color: "#2495D4",
+            color: "#F33A6A",
           },
         }}
       />
@@ -166,12 +166,12 @@ export const PatientAppStack = () => {
             <Ionicons
               size={18}
               name={"bookmark-outline"}
-              color="#F33A6A"
+              color="#2495D4"
             ></Ionicons>
           ),
           drawerLabelStyle: {
             fontSize: 14,
-            color: "#F33A6A",
+            color: "#2495D4",
           },
         }}
       />

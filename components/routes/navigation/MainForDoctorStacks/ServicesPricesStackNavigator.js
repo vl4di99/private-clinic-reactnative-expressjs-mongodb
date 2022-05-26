@@ -45,7 +45,7 @@ const ServicesPrices = () => {
           <View style={styles.view2} key={see.id}>
             <Text style={styles.service}>{see.service}</Text>
             <Text style={styles.department}>{see.department}</Text>
-            <Text style={styles.price}>RON {see.price}</Text>
+            <Text style={styles.price}>€ {see.price}</Text>
           </View>
         ))}
       </View>

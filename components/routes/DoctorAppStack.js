@@ -110,50 +110,32 @@ export const DoctorAppStack = () => {
         }}
       />
 
-        <Drawer.Screen
-            name="Write Patient History"
-            component={WritePatientHistoryStackNavigator}
-            options={{
-                drawerIcon: (config) => (
-                    <Ionicons
-                        size={18}
-                        name={"reader-outline"}
-                        color="#F33A6A"
-                    ></Ionicons>
-                ),
-                drawerLabelStyle: {
-                    fontSize: 14,
-                    color: "#F33A6A",
-                },
-            }}
-        />
-
-        <Drawer.Screen
-            name="Manual Tracker History"
-            component={ManualTrackerHistoryStackNavigator}
-            options={{
-                drawerIcon: (config) => (
-                    <Ionicons
-                        size={18}
-                        name={"reader-outline"}
-                        color="#F33A6A"
-                    ></Ionicons>
-                ),
-                drawerLabelStyle: {
-                    fontSize: 14,
-                    color: "#F33A6A",
-                },
-            }}
-        />
-
       <Drawer.Screen
-        name="Add New Doctor"
-        component={AddNewDoctorStackNavigator}
+        name="Write Patient History"
+        component={WritePatientHistoryStackNavigator}
         options={{
           drawerIcon: (config) => (
             <Ionicons
               size={18}
-              name={"person-add-outline"}
+              name={"reader-outline"}
+              color="#2495D4"
+            ></Ionicons>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#2495D4",
+          },
+        }}
+      />
+
+      <Drawer.Screen
+        name="Manual Tracker History"
+        component={ManualTrackerHistoryStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <Ionicons
+              size={18}
+              name={"reader-outline"}
               color="#F33A6A"
             ></Ionicons>
           ),
@@ -165,15 +147,33 @@ export const DoctorAppStack = () => {
       />
 
       <Drawer.Screen
-        name="About Us"
-        component={AboutUsStackNavigator}
+        name="Add New Doctor"
+        component={AddNewDoctorStackNavigator}
         options={{
           drawerIcon: (config) => (
-            <Ionicons size={18} name={"information"} color="#2495D4"></Ionicons>
+            <Ionicons
+              size={18}
+              name={"person-add-outline"}
+              color="#2495D4"
+            ></Ionicons>
           ),
           drawerLabelStyle: {
             fontSize: 14,
             color: "#2495D4",
+          },
+        }}
+      />
+
+      <Drawer.Screen
+        name="About Us"
+        component={AboutUsStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <Ionicons size={18} name={"information"} color="#F33A6A"></Ionicons>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#F33A6A",
           },
         }}
       />
@@ -184,13 +184,13 @@ export const DoctorAppStack = () => {
           drawerIcon: (config) => (
             <Ionicons
               size={18}
+              color="#2495D4"
               name={"call-outline"}
-              color="#F33A6A"
             ></Ionicons>
           ),
           drawerLabelStyle: {
             fontSize: 14,
-            color: "#F33A6A",
+            color: "#2495D4",
           },
         }}
       />
@@ -203,12 +203,12 @@ export const DoctorAppStack = () => {
             <Ionicons
               size={18}
               name={"bookmark-outline"}
-              color="#2495D4"
+              color="#F33A6A"
             ></Ionicons>
           ),
           drawerLabelStyle: {
             fontSize: 14,
-            color: "#2495D4",
+            color: "#F33A6A",
           },
         }}
       />

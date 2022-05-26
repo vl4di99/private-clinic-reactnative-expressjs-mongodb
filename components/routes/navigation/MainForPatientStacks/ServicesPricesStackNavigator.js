@@ -39,29 +39,29 @@ const ServicesPrices = () => {
   }, []);
 
   return (
-      <ScrollView style={styles.scrollview}>
-        <View style={styles.view}>
-          {data.map((see) => (
-              <View style={styles.view2} key={see.id}>
-                <Text style={styles.service}>{see.service}</Text>
-                <Text style={styles.department}>{see.department}</Text>
-                <Text style={styles.price}>RON {see.price}</Text>
-              </View>
-          ))}
-        </View>
-      </ScrollView>
+    <ScrollView style={styles.scrollview}>
+      <View style={styles.view}>
+        {data.map((see) => (
+          <View style={styles.view2} key={see.id}>
+            <Text style={styles.service}>{see.service}</Text>
+            <Text style={styles.department}>{see.department}</Text>
+            <Text style={styles.price}>€ {see.price}</Text>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
   );
 };
 
 const ServicesPricesStackNavigator = () => {
   return (
-      <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-      >
-        <Stack.Screen name="ServicesPrices" component={ServicesPrices} />
-      </Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="ServicesPrices" component={ServicesPrices} />
+    </Stack.Navigator>
   );
 };
 

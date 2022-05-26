@@ -29,13 +29,13 @@ const Blog = () => {
 
   const fetchPosts = useCallback(async () => {
     await Client.get("/blog")
-        .then((response) => {
-          setData(response.data);
-          // console.log(JSON.stringify(response.data));
-        })
-        .catch((error) => {
-          console.log("Can't fetch blog posts: " + error);
-        });
+      .then((response) => {
+        setData(response.data);
+        // console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log("Can't fetch blog posts: " + error);
+      });
   }, [data]);
 
   useEffect(() => {
@@ -43,65 +43,65 @@ const Blog = () => {
   }, [fetchPosts]);
 
   return (
-      <ScrollView style={styles.scrollview}>
-        <View style={styles.view}>
-          {data.map((see) => (
-              <View style={styles.blogView} key={see._id}>
-                <Text style={styles.blogTitle}>{see.title}</Text>
+    <ScrollView style={styles.scrollview}>
+      <View style={styles.view}>
+        {data.map((see) => (
+          <View style={styles.blogView} key={see._id}>
+            <Text style={styles.blogTitle}>{see.title}</Text>
 
-                <Image
-                    style={{
-                      width: "100%",
-                      height: HEIGHT / 3.3,
-                      resizeMode: "contain",
-                      alignSelf: "center",
-                    }}
-                    source={{ uri: see.img }}
-                    resizeMode="stretch"
-                />
-                <TouchableOpacity
-                    style={styles.read}
-                    onPress={() => {
-                      setModalData(see);
-                      displayModal(true);
-                    }}
-                >
-                  <Text>Read</Text>
-                </TouchableOpacity>
-                <Text style={styles.subtitle2}>Author: {see.author}</Text>
-              </View>
-          ))}
-          <Modal
-              animationType={"slide"}
-              transparent={false}
-              visible={modalVisible}
-          >
-            <ScrollView>
-              <Text style={styles.modalText}>{modalData.content}</Text>
-              <Text
-                  style={styles.closeModal}
-                  onPress={() => {
-                    displayModal(!modalVisible);
-                  }}
-              >
-                Close
-              </Text>
-            </ScrollView>
-          </Modal>
-        </View>
-      </ScrollView>
+            <Image
+              style={{
+                width: "100%",
+                height: HEIGHT / 3.3,
+                resizeMode: "contain",
+                alignSelf: "center",
+              }}
+              source={{ uri: see.img }}
+              resizeMode="stretch"
+            />
+            <TouchableOpacity
+              style={styles.read}
+              onPress={() => {
+                setModalData(see);
+                displayModal(true);
+              }}
+            >
+              <Text>Read</Text>
+            </TouchableOpacity>
+            <Text style={styles.subtitle2}>Author: {see.author}</Text>
+          </View>
+        ))}
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={modalVisible}
+        >
+          <ScrollView>
+            <Text style={styles.modalText}>{modalData.content}</Text>
+            <Text
+              style={styles.closeModal}
+              onPress={() => {
+                displayModal(!modalVisible);
+              }}
+            >
+              Close
+            </Text>
+          </ScrollView>
+        </Modal>
+      </View>
+    </ScrollView>
   );
 };
 
 const BlogStackNavigator = () => {
   return (
-      <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-      >
-        <Stack.Screen name="Blog" component={Blog} />
-      </Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Blog" component={Blog} />
+    </Stack.Navigator>
   );
 };
 

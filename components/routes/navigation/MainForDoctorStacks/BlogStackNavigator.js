@@ -126,15 +126,18 @@ const Blog = () => {
           visible={modalVisible}
         >
           <ScrollView>
-            <Text style={styles.modalText}>{modalData.content}</Text>
-            <Text
-              style={styles.closeModal}
-              onPress={() => {
-                displayModal(!modalVisible);
-              }}
-            >
-              Close
-            </Text>
+            <View style={styles.modalView}>
+              <Text style={styles.modalTitle}>{modalData.title}</Text>
+              <Text style={styles.modalText}>{modalData.content}</Text>
+              <Text
+                style={styles.closeModal}
+                onPress={() => {
+                  displayModal(!modalVisible);
+                }}
+              >
+                Close
+              </Text>
+            </View>
           </ScrollView>
         </Modal>
 
@@ -313,12 +316,27 @@ const styles = StyleSheet.create({
     fontSize: HEIGHT * 0.04,
     color: "#00479e",
     textAlign: "center",
-    marginTop: HEIGHT * 0.1,
+    borderColor: "blue",
+    borderWidth: WIDTH * 0.01,
+    borderRadius: WIDTH * 0.07,
+    padding: WIDTH * 0.03,
+  },
+  modalTitle: {
+    fontSize: HEIGHT * 0.04,
+    padding: HEIGHT * 0.03,
+    color: "green",
   },
   modalText: {
     fontSize: HEIGHT * 0.03,
-    marginBottom: HEIGHT * 0.1,
-    padding: HEIGHT * 0.1,
+    marginBottom: HEIGHT * 0.05,
+    padding: HEIGHT * 0.05,
+    justifyContent: "space-between",
+  },
+  modalView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "column",
   },
   text_input: {
     width: WIDTH * 0.8,
