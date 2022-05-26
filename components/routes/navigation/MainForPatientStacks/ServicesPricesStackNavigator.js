@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Client from "../../../../api/Client";
+import BackgroundStack from "../../../theme/BackgroundStack";
 
 const Stack = createStackNavigator();
 
@@ -26,7 +27,7 @@ const ServicesPrices = () => {
       try {
         await Client.get("/getServicesPrices").then((response) => {
           setData(response.data);
-          console.log(data);
+          //console.log(data);
           // console.log(JSON.stringify(response.data));
           setLoading(false);
         });
@@ -39,17 +40,19 @@ const ServicesPrices = () => {
   }, []);
 
   return (
-    <ScrollView style={styles.scrollview}>
-      <View style={styles.view}>
-        {data.map((see) => (
-          <View style={styles.view2} key={see.id}>
-            <Text style={styles.service}>{see.service}</Text>
-            <Text style={styles.department}>{see.department}</Text>
-            <Text style={styles.price}>€ {see.price}</Text>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+    <BackgroundStack>
+      <ScrollView style={styles.scrollview}>
+        <View style={styles.view}>
+          {data.map((see) => (
+            <View style={styles.view2} key={see.id}>
+              <Text style={styles.service}>{see.service}</Text>
+              <Text style={styles.department}>{see.department}</Text>
+              <Text style={styles.price}>€ {see.price}</Text>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    </BackgroundStack>
   );
 };
 
@@ -89,7 +92,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: WIDTH / 23,
     marginTop: HEIGHT / 60,
-    color: "#FF968A",
+    color: "#00968A",
   },
   price: {
     textAlign: "right",

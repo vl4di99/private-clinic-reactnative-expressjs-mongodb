@@ -13,6 +13,8 @@ import {
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Client from "../../../../api/Client";
+import BackgroundStack from "../../../theme/BackgroundStack";
+import ModalBackground from "../../../theme/ModalBackground";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -43,53 +45,57 @@ const Blog = () => {
   }, [fetchPosts]);
 
   return (
-    <ScrollView style={styles.scrollview}>
-      <View style={styles.view}>
-        {data.map((see) => (
-          <View style={styles.blogView} key={see._id}>
-            <Text style={styles.blogTitle}>{see.title}</Text>
+    <BackgroundStack>
+      <ScrollView style={styles.scrollview}>
+        <View style={styles.view}>
+          {data.map((see) => (
+            <View style={styles.blogView} key={see._id}>
+              <Text style={styles.blogTitle}>{see.title}</Text>
 
-            <Image
-              style={{
-                width: "100%",
-                height: HEIGHT / 3.3,
-                resizeMode: "contain",
-                alignSelf: "center",
-              }}
-              source={{ uri: see.img }}
-              resizeMode="stretch"
-            />
-            <TouchableOpacity
-              style={styles.read}
-              onPress={() => {
-                setModalData(see);
-                displayModal(true);
-              }}
-            >
-              <Text>Read</Text>
-            </TouchableOpacity>
-            <Text style={styles.subtitle2}>Author: {see.author}</Text>
-          </View>
-        ))}
-        <Modal
-          animationType={"slide"}
-          transparent={false}
-          visible={modalVisible}
-        >
-          <ScrollView>
-            <Text style={styles.modalText}>{modalData.content}</Text>
-            <Text
-              style={styles.closeModal}
-              onPress={() => {
-                displayModal(!modalVisible);
-              }}
-            >
-              Close
-            </Text>
-          </ScrollView>
-        </Modal>
-      </View>
-    </ScrollView>
+              <Image
+                style={{
+                  width: "100%",
+                  height: HEIGHT / 3.3,
+                  resizeMode: "contain",
+                  alignSelf: "center",
+                }}
+                source={{ uri: see.img }}
+                resizeMode="stretch"
+              />
+              <TouchableOpacity
+                style={styles.read}
+                onPress={() => {
+                  setModalData(see);
+                  displayModal(true);
+                }}
+              >
+                <Text>Read</Text>
+              </TouchableOpacity>
+              <Text style={styles.subtitle2}>Author: {see.author}</Text>
+            </View>
+          ))}
+          <Modal
+            animationType={"slide"}
+            transparent={false}
+            visible={modalVisible}
+          >
+            <ModalBackground>
+              <ScrollView>
+                <Text style={styles.modalText}>{modalData.content}</Text>
+                <Text
+                  style={styles.closeModal}
+                  onPress={() => {
+                    displayModal(!modalVisible);
+                  }}
+                >
+                  Close
+                </Text>
+              </ScrollView>
+            </ModalBackground>
+          </Modal>
+        </View>
+      </ScrollView>
+    </BackgroundStack>
   );
 };
 
@@ -217,12 +223,13 @@ const styles = StyleSheet.create({
     fontSize: HEIGHT * 0.04,
     color: "#00479e",
     textAlign: "center",
-    marginTop: HEIGHT * 0.1,
+    padding: WIDTH * 0.03,
   },
   modalText: {
     fontSize: HEIGHT * 0.03,
-    marginBottom: HEIGHT * 0.1,
-    padding: HEIGHT * 0.1,
+    marginBottom: HEIGHT * 0.03,
+    padding: HEIGHT * 0.04,
+    textAlign: "justify",
   },
   text_input: {
     width: WIDTH * 0.8,

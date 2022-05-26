@@ -17,7 +17,7 @@ const Stack = createStackNavigator();
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 
-const ServicesPrices = () => {
+const DoctorWorkingHours = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -25,14 +25,14 @@ const ServicesPrices = () => {
     async function fetchSP() {
       setLoading(true);
       try {
-        await Client.get("/getServicesPrices").then((response) => {
+        await Client.get("/getWorkingHours").then((response) => {
           setData(response.data);
           //console.log(data);
           // console.log(JSON.stringify(response.data));
           setLoading(false);
         });
       } catch (error) {
-        console.log("Can't fetch servicesPrices ", error);
+        console.log("Can't fetch working hours ", error);
       }
       return data;
     }
@@ -42,36 +42,35 @@ const ServicesPrices = () => {
   return (
     <BackgroundStack>
       <ScrollView style={styles.scrollview}>
-        {loading && <Text>Loading appointments...</Text>}
-        {!loading && (
-          <View style={styles.view}>
-            {data.map((see) => (
-              <View style={styles.view2} key={see.id}>
-                <Text style={styles.service}>{see.service}</Text>
-                <Text style={styles.department}>{see.department}</Text>
-                <Text style={styles.price}>€ {see.price}</Text>
-              </View>
-            ))}
-          </View>
-        )}
+        <View style={styles.view}>
+          {data.map((see) => (
+            <View style={styles.view2} key={see.username}>
+              <Text style={styles.service}>{see.fullname}</Text>
+              <Text style={styles.department}>{see.department}</Text>
+              <Text style={styles.hours}>
+                {see.start_work_hour} --- {see.end_work_hour}
+              </Text>
+            </View>
+          ))}
+        </View>
       </ScrollView>
     </BackgroundStack>
   );
 };
 
-const ServicesPricesStackNavigator = () => {
+const DoctorWorkingHoursStackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name="ServicesPrices" component={ServicesPrices} />
+      <Stack.Screen name="DoctorWorkingHours" component={DoctorWorkingHours} />
     </Stack.Navigator>
   );
 };
 
-export default ServicesPricesStackNavigator;
+export default DoctorWorkingHoursStackNavigator;
 
 const styles = StyleSheet.create({
   title: {
@@ -97,8 +96,8 @@ const styles = StyleSheet.create({
     marginTop: HEIGHT / 60,
     color: "#00968A",
   },
-  price: {
-    textAlign: "right",
+  hours: {
+    textAlign: "center",
     fontSize: WIDTH / 18,
     marginTop: HEIGHT / 40,
     marginRight: WIDTH / 60,

@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 
 const TermsAndConditionsScreen = () => (
   <ScrollView style={style.scrollview}>
-    <Text style={style.texts2}>Welcome to PrivateClinic!</Text>
+    <Text style={style.title}>Welcome to PrivateClinic!</Text>
     <Text style={style.texts2}>
       These terms and conditions outline the rules and regulations for the use
       of PrivateClinic's Application, located at PrivateClinic. By accessing
@@ -160,6 +160,13 @@ const style = StyleSheet.create({
     marginTop: HEIGHT / 20,
     marginBottom: HEIGHT / 20,
   },
+  title: {
+    textAlign: "center",
+    fontSize: WIDTH * 0.06,
+    color: "#618A3D",
+    marginBottom: HEIGHT / 24,
+    textDecorationLine: "underline",
+  },
   texts: {
     textAlign: "left",
     fontSize: 17,
@@ -167,7 +174,7 @@ const style = StyleSheet.create({
     marginTop: HEIGHT / 24,
   },
   texts2: {
-    textAlign: "left",
+    textAlign: "justify",
     fontSize: 16,
     color: "#093923",
   },

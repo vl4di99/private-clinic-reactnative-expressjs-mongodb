@@ -15,6 +15,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Client from "../../../../api/Client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Moment from "moment";
+import BackgroundStack from "../../../theme/BackgroundStack";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -42,7 +43,7 @@ const ManualTrackerHistory = () => {
     let user = loginData;
     let doctor = false;
 
-    await Client.post("/tracker/get",  {username: user, doctor: doctor})
+    await Client.post("/tracker/get", { username: user, doctor: doctor })
       .then((response) => {
         //console.log(JSON.stringify(response.data));
         setDataR(response.data);
@@ -59,35 +60,48 @@ const ManualTrackerHistory = () => {
     fetchPosts();
   }, [fetchPosts]);
 
-
-
   return (
-    <ScrollView style={styles.scrollview}>
-      <View style={styles.view}>
-        {dataR.map((see) => (
-          <View style={styles.blogView} key={see._id}>
-            <Text style={styles.blogTitle}>{Moment(see.date).format('DD MMM YYYY HH:MM')} - {see.mood}</Text>
-            <View style={styles.inlineItemsContainer}>
-              <Text style={styles.modalText}>Sleep 8H: {see.sleep.toString()}</Text>
-              <Text style={styles.modalTextRight}>Water 2L: {see.water.toString()}</Text>
-            </View>
-            <View style={styles.inlineItemsContainer}>
-              <Text style={styles.modalText}>Meditation: {see.meditation.toString()}</Text>
-              <Text style={styles.modalTextRight}>Medication: {see.medication.toString()}</Text>
-            </View>
-            <Text style={styles.modalTextMiddle}>Exercise: {see.exercise.toString()}</Text>
-            <View style={styles.inlineItemsContainer}>
-              <Text style={[styles.modalTextMiddle,{ color: "red"}]}>Heart Info:</Text>
+    <BackgroundStack>
+      <ScrollView style={styles.scrollview}>
+        <View style={styles.view}>
+          {dataR.map((see) => (
+            <View style={styles.blogView} key={see._id}>
+              <Text style={styles.blogTitle}>
+                {Moment(see.date).format("DD MMM YYYY HH:MM")} - {see.mood}
+              </Text>
+              <View style={styles.inlineItemsContainer}>
+                <Text style={styles.modalText}>
+                  Sleep 8H: {see.sleep.toString()}
+                </Text>
+                <Text style={styles.modalTextRight}>
+                  Water 2L: {see.water.toString()}
+                </Text>
+              </View>
+              <View style={styles.inlineItemsContainer}>
+                <Text style={styles.modalText}>
+                  Meditation: {see.meditation.toString()}
+                </Text>
+                <Text style={styles.modalTextRight}>
+                  Medication: {see.medication.toString()}
+                </Text>
+              </View>
+              <Text style={styles.modalTextMiddle}>
+                Exercise: {see.exercise.toString()}
+              </Text>
+              <View style={styles.inlineItemsContainer}>
+                <Text style={[styles.modalTextMiddle, { color: "red" }]}>
+                  Heart Info:
+                </Text>
 
-              <Text style={styles.modalTextRight}>Sys: {see.systolic}</Text>
-              <Text style={styles.modalTextRight}>Dias: {see.diastolic}</Text>
-              <Text style={styles.modalTextRight}>HR: {see.hr}</Text>
+                <Text style={styles.modalTextRight}>Sys: {see.systolic}</Text>
+                <Text style={styles.modalTextRight}>Dias: {see.diastolic}</Text>
+                <Text style={styles.modalTextRight}>HR: {see.hr}</Text>
+              </View>
             </View>
-
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+          ))}
+        </View>
+      </ScrollView>
+    </BackgroundStack>
   );
 };
 
@@ -169,8 +183,8 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
-    marginLeft: WIDTH *0.03,
-    marginRight: WIDTH *0.03,
+    marginLeft: WIDTH * 0.03,
+    marginRight: WIDTH * 0.03,
     marginTop: HEIGHT * 0.03,
   },
   view2: {
@@ -224,7 +238,7 @@ const styles = StyleSheet.create({
     fontSize: HEIGHT * 0.02,
     //marginTop: HEIGHT * 0.005,
     padding: HEIGHT * 0.01,
-    textAlign: "left"
+    textAlign: "left",
   },
   modalTextRight: {
     fontSize: HEIGHT * 0.02,
@@ -242,5 +256,4 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
-
 });

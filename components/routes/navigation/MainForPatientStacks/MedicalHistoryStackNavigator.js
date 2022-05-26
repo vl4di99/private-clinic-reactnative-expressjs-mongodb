@@ -14,6 +14,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
 import Moment from "moment";
+import BackgroundStack from "../../../theme/BackgroundStack";
+import ModalBackground from "../../../theme/ModalBackground";
 
 const Stack = createStackNavigator();
 const { width: WIDTH } = Dimensions.get("window");
@@ -56,46 +58,50 @@ const MedicalHistory = () => {
   }, [getHistory]);
 
   return (
-    <ScrollView style={styles.scrollview}>
-      <View style={styles.view}>
-        <Text style={styles.title}>My Medical History </Text>
-        {data.map((see) => (
-          <View style={styles.blogView} key={see._id}>
-            <Text style={styles.blogTitle}>
-              {Moment(see.date).format("DD.MM.YYYY")}
-            </Text>
-            <TouchableOpacity
-              style={styles.read}
-              onPress={() => {
-                setModalData(see);
-                displayModal(true);
-              }}
-            >
-              <Text>Read</Text>
-            </TouchableOpacity>
-            <Text style={styles.subtitle2}>Doctor: {see.doctor}</Text>
-            <Text style={styles.subtitle2}>Department: {see.department}</Text>
-          </View>
-        ))}
-        <Modal
-          animationType={"slide"}
-          transparent={false}
-          visible={modalVisible}
-        >
-          <ScrollView>
-            <Text style={styles.modalText}>{modalData.history}</Text>
-            <Text
-              style={styles.closeModal}
-              onPress={() => {
-                displayModal(!modalVisible);
-              }}
-            >
-              Close
-            </Text>
-          </ScrollView>
-        </Modal>
-      </View>
-    </ScrollView>
+    <BackgroundStack>
+      <ScrollView style={styles.scrollview}>
+        <View style={styles.view}>
+          <Text style={styles.title}>My Medical History </Text>
+          {data.map((see) => (
+            <View style={styles.blogView} key={see._id}>
+              <Text style={styles.blogTitle}>
+                {Moment(see.date).format("DD.MM.YYYY")}
+              </Text>
+              <TouchableOpacity
+                style={styles.read}
+                onPress={() => {
+                  setModalData(see);
+                  displayModal(true);
+                }}
+              >
+                <Text>Read</Text>
+              </TouchableOpacity>
+              <Text style={styles.subtitle2}>Doctor: {see.doctor}</Text>
+              <Text style={styles.subtitle2}>Department: {see.department}</Text>
+            </View>
+          ))}
+          <Modal
+            animationType={"slide"}
+            transparent={false}
+            visible={modalVisible}
+          >
+            <ModalBackground>
+              <ScrollView>
+                <Text style={styles.modalText}>{modalData.history}</Text>
+                <Text
+                  style={styles.closeModal}
+                  onPress={() => {
+                    displayModal(!modalVisible);
+                  }}
+                >
+                  Close
+                </Text>
+              </ScrollView>
+            </ModalBackground>
+          </Modal>
+        </View>
+      </ScrollView>
+    </BackgroundStack>
   );
 };
 
@@ -202,15 +208,16 @@ const styles = StyleSheet.create({
     marginLeft: WIDTH / 10,
     marginRight: WIDTH / 10,
   },
-  modalText: {
-    fontSize: HEIGHT * 0.03,
-    marginBottom: HEIGHT * 0.1,
-    padding: HEIGHT * 0.1,
-  },
   closeModal: {
     fontSize: HEIGHT * 0.04,
     color: "#00479e",
     textAlign: "center",
-    marginTop: HEIGHT * 0.1,
+    padding: WIDTH * 0.03,
+  },
+  modalText: {
+    fontSize: HEIGHT * 0.03,
+    marginBottom: HEIGHT * 0.03,
+    padding: HEIGHT * 0.04,
+    textAlign: "justify",
   },
 });

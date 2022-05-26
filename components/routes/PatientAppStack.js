@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { AntDesign, Ionicons, Fontisto } from "@expo/vector-icons";
 
 import vitamins1 from "../../components/images/vitamins1.png";
-import HomeStackNavigator from "./navigation/MainForPatientStacks/HomeStackNavigatior";
+import HomeStackNavigator from "./navigation/MainForPatientStacks/HomeStackNavigator";
 import LocationsStackNavigator from "./navigation/MainForPatientStacks/LocationsStackNavigator";
 import ServicesPricesStackNavigator from "./navigation/MainForPatientStacks/ServicesPricesStackNavigator";
 import BottomTabNavigator from "./PatientBottomTabNavigator";
@@ -16,6 +16,7 @@ import TermsAndConditionsStackNavigator from "./navigation/MainForPatientStacks/
 import ManualTrackerStackNavigator from "./navigation/MainForPatientStacks/ManualTrackerStackNavigator";
 import ManualTrackerHistoryStackNavigator from "./navigation/MainForPatientStacks/ManualTrackerHistoryStackNavigator";
 import ViewAppointmentsStackNavigator from "./navigation/MainForPatientStacks/ViewAppointments";
+import DoctorWorkingHoursStackNavigator from "./navigation/MainForPatientStacks/DoctorWorkingHours";
 
 const Drawer = createDrawerNavigator();
 
@@ -61,6 +62,23 @@ export const PatientAppStack = () => {
       <Drawer.Screen
         name="Services and Prices"
         component={ServicesPricesStackNavigator}
+        options={{
+          drawerIcon: (config) => (
+            <AntDesign
+              size={18}
+              name={"creditcard"}
+              color="#F33A6A"
+            ></AntDesign>
+          ),
+          drawerLabelStyle: {
+            fontSize: 14,
+            color: "#F33A6A",
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="Doctor Schedule"
+        component={DoctorWorkingHoursStackNavigator}
         options={{
           drawerIcon: (config) => (
             <AntDesign

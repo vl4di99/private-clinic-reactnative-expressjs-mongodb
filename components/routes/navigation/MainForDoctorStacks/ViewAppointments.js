@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,8 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
+import BackgroundStack from "../../../theme/BackgroundStack";
+import { getFreeDiskStorageAsync } from "expo-file-system";
 
 const Stack = createStackNavigator();
 
@@ -22,72 +24,83 @@ const { height: HEIGHT } = Dimensions.get("window");
 const ViewAppointments = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [date, setDate] = useState("");
-  const [doctorLoginData, setDoctorLoginData] = useState("");
-  const [doctor, setDoctor] = useState("");
-  const [department, setDepartment] = useState("");
 
-  const fetchData = async () => {
-    let parsed = await AsyncStorage.getItem("DoctorLoginData");
-    parsed = JSON.parse(parsed);
-    console.log(parsed);
-    setDoctorLoginData(parsed);
-    setDoctor(doctorLoginData.fullname);
-    setDepartment(doctorLoginData.department);
+  const [date, setDate] = useState(null);
+  const [doctorLoginData, setDoctorLoginData] = useState(null);
+  const [doctor, setDoctor] = useState(null);
+  const [department, setDepartment] = useState(null);
 
-    //We set the date
-    let tempDate = new Date();
-    let fDate =
-      tempDate.getFullYear() +
-      "-" +
-      (tempDate.getMonth() + 1) +
-      "-" +
-      tempDate.getDate();
-    setDate(fDate);
-  };
+  async function getItems() {
+    try {
+      let parsed = await AsyncStorage.getItem("DoctorLoginData");
+      //parsed = JSON.parse(parsed);
+      //console.log(parsed);
 
-  const fetch2 = async () => {
-    //setLoading(true);
+      setDoctorLoginData(JSON.parse(parsed));
+      setDoctor(doctorLoginData.fullname);
+      setDepartment(doctorLoginData.department);
 
-    await Client.post("/getAppointmentForDoctor", {
-      doctor,
-      department,
-      date,
-    })
-      .then((response) => {
-        setData(response.data);
-        // console.log(JSON.stringify(response.data));
-        //setLoading(false);
-      })
-      .catch((error) => {
-        console.log("Can't fetch appointments " + error);
-      });
-  };
+      //We set the date
+      const tempDate = new Date();
+
+      let fDate =
+        tempDate.getFullYear() +
+        "-" +
+        (tempDate.getMonth() + 1) +
+        "-" +
+        tempDate.getDate();
+      setDate(fDate);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   useEffect(() => {
-    fetchData();
-    fetch2();
+    async function fetchAP() {
+      setLoading(true);
+      try {
+        let axiosConfig = {
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8",
+            "Access-Control-Allow-Origin": "*",
+          },
+        };
+        await getItems();
+        const body = { doctor, department, date };
+        await Client.post("/getAppointmentForDoctor", body, axiosConfig).then(
+          (response) => {
+            setData(response.data);
+
+            //console.log("Data set");
+            //console.log(data);
+            setLoading(false);
+          }
+        );
+      } catch (error) {
+        console.log("Can't fetch appointments " + error);
+      }
+      return data;
+    }
+    fetchAP();
   }, []);
 
   return (
-    <ScrollView style={styles.scrollview}>
-      <Button
-        title="Refresh"
-        onPress={async () => {
-          await fetchData();
-          await fetch2();
-        }}
-      ></Button>
-      <View style={styles.view}>
-        {data.map((see) => (
-          <View style={styles.view2} key={see.id}>
-            <Text style={styles.service}>{see.patient}</Text>
-            <Text style={styles.department}>{see.date}</Text>
-            <Text style={styles.price}>{see.time}</Text>
+    <BackgroundStack>
+      {loading && <Text>Loading appointments...</Text>}
+      {!loading && (
+        <ScrollView style={styles.scrollview}>
+          <View style={styles.view}>
+            {data.map((see) => (
+              <View style={styles.view2} key={see.id}>
+                <Text style={styles.service}>{see.patient}</Text>
+                <Text style={styles.department}>{see.date}</Text>
+                <Text style={styles.price}>{see.time}</Text>
+              </View>
+            ))}
           </View>
-        ))}
-      </View>
-    </ScrollView>
+        </ScrollView>
+      )}
+    </BackgroundStack>
   );
 };
 
@@ -127,7 +140,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: WIDTH / 23,
     marginTop: HEIGHT / 60,
-    color: "#FF968A",
+    color: "#00968A",
   },
   price: {
     textAlign: "right",

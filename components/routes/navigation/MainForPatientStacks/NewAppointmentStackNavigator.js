@@ -14,6 +14,8 @@ import { Dropdown } from "react-native-material-dropdown-v2";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
+import BackgroundStack from "../../../theme/BackgroundStack";
+
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 
@@ -133,76 +135,80 @@ const NewAppointment = () => {
   };
 
   return (
-    <ScrollView style={styles.scrollview}>
-      <View style={styles.view}>
-        <Text style={styles.title}>Schedule an appointment</Text>
+    <BackgroundStack>
+      <ScrollView style={styles.scrollview}>
+        <View style={styles.view}>
+          <Text style={styles.title}>Schedule an appointment</Text>
 
-        <View style={styles.view2}>
-          <Text style={styles.subtitle}>Choose a department</Text>
-          <Dropdown
-            label="Departments"
-            data={departmentData}
-            onChangeText={(value) => {
-              setSelectedDepartment(value);
-            }}
-          />
-          <Text style={styles.subtitle}>Choose a doctor</Text>
-          <Dropdown
-            label="Doctors"
-            data={doctorDropdown}
-            onChangeText={(value) => {
-              setSelectedDoctor(value);
-            }}
-          />
-          <View>
-            <Text style={styles.subtitle}>Choose a date</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => showMode("date")}
-            >
-              <Text style={styles.text}>Date</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <Text style={styles.subtitle}>Choose an hour</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => showMode("time")}
-            >
-              <Text style={styles.text}>Hour</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <Text style={styles.subtitle3}>
-              You selected:
-              {"\n\n"}Department: {selectedDepartment} {"\n"}Doctor:{" "}
-              {selectedDoctor}
-              {"\n"}Date: {dateText} {"\n"}Hour: {timeText} {"\n"}User: {user}
-            </Text>
-            <TouchableOpacity
-              onPress={setAppointmentNow}
-              style={styles.appointmentButton}
-              activeOpacity={0.5}
-            >
-              <Text style={styles.appointmentButtonText}>Set Appointment</Text>
-            </TouchableOpacity>
-          </View>
-
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              minimumDate={new Date()}
-              mode={mode}
-              is24Hour={true}
-              minuteInterval={30}
-              display="default"
-              onChange={onChange}
+          <View style={styles.view2}>
+            <Text style={styles.subtitle}>Choose a department</Text>
+            <Dropdown
+              label="Departments"
+              data={departmentData}
+              onChangeText={(value) => {
+                setSelectedDepartment(value);
+              }}
             />
-          )}
+            <Text style={styles.subtitle}>Choose a doctor</Text>
+            <Dropdown
+              label="Doctors"
+              data={doctorDropdown}
+              onChangeText={(value) => {
+                setSelectedDoctor(value);
+              }}
+            />
+            <View>
+              <Text style={styles.subtitle}>Choose a date</Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => showMode("date")}
+              >
+                <Text style={styles.text}>Date</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.subtitle}>Choose an hour</Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => showMode("time")}
+              >
+                <Text style={styles.text}>Hour</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.subtitle3}>
+                You selected:
+                {"\n\n"}Department: {selectedDepartment} {"\n"}Doctor:{" "}
+                {selectedDoctor}
+                {"\n"}Date: {dateText} {"\n"}Hour: {timeText} {"\n"}User: {user}
+              </Text>
+              <TouchableOpacity
+                onPress={setAppointmentNow}
+                style={styles.appointmentButton}
+                activeOpacity={0.5}
+              >
+                <Text style={styles.appointmentButtonText}>
+                  Set Appointment
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                minimumDate={new Date()}
+                mode={mode}
+                is24Hour={true}
+                minuteInterval={30}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </BackgroundStack>
   );
 };
 
@@ -244,9 +250,9 @@ const styles = StyleSheet.create({
   subtitle3: {
     textAlign: "center",
     fontSize: WIDTH / 23,
-    marginTop: HEIGHT / 30,
+    marginTop: HEIGHT * 0.03,
     color: "#800020",
-    marginBottom: HEIGHT / 10,
+    marginBottom: HEIGHT * 0.03,
   },
   view: {
     flex: 1,
@@ -296,7 +302,7 @@ const styles = StyleSheet.create({
   },
   appointmentButtonText: {
     color: "#FFFFFF",
-    paddingVertical: (HEIGHT * 1.2) / 100,
+    paddingVertical: WIDTH * 0.02,
     fontSize: (HEIGHT * 2) / 100,
     textAlign: "center",
   },

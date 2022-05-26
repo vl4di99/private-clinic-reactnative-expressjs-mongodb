@@ -13,6 +13,8 @@ import {
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Client from "../../../../api/Client";
+import BackgroundStack from "../../../theme/BackgroundStack";
+import ModalBackground from "../../../theme/ModalBackground";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -77,118 +79,122 @@ const Blog = () => {
       });
   };
   return (
-    <ScrollView style={styles.scrollview}>
-      <View style={styles.view}>
-        {data.map((see) => (
-          <View style={styles.blogView} key={see._id}>
-            <Text style={styles.blogTitle}>{see.title}</Text>
-            <TouchableOpacity
-              style={styles.delete}
-              onPress={() => deleteBlogItem(see._id)}
-            >
-              <Text>🗑</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.edit}
-              onPress={() => {
-                setEditModalData(see);
-                displayEditModal(true);
-              }}
-            >
-              <Text>✏️</Text>
-            </TouchableOpacity>
+    <BackgroundStack>
+      <ScrollView style={styles.scrollview}>
+        <View style={styles.view}>
+          {data.map((see) => (
+            <View style={styles.blogView} key={see._id}>
+              <Text style={styles.blogTitle}>{see.title}</Text>
+              <TouchableOpacity
+                style={styles.delete}
+                onPress={() => deleteBlogItem(see._id)}
+              >
+                <Text>🗑</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.edit}
+                onPress={() => {
+                  setEditModalData(see);
+                  displayEditModal(true);
+                }}
+              >
+                <Text>✏️</Text>
+              </TouchableOpacity>
 
-            <Image
-              style={{
-                width: "100%",
-                height: HEIGHT / 3.3,
-                resizeMode: "contain",
-                alignSelf: "center",
-              }}
-              source={{ uri: see.img }}
-              resizeMode="stretch"
-            />
-            <TouchableOpacity
-              style={styles.read}
-              onPress={() => {
-                setModalData(see);
-                displayModal(true);
-              }}
-            >
-              <Text>Read</Text>
-            </TouchableOpacity>
-            <Text style={styles.subtitle2}>Author: {see.author}</Text>
-          </View>
-        ))}
-        <Modal
-          animationType={"slide"}
-          transparent={false}
-          visible={modalVisible}
-        >
-          <ScrollView>
-            <View style={styles.modalView}>
-              <Text style={styles.modalTitle}>{modalData.title}</Text>
-              <Text style={styles.modalText}>{modalData.content}</Text>
+              <Image
+                style={{
+                  width: "100%",
+                  height: HEIGHT / 3.3,
+                  resizeMode: "contain",
+                  alignSelf: "center",
+                }}
+                source={{ uri: see.img }}
+                resizeMode="stretch"
+              />
+              <TouchableOpacity
+                style={styles.read}
+                onPress={() => {
+                  setModalData(see);
+                  displayModal(true);
+                }}
+              >
+                <Text>Read</Text>
+              </TouchableOpacity>
+              <Text style={styles.subtitle2}>Author: {see.author}</Text>
+            </View>
+          ))}
+          <Modal
+            animationType={"slide"}
+            transparent={false}
+            visible={modalVisible}
+          >
+            <ModalBackground>
+              <ScrollView>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalTitle}>{modalData.title}</Text>
+                  <Text style={styles.modalText}>{modalData.content}</Text>
+                  <Text
+                    style={styles.closeModal}
+                    onPress={() => {
+                      displayModal(!modalVisible);
+                    }}
+                  >
+                    Close
+                  </Text>
+                </View>
+              </ScrollView>
+            </ModalBackground>
+          </Modal>
+
+          <Modal
+            animationType={"slide"}
+            transparent={false}
+            visible={editModalVisible}
+          >
+            <ScrollView>
+              <TextInput
+                placeholder="Title"
+                style={styles.text_input}
+                defaultValue={editModalData.title}
+                onChangeText={(event) => setTitleText(event)}
+              />
+              <TextInput
+                placeholder="Author"
+                style={styles.text_input}
+                defaultValue={editModalData.author}
+                onChangeText={(event) => setAuthorText(event)}
+              />
+              <TextInput
+                placeholder="Content"
+                multiline={true}
+                style={styles.textarea_input}
+                NumberOfLines={15}
+                defaultValue={editModalData.content}
+                onChangeText={(event) => setContentText(event)}
+              />
+
+              <TouchableOpacity
+                style={styles.saveButton}
+                onPress={() => {
+                  editBlogItem(editModalData._id);
+                }}
+              >
+                <Text style={styles.saveButtonText}>SAVE EDIT</Text>
+              </TouchableOpacity>
+
               <Text
                 style={styles.closeModal}
                 onPress={() => {
-                  displayModal(!modalVisible);
+                  displayEditModal(!editModalVisible);
                 }}
               >
                 Close
               </Text>
-            </View>
-          </ScrollView>
-        </Modal>
-
-        <Modal
-          animationType={"slide"}
-          transparent={false}
-          visible={editModalVisible}
-        >
-          <ScrollView>
-            <TextInput
-              placeholder="Title"
-              style={styles.text_input}
-              defaultValue={editModalData.title}
-              onChangeText={(event) => setTitleText(event)}
-            />
-            <TextInput
-              placeholder="Author"
-              style={styles.text_input}
-              defaultValue={editModalData.author}
-              onChangeText={(event) => setAuthorText(event)}
-            />
-            <TextInput
-              placeholder="Content"
-              multiline={true}
-              style={styles.textarea_input}
-              NumberOfLines={15}
-              defaultValue={editModalData.content}
-              onChangeText={(event) => setContentText(event)}
-            />
-
-            <TouchableOpacity
-              style={styles.saveButton}
-              onPress={() => {
-                editBlogItem(editModalData._id);
-              }}
-            >
-              <Text style={styles.saveButtonText}>SAVE EDIT</Text>
-            </TouchableOpacity>
-
-            <Text
-              style={styles.closeModal}
-              onPress={() => {
-                displayEditModal(!editModalVisible);
-              }}
-            >
-              Close
-            </Text>
-          </ScrollView>
-        </Modal>
-      </View>
-    </ScrollView>
+            </ScrollView>
+          </Modal>
+        </View>
+      </ScrollView>
+    </BackgroundStack>
   );
 };
 
@@ -316,9 +322,6 @@ const styles = StyleSheet.create({
     fontSize: HEIGHT * 0.04,
     color: "#00479e",
     textAlign: "center",
-    borderColor: "blue",
-    borderWidth: WIDTH * 0.01,
-    borderRadius: WIDTH * 0.07,
     padding: WIDTH * 0.03,
   },
   modalTitle: {
@@ -328,9 +331,9 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: HEIGHT * 0.03,
-    marginBottom: HEIGHT * 0.05,
-    padding: HEIGHT * 0.05,
-    justifyContent: "space-between",
+    marginBottom: HEIGHT * 0.03,
+    padding: HEIGHT * 0.04,
+    textAlign: "justify",
   },
   modalView: {
     flex: 1,

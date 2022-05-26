@@ -19,7 +19,7 @@ app.use(
 );
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser({ limit: "50mb" }));
+//app.use(bodyParser({ limit: "50mb" }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(
@@ -87,7 +87,10 @@ app.post("/getDoctorsDropdown", getDoctorsDropdown.getDoctorsDropdown);
 app.get("/getDepartmentDropdown", getDoctorsDropdown.getDoctorsDepartment);
 
 const changePassword = require("./controllers/POST/MySQL/changePassword");
-app.post("/changePasswordDoctor",changePassword.changePassDoc);
+app.post("/changePasswordDoctor", changePassword.changePassDoc);
+
+const getWorkingHours = require("./controllers/GET/MySQL/getWorkingHours");
+app.get("/getWorkingHours", getWorkingHours.getDoctorWorkingHours);
 
 app.listen(port, () => {
   console.log("Database Server is running at http://localhost:" + port);

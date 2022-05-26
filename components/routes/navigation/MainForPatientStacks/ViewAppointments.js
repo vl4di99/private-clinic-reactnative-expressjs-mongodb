@@ -14,6 +14,7 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
+import BackgroundStack from "../../../theme/BackgroundStack";
 
 const Stack = createStackNavigator();
 
@@ -87,32 +88,34 @@ const ViewAppointments = () => {
   }, []);
 
   return (
-    <ScrollView style={styles.scrollview}>
-      <Button
-        title="Refresh"
-        onPress={async () => {
-          await fetch2();
-        }}
-      ></Button>
-      <View style={styles.view}>
-        {data.map((see) => (
-          <View style={styles.view2} key={see.id}>
-            <Text style={styles.service}>{see.patient}</Text>
-            <Text style={styles.department}>{see.date}</Text>
-            <Text style={styles.price}>{see.time}</Text>
-            <TouchableOpacity
-              style={styles.delete}
-              onPress={() => {
-                //setDeleteId(see.id);
-                deleteAppointment(see.id);
-              }}
-            >
-              <Text>🗑</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+    <BackgroundStack>
+      <ScrollView style={styles.scrollview}>
+        <Button
+          title="Refresh"
+          onPress={async () => {
+            await fetch2();
+          }}
+        ></Button>
+        <View style={styles.view}>
+          {data.map((see) => (
+            <View style={styles.view2} key={see.id}>
+              <Text style={styles.service}>{see.patient}</Text>
+              <Text style={styles.department}>{see.date}</Text>
+              <Text style={styles.price}>{see.time}</Text>
+              <TouchableOpacity
+                style={styles.delete}
+                onPress={() => {
+                  //setDeleteId(see.id);
+                  deleteAppointment(see.id);
+                }}
+              >
+                <Text>🗑</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    </BackgroundStack>
   );
 };
 

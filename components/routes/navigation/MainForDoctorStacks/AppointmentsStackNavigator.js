@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import BackgroundStack from "../../../theme/BackgroundStack";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -47,56 +48,58 @@ const NewAppointment = () => {
   };
 
   return (
-    <ScrollView style={styles.scrollview}>
-      <View style={styles.view}>
-        <Text style={styles.title}>My scheduled appointments</Text>
-        <View style={styles.view2}>
-          <View>
-            <Text style={styles.subtitle}>Choose a date</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => showMode("date")}
-            >
-              <Text style={styles.text}>Date</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <Text style={styles.subtitle3}>
-              You selected:
-              {"\n\n"}Date: {dateText}
-            </Text>
-          </View>
+    <BackgroundStack>
+      <ScrollView style={styles.scrollview}>
+        <View style={styles.view}>
+          <Text style={styles.title}>My scheduled appointments</Text>
+          <View style={styles.view2}>
+            <View>
+              <Text style={styles.subtitle}>Choose a date</Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => showMode("date")}
+              >
+                <Text style={styles.text}>Date</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.subtitle3}>
+                You selected:
+                {"\n\n"}Date: {dateText}
+              </Text>
+            </View>
 
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={mode}
-              is24Hour={true}
-              display="default"
-              onChange={onChange}
-            />
-          )}
-          <FlatList
-            data={[
-              { key: "Devin" },
-              { key: "Dan" },
-              { key: "Dominic" },
-              { key: "Jackson" },
-              { key: "James" },
-              { key: "Joel" },
-              { key: "John" },
-              { key: "Jillian" },
-              { key: "Jimmy" },
-              { key: "Julie" },
-            ]}
-            renderItem={({ item }) => (
-              <Text style={styles.item}>{item.key}</Text>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
             )}
-          />
+            <FlatList
+              data={[
+                { key: "Devin" },
+                { key: "Dan" },
+                { key: "Dominic" },
+                { key: "Jackson" },
+                { key: "James" },
+                { key: "Joel" },
+                { key: "John" },
+                { key: "Jillian" },
+                { key: "Jimmy" },
+                { key: "Julie" },
+              ]}
+              renderItem={({ item }) => (
+                <Text style={styles.item}>{item.key}</Text>
+              )}
+            />
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </BackgroundStack>
   );
 };
 

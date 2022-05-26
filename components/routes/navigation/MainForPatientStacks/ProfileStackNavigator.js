@@ -13,6 +13,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage, {
   useAsyncStorage,
 } from "@react-native-async-storage/async-storage";
+import BackgroundStack from "../../../theme/BackgroundStack";
 
 import { AuthContext } from "../../../contexts/AuthProvider";
 
@@ -50,20 +51,22 @@ const Profile = () => {
   };
 
   return (
-    <ScrollView style={styles.scrollview}>
-      <View style={styles.view}>
-        <Text style={styles.title}>My profile</Text>
-        <Text style={styles.subtitle}>Username: {username}</Text>
-        <Text style={styles.subtitle}>Patient name: {fullname}</Text>
-        <TouchableOpacity
-          onPress={logout}
-          style={styles.logoutButton}
-          activeOpacity={0.5}
-        >
-          <Text style={styles.logoutButtonText}>LOGOUT</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+    <BackgroundStack>
+      <ScrollView style={styles.scrollview}>
+        <View style={styles.view}>
+          <Text style={styles.title}>My profile</Text>
+          <Text style={styles.subtitle}>Username: {username}</Text>
+          <Text style={styles.subtitle}>Patient name: {fullname}</Text>
+          <TouchableOpacity
+            onPress={logout}
+            style={styles.logoutButton}
+            activeOpacity={0.5}
+          >
+            <Text style={styles.logoutButtonText}>LOGOUT</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </BackgroundStack>
   );
 };
 

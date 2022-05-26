@@ -4,7 +4,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AntDesign, Ionicons, Fontisto } from "@expo/vector-icons";
 
-import HomeStackNavigator from "./navigation/MainForPatientStacks/HomeStackNavigatior";
+import HomeStackNavigator from "./navigation/MainForPatientStacks/HomeStackNavigator";
 import LocationsStackNavigator from "./navigation/MainForDoctorStacks/LocationsStackNavigator";
 import ServicesPricesStackNavigator from "./navigation/MainForDoctorStacks/ServicesPricesStackNavigator";
 import ManualTrackerStackNavigator from "./navigation/MainForDoctorStacks/ManualTrackerStackNavigator";
