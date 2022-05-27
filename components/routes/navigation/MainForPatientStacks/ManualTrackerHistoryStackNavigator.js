@@ -11,6 +11,7 @@ import {
   TextInput,
   Alert,
 } from "react-native";
+import Checkbox from "expo-checkbox";
 import { createStackNavigator } from "@react-navigation/stack";
 import Client from "../../../../api/Client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -67,26 +68,27 @@ const ManualTrackerHistory = () => {
           {dataR.map((see) => (
             <View style={styles.blogView} key={see._id}>
               <Text style={styles.blogTitle}>
-                {Moment(see.date).format("DD MMM YYYY HH:MM")} - {see.mood}
+                {Moment(see.date).format("DD MMM YYYY HH:MM")} {see?.mood}
               </Text>
               <View style={styles.inlineItemsContainer}>
                 <Text style={styles.modalText}>
-                  Sleep 8H: {see.sleep.toString()}
+                  Sleep 8H:
+                  <Checkbox value={see.sleep} />
                 </Text>
                 <Text style={styles.modalTextRight}>
-                  Water 2L: {see.water.toString()}
+                  Water 2L: <Checkbox value={see.water} />
                 </Text>
               </View>
               <View style={styles.inlineItemsContainer}>
                 <Text style={styles.modalText}>
-                  Meditation: {see.meditation.toString()}
+                  Meditation: <Checkbox value={see.meditation} />
                 </Text>
                 <Text style={styles.modalTextRight}>
-                  Medication: {see.medication.toString()}
+                  Medication: <Checkbox value={see.medication} />
                 </Text>
               </View>
               <Text style={styles.modalTextMiddle}>
-                Exercise: {see.exercise.toString()}
+                Exercise: <Checkbox value={see.exercise} />
               </Text>
               <View style={styles.inlineItemsContainer}>
                 <Text style={[styles.modalTextMiddle, { color: "red" }]}>

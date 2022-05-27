@@ -8,15 +8,16 @@ import {
   ScrollView,
   AppState,
   ActivityIndicator,
-    Modal,
-    Alert,
-    TextInput
+  Modal,
+  Alert,
+  TextInput,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage, {
   useAsyncStorage,
 } from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
+import BackgroundStack from "../../../theme/BackgroundStack";
 
 import { AuthContext } from "../../../contexts/AuthProvider";
 
@@ -30,7 +31,6 @@ const Stack = createStackNavigator();
 
 const Profile = () => {
   const { setDoctorIsLoggedIn } = React.useContext(AuthContext);
-  const [DoctorLoginData, setDoctorLoginData] = useState("");
   const [DoctorFullname, setDoctorFullname] = useState("");
   const [department, setDepartment] = useState("");
   const [startHour, setStartHour] = useState("");
@@ -40,41 +40,45 @@ const Profile = () => {
   const [pass2, setPass2] = useState("");
   const [pass3, setPass3] = useState("");
   const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const getLoginData = async () => {
-      let parsed = await AsyncStorage.getItem("DoctorLoginData");
-      parsed = JSON.parse(parsed);
-      setDoctorLoginData(parsed);
-      setDoctorFullname(DoctorLoginData.fullname);
-      setDepartment(DoctorLoginData.department);
-      setStartHour(DoctorLoginData.start_work_hour);
-      setEndHour(DoctorLoginData.end_work_hour);
-      setUsername(DoctorLoginData.username);
+      let nparsed = await AsyncStorage.getItem("DoctorLoginData");
+      let parsed = await JSON.parse(nparsed);
+      setDoctorFullname(parsed?.fullname);
+      setDepartment(parsed?.department);
+      setStartHour(parsed?.start_work_hour);
+      setEndHour(parsed?.end_work_hour);
+      setUsername(parsed?.username);
+      setLoading(false);
     };
     getLoginData();
-  }, [DoctorLoginData]);
+  }, []);
 
   const changePassword = async () => {
-    if(pass2!==pass3){
-      Alert.alert("Check passwords", "New Password does not match with confirmed password");
+    if (pass2 !== pass3) {
+      Alert.alert(
+        "Check passwords",
+        "New Password does not match with confirmed password"
+      );
     } else {
       var password = pass1;
       var new_password = pass2;
-      Client.post("/changePasswordDoctor",{username, password, new_password})
-          .then((response) => {
-        if (response.data.message) {
-          Alert.alert("Error!", response.data.message);
-        } else {
-          Alert.alert("Saved!", response.data);
-
-        }
-      })
-          .catch((err) => {
-            console.log(err);
-          });
+      Client.post("/changePasswordDoctor", { username, password, new_password })
+        .then((response) => {
+          if (response.data.message) {
+            Alert.alert("Error!", response.data.message);
+          } else {
+            Alert.alert("Saved!", response.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }
+  };
 
   const logout = async () => {
     //await AsyncStorage.removeItem('@token');
@@ -83,74 +87,82 @@ const Profile = () => {
   };
 
   return (
-    <ScrollView style={styles.scrollview}>
-      <View style={styles.view}>
-        <Text style={styles.title}>My profile</Text>
-        <Text style={styles.subtitle}>Doctor: </Text>
-        <Text style={styles.subtitle2}>{DoctorFullname}</Text>
-        <Text style={styles.subtitle}>Department: </Text>
-        <Text style={styles.subtitle2}>{DoctorLoginData.department}</Text>
-        <Text style={styles.subtitle}>Working hours: </Text>
-        <Text style={styles.subtitle2}>
-          {DoctorLoginData.start_work_hour}-{DoctorLoginData.end_work_hour}
-        </Text>
-        <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.title}>Enter your password:</Text>
-              <Text style={styles.label}>Old password</Text>
-              <TextInput
-                  style={styles.input}
-                  onChangeText={(text)=>setPass1(text)}
-              />
-              <Text style={styles.label}>New password</Text>
-              <TextInput
-                  style={styles.input}
-                  onChangeText={(text)=>setPass2(text)}
-              />
-              <Text style={styles.label}>Confirm new password</Text>
-              <TextInput
-                  style={styles.input}
-                  onChangeText={(text)=>setPass3(text)}
-              />
-              <TouchableOpacity
-                  onPress={changePassword}
-                  style={styles.logoutButton}
-                  activeOpacity={0.8}
-              >
-                <Text style={styles.logoutButtonText}>Save</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                  onPress={()=> setModalVisible(!modalVisible)}
-                  style={styles.logoutButton}
-                  activeOpacity={0.8}
-              >
-                <Text style={styles.logoutButtonText}>Close</Text>
-              </TouchableOpacity>
-            </View>
+    <BackgroundStack>
+      <ScrollView style={styles.scrollview}>
+        {loading && (
+          <View>
+            <Text>Loading profile</Text>
           </View>
-
-        </Modal>
-        <TouchableOpacity
-            onPress={()=>setModalVisible(true)}
-            style={styles.logoutButton}
-            activeOpacity={0.5}
-        >
-          <Text style={styles.logoutButtonText}>Change Password</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={logout}
-          style={styles.logoutButton}
-          activeOpacity={0.5}
-        >
-          <Text style={styles.logoutButtonText}>LOGOUT</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+        )}
+        {!loading && (
+          <View style={styles.view}>
+            <Text style={styles.title}>My profile</Text>
+            <Text style={styles.subtitle}>Doctor: </Text>
+            <Text style={styles.subtitle2}>{DoctorFullname}</Text>
+            <Text style={styles.subtitle}>Department: </Text>
+            <Text style={styles.subtitle2}>{department}</Text>
+            <Text style={styles.subtitle}>Working hours: </Text>
+            <Text style={styles.subtitle2}>
+              {startHour}-{endHour}
+            </Text>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={styles.title}>Enter your password:</Text>
+                  <Text style={styles.label}>Old password</Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => setPass1(text)}
+                  />
+                  <Text style={styles.label}>New password</Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => setPass2(text)}
+                  />
+                  <Text style={styles.label}>Confirm new password</Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => setPass3(text)}
+                  />
+                  <TouchableOpacity
+                    onPress={changePassword}
+                    style={styles.logoutButton}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={styles.logoutButtonText}>Save</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(!modalVisible)}
+                    style={styles.logoutButton}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={styles.logoutButtonText}>Close</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
+            <TouchableOpacity
+              onPress={() => setModalVisible(true)}
+              style={styles.logoutButton}
+              activeOpacity={0.5}
+            >
+              <Text style={styles.logoutButtonText}>Change Password</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={logout}
+              style={styles.logoutButton}
+              activeOpacity={0.5}
+            >
+              <Text style={styles.logoutButtonText}>LOGOUT</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </ScrollView>
+    </BackgroundStack>
   );
 };
 
@@ -196,7 +208,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: WIDTH / 20,
     marginTop: HEIGHT / 200,
-    color: "#96C3EB",
+    color: "#281C22",
   },
   subtitle2: {
     textAlign: "center",
@@ -249,7 +261,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 22,
   },
   modalView: {
     margin: 20,
@@ -260,20 +272,20 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   input: {
-    height: HEIGHT*0.05,
+    height: HEIGHT * 0.05,
     margin: 12,
     borderWidth: 1,
-    width: WIDTH*0.8,
+    width: WIDTH * 0.8,
     padding: 5,
   },
-  label:{
-    fontSize: WIDTH*0.04,
-  }
+  label: {
+    fontSize: WIDTH * 0.04,
+  },
 });

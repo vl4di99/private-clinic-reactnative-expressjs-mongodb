@@ -1,34 +1,37 @@
 import React from "react";
 import { View, Text, Dimensions, StyleSheet, ScrollView } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import BackgroundStack from "../../../theme/BackgroundStack";
 
 const Stack = createStackNavigator();
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 
 const Locations = () => (
-  <ScrollView style={styles.scrollview}>
-    <View style={styles.view}>
-      <Text style={styles.title}>
-        You can find us at the following locations:
-      </Text>
-      <Text style={styles.subtitle2}>
-        34 Observatorului Street, Cluj-Napoca, Romania
-      </Text>
-      <Text style={styles.subtitle2}>
-        26-28 George Baritiu Street, Cluj-Napoca, Romania
-      </Text>
-      <Text style={styles.subtitle2}>
-        71-73 Dorobantilor Street, Cluj-Napoca, Romania
-      </Text>
-      <Text style={styles.subtitle2}>
-        103-105 Muncii Boulevard, Cluj-Napoca, Romania
-      </Text>
-      <Text style={styles.subtitle2}>
-        128-130 21 Decembrie 1989 Boulevard, Cluj-Napoca, Romania
-      </Text>
-    </View>
-  </ScrollView>
+  <BackgroundStack>
+    <ScrollView style={styles.scrollview}>
+      <View style={styles.view}>
+        <Text style={styles.title}>
+          You can find us at the following locations:
+        </Text>
+        <Text style={styles.subtitle2}>
+          34 Observatorului Street, Cluj-Napoca, Romania
+        </Text>
+        <Text style={styles.subtitle2}>
+          26-28 George Baritiu Street, Cluj-Napoca, Romania
+        </Text>
+        <Text style={styles.subtitle2}>
+          71-73 Dorobantilor Street, Cluj-Napoca, Romania
+        </Text>
+        <Text style={styles.subtitle2}>
+          103-105 Muncii Boulevard, Cluj-Napoca, Romania
+        </Text>
+        <Text style={styles.subtitle2}>
+          128-130 21 Decembrie 1989 Boulevard, Cluj-Napoca, Romania
+        </Text>
+      </View>
+    </ScrollView>
+  </BackgroundStack>
 );
 
 const LocationsStackNavigator = () => {

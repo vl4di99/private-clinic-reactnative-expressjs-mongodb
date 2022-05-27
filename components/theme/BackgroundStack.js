@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
   View,
 } from "react-native";
-import healthBackground5 from "../images/healthBackground5.jpg";
+import healthBackground7 from "../images/healthBackground7.jpg";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -15,7 +15,7 @@ const BackgroundStack = ({ children }) => {
   return (
     <ImageBackground
       //source={require("../images/phoneLicentaVitamins.png")}
-      source={healthBackground5}
+      source={healthBackground7}
       style={styles.image}
     >
       {children}

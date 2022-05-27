@@ -12,7 +12,6 @@ import BlogStackNavigator from "./navigation/MainForDoctorStacks/BlogStackNaviga
 import CreateBlogPostStackNavigator from "./navigation/MainForDoctorStacks/CreateBlogPostStackNavigator";
 import AboutUsStackNavigator from "./navigation/MainForDoctorStacks/AboutUsStackNavigator";
 import ContactStackNavigator from "./navigation/MainForDoctorStacks/ContactStackNavigator";
-import RegisterNewDoctorNavigator from "./navigation/MainForDoctorStacks/RegisterNewDoctorNavigator";
 import TermsAndConditionsStackNavigator from "./navigation/MainForDoctorStacks/TermsAndConditionsStackNavigator";
 import AddNewDoctorStackNavigator from "./navigation/MainForDoctorStacks/AddNewDoctorStackNavigator";
 import DoctorBottomTabNavigator from "./DoctorBottomTabNavigator";

@@ -20,6 +20,7 @@ import Client from "../../../../api/Client";
 import AWSAPI from "../../../../api/AWSApi";
 //import * as buffer from "buffer";
 import { RNS3 } from "react-native-aws3";
+import BackgroundStack from "../../../theme/BackgroundStack";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -123,35 +124,37 @@ const CreateBlogPost = () => {
   };
 
   return (
-    <View>
+    <BackgroundStack>
       <View>
-        <TextInput
-          placeholder="Title"
-          style={styles.text_input}
-          onChangeText={(event) => setTitleText(event)}
-        />
-        <TextInput
-          placeholder="Author"
-          style={styles.text_input}
-          onChangeText={(event) => setAuthorText(event)}
-        />
-        <TextInput
-          placeholder="Content"
-          multiline={true}
-          style={styles.textarea_input}
-          NumberOfLines={15}
-          onChangeText={(event) => setContentText(event)}
-        />
-        {image && <Image source={{ uri: image }} style={styles.imageSRC} />}
-        <TouchableOpacity style={styles.pickImageButton} onPress={pickImage}>
-          <Text style={styles.pickImageButtonText}>Pick an image</Text>
-        </TouchableOpacity>
+        <View>
+          <TextInput
+            placeholder="Title"
+            style={styles.text_input}
+            onChangeText={(event) => setTitleText(event)}
+          />
+          <TextInput
+            placeholder="Author"
+            style={styles.text_input}
+            onChangeText={(event) => setAuthorText(event)}
+          />
+          <TextInput
+            placeholder="Content"
+            multiline={true}
+            style={styles.textarea_input}
+            NumberOfLines={15}
+            onChangeText={(event) => setContentText(event)}
+          />
+          {image && <Image source={{ uri: image }} style={styles.imageSRC} />}
+          <TouchableOpacity style={styles.pickImageButton} onPress={pickImage}>
+            <Text style={styles.pickImageButtonText}>Pick an image</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.saveButton} onPress={saveBlogPost}>
-          <Text style={styles.saveButtonText}>SAVE</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.saveButton} onPress={saveBlogPost}>
+            <Text style={styles.saveButtonText}>SAVE</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </BackgroundStack>
   );
 };
 

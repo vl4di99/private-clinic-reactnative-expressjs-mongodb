@@ -14,6 +14,9 @@ export default function App() {
   LogBox.ignoreLogs([
     "Warning: componentWillReceiveProps has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.",
   ]);
+  LogBox.ignoreLogs([
+    "Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`",
+  ]);
   return (
     <AuthProvider>
       <Router />

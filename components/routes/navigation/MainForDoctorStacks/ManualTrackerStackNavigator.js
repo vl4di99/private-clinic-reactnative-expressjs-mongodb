@@ -14,6 +14,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import InputSpinner from "react-native-input-spinner";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
+import BackgroundStack from "../../../theme/BackgroundStack";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -75,47 +76,48 @@ const ManualTracker = () => {
       username,
       fullname,
       date,
-      isDoctor
+      isDoctor,
     })
-        .then((response) => {
-          Alert.alert(JSON.stringify(response.data));
-        })
-        .catch((error) => {
-          console.log("Error in saving tracker: " + error);
-          Alert.alert("Error", "An error occured while saving your information!");
-        });
+      .then((response) => {
+        Alert.alert(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log("Error in saving tracker: " + error);
+        Alert.alert("Error", "An error occured while saving your information!");
+      });
   };
 
   return (
+    <BackgroundStack>
       <ScrollView style={styles.scrollview}>
         <View style={styles.view}>
           <View style={styles.moodOptionsWrapper}>
             <Text style={styles.moodOptionsTitle}>How are you feeling?</Text>
             <View style={styles.moodOptions}>
               {moodOptions.map((option) => (
-                  <View key={option.emoji}>
-                    <Pressable
-                        onPress={() => setSelectedMood(option)}
-                        style={[
-                          styles.moodItem,
-                          selectedMood?.emoji === option.emoji
-                              ? styles.selectedMoodItem
-                              : undefined,
-                        ]}
+                <View key={option.emoji}>
+                  <Pressable
+                    onPress={() => setSelectedMood(option)}
+                    style={[
+                      styles.moodItem,
+                      selectedMood?.emoji === option.emoji
+                        ? styles.selectedMoodItem
+                        : undefined,
+                    ]}
+                  >
+                    <Text
+                      key={option.emoji + option.description}
+                      style={styles.moodItemEmoji}
                     >
-                      <Text
-                          key={option.emoji + option.description}
-                          style={styles.moodItemEmoji}
-                      >
-                        {option.emoji}
-                      </Text>
-                    </Pressable>
-                    {option.emoji === selectedMood?.emoji && (
-                        <Text style={styles.descriptionText}>
-                          {option.description}
-                        </Text>
-                    )}
-                  </View>
+                      {option.emoji}
+                    </Text>
+                  </Pressable>
+                  {option.emoji === selectedMood?.emoji && (
+                    <Text style={styles.descriptionText}>
+                      {option.description}
+                    </Text>
+                  )}
+                </View>
               ))}
             </View>
           </View>
@@ -126,56 +128,56 @@ const ManualTracker = () => {
               <View style={styles.view2}>
                 <Text style={styles.subtitle2}>8 hours of sleep</Text>
                 <Checkbox
-                    status={checked ? "checked" : "unchecked"}
-                    onPress={() => {
-                      setChecked(!checked);
-                    }}
-                    color={"green"}
-                    uncheckColor={"red"}
+                  status={checked ? "checked" : "unchecked"}
+                  onPress={() => {
+                    setChecked(!checked);
+                  }}
+                  color={"green"}
+                  uncheckColor={"red"}
                 />
               </View>
               <View style={styles.view2}>
                 <Text style={styles.subtitle2}>2 L of water</Text>
                 <Checkbox
-                    status={checked2 ? "checked" : "unchecked"}
-                    onPress={() => {
-                      setChecked2(!checked2);
-                    }}
-                    color={"green"}
-                    uncheckColor={"red"}
+                  status={checked2 ? "checked" : "unchecked"}
+                  onPress={() => {
+                    setChecked2(!checked2);
+                  }}
+                  color={"green"}
+                  uncheckColor={"red"}
                 />
               </View>
               <View style={styles.view2}>
                 <Text style={styles.subtitle2}>Meditation</Text>
                 <Checkbox
-                    status={checked3 ? "checked" : "unchecked"}
-                    onPress={() => {
-                      setChecked3(!checked3);
-                    }}
-                    color={"green"}
-                    uncheckColor={"red"}
+                  status={checked3 ? "checked" : "unchecked"}
+                  onPress={() => {
+                    setChecked3(!checked3);
+                  }}
+                  color={"green"}
+                  uncheckColor={"red"}
                 />
               </View>
               <View style={styles.view2}>
                 <Text style={styles.subtitle2}>Medication</Text>
                 <Checkbox
-                    status={checked4 ? "checked" : "unchecked"}
-                    onPress={() => {
-                      setChecked4(!checked4);
-                    }}
-                    color={"green"}
-                    uncheckColor={"red"}
+                  status={checked4 ? "checked" : "unchecked"}
+                  onPress={() => {
+                    setChecked4(!checked4);
+                  }}
+                  color={"green"}
+                  uncheckColor={"red"}
                 />
               </View>
               <View style={styles.view2}>
                 <Text style={styles.subtitle2}>30 minutes of exercise</Text>
                 <Checkbox
-                    status={checked5 ? "checked" : "unchecked"}
-                    onPress={() => {
-                      setChecked5(!checked5);
-                    }}
-                    color={"green"}
-                    uncheckColor={"red"}
+                  status={checked5 ? "checked" : "unchecked"}
+                  onPress={() => {
+                    setChecked5(!checked5);
+                  }}
+                  color={"green"}
+                  uncheckColor={"red"}
                 />
               </View>
               <View style={styles.view4}>
@@ -183,49 +185,49 @@ const ManualTracker = () => {
                 <View style={styles.view4}>
                   <Text style={styles.subtitle3}>Systolic:</Text>
                   <InputSpinner
-                      max={300}
-                      min={50}
-                      step={1}
-                      colorMax={"#f04048"}
-                      colorMin={"#40c5f4"}
-                      value={50}
-                      skin="clean"
-                      height={HEIGHT / 25}
-                      onChange={(value) => {
-                        setSystolic(value);
-                      }}
+                    max={300}
+                    min={50}
+                    step={1}
+                    colorMax={"#f04048"}
+                    colorMin={"#40c5f4"}
+                    value={50}
+                    skin="clean"
+                    height={HEIGHT / 25}
+                    onChange={(value) => {
+                      setSystolic(value);
+                    }}
                   />
                 </View>
                 <View style={styles.view4}>
                   <Text style={styles.subtitle3}>Diastolic:</Text>
                   <InputSpinner
-                      max={200}
-                      min={20}
-                      step={1}
-                      colorMax={"#f04048"}
-                      colorMin={"#40c5f4"}
-                      value={50}
-                      skin="clean"
-                      height={HEIGHT / 25}
-                      onChange={(value) => {
-                        setDiastolic(value);
-                      }}
+                    max={200}
+                    min={20}
+                    step={1}
+                    colorMax={"#f04048"}
+                    colorMin={"#40c5f4"}
+                    value={50}
+                    skin="clean"
+                    height={HEIGHT / 25}
+                    onChange={(value) => {
+                      setDiastolic(value);
+                    }}
                   />
                 </View>
                 <View style={styles.view4}>
                   <Text style={styles.subtitle3}>Heart rate:</Text>
                   <InputSpinner
-                      max={250}
-                      min={30}
-                      step={1}
-                      colorMax={"#f04048"}
-                      colorMin={"#40c5f4"}
-                      value={50}
-                      skin="clean"
-                      height={HEIGHT / 25}
-                      onChange={(value) => {
-                        setHr(value);
-                      }}
+                    max={250}
+                    min={30}
+                    step={1}
+                    colorMax={"#f04048"}
+                    colorMin={"#40c5f4"}
+                    value={50}
+                    skin="clean"
+                    height={HEIGHT / 25}
+                    onChange={(value) => {
+                      setHr(value);
+                    }}
                   />
                 </View>
               </View>
@@ -236,18 +238,19 @@ const ManualTracker = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+    </BackgroundStack>
   );
 };
 
 const ManualTrackerStackNavigator = () => {
   return (
-      <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-      >
-        <Stack.Screen name="ManualTracker" component={ManualTracker} />
-      </Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="ManualTracker" component={ManualTracker} />
+    </Stack.Navigator>
   );
 };
 

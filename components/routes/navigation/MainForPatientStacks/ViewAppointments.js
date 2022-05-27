@@ -14,6 +14,7 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
+import Moment from "moment";
 import BackgroundStack from "../../../theme/BackgroundStack";
 
 const Stack = createStackNavigator();
@@ -24,10 +25,6 @@ const { height: HEIGHT } = Dimensions.get("window");
 const ViewAppointments = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [date, setDate] = useState("");
-  const [LoginData, setLoginData] = useState("");
-  const [user, setUser] = useState("");
-  const [deleteId, setDeleteId] = useState("");
 
   const deleteAppointment = async (id) => {
     //var id = deleteId;
@@ -44,77 +41,57 @@ const ViewAppointments = () => {
       });
   };
 
-  const fetchData = async () => {
-    let parsed = await AsyncStorage.getItem("LoginData");
-    parsed = await JSON.parse(parsed);
-    //console.log(parsed);
-    setLoginData(parsed);
-  };
-
-  const fetch2 = async () => {
-    setUser(LoginData.fullname);
-    //We set the date
-    let tempDate = new Date();
-    let fDate =
-      tempDate.getFullYear() +
-      "-" +
-      (tempDate.getMonth() + 1) +
-      "-" +
-      tempDate.getDate();
-    setDate(fDate);
-    //setLoading(true);
-    var patient = user;
-
-    await Client.post("/getAppointmentWherePatient", {
-      patient,
-      date,
-    })
-      .then((response) => {
-        setData(response.data);
-        // console.log(JSON.stringify(response.data));
-        //setLoading(false);
-      })
-      .catch((error) => {
-        console.log("Can't fetch appointments " + error);
-      });
-  };
-
   useEffect(() => {
-    async function as() {
-      await fetchData();
-      await fetch2();
+    async function fetchAP() {
+      setLoading(true);
+      try {
+        let datetime = Moment().format("YYYY-MM-DD");
+        let parsed = await AsyncStorage.getItem("LoginData");
+        let jsonparsed = await JSON.parse(parsed);
+        let patientname = jsonparsed?.fullname;
+        await Client.post("/getAppointmentWherePatient", {
+          patient: patientname,
+          date: datetime,
+        }).then((response) => {
+          setData(response.data);
+          // console.log(JSON.stringify(response.data));
+          setLoading(false);
+        });
+      } catch (error) {
+        console.log("Can't fetch appointments " + error);
+      }
+      return data;
     }
-    as();
+    fetchAP();
   }, []);
 
   return (
     <BackgroundStack>
-      <ScrollView style={styles.scrollview}>
-        <Button
-          title="Refresh"
-          onPress={async () => {
-            await fetch2();
-          }}
-        ></Button>
-        <View style={styles.view}>
-          {data.map((see) => (
-            <View style={styles.view2} key={see.id}>
-              <Text style={styles.service}>{see.patient}</Text>
-              <Text style={styles.department}>{see.date}</Text>
-              <Text style={styles.price}>{see.time}</Text>
-              <TouchableOpacity
-                style={styles.delete}
-                onPress={() => {
-                  //setDeleteId(see.id);
-                  deleteAppointment(see.id);
-                }}
-              >
-                <Text>🗑</Text>
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-      </ScrollView>
+      {loading && <Text>Loading appointments...</Text>}
+      {!loading && (
+        <ScrollView style={styles.scrollview}>
+          <View style={styles.view}>
+            {data.map((see) => (
+              <View style={styles.view2} key={see.id}>
+                <Text style={styles.service}>{see.patient}</Text>
+                <Text style={styles.department}>{see.department}</Text>
+                <Text style={styles.price}>
+                  {Moment(see?.date).format("DD-MM-YYYY")}-{see?.time}
+                </Text>
+                <TouchableOpacity
+                  style={styles.delete}
+                  onPress={() => {
+                    //setDeleteId(see.id);
+                    deleteAppointment(see.id);
+                  }}
+                >
+                  <Text>🗑</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+      )}
     </BackgroundStack>
   );
 };
@@ -155,7 +132,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: WIDTH / 23,
     marginTop: HEIGHT / 60,
-    color: "#FF968A",
+    color: "#00968A",
   },
   price: {
     textAlign: "right",

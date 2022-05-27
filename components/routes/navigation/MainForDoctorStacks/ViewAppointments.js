@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
 import BackgroundStack from "../../../theme/BackgroundStack";
 import { getFreeDiskStorageAsync } from "expo-file-system";
+import Moment from "moment";
 
 const Stack = createStackNavigator();
 
@@ -25,57 +26,26 @@ const ViewAppointments = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [date, setDate] = useState(null);
-  const [doctorLoginData, setDoctorLoginData] = useState(null);
-  const [doctor, setDoctor] = useState(null);
-  const [department, setDepartment] = useState(null);
-
-  async function getItems() {
-    try {
-      let parsed = await AsyncStorage.getItem("DoctorLoginData");
-      //parsed = JSON.parse(parsed);
-      //console.log(parsed);
-
-      setDoctorLoginData(JSON.parse(parsed));
-      setDoctor(doctorLoginData.fullname);
-      setDepartment(doctorLoginData.department);
-
-      //We set the date
-      const tempDate = new Date();
-
-      let fDate =
-        tempDate.getFullYear() +
-        "-" +
-        (tempDate.getMonth() + 1) +
-        "-" +
-        tempDate.getDate();
-      setDate(fDate);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   useEffect(() => {
     async function fetchAP() {
       setLoading(true);
       try {
-        let axiosConfig = {
-          headers: {
-            "Content-Type": "application/json;charset=UTF-8",
-            "Access-Control-Allow-Origin": "*",
-          },
-        };
-        await getItems();
-        const body = { doctor, department, date };
-        await Client.post("/getAppointmentForDoctor", body, axiosConfig).then(
-          (response) => {
-            setData(response.data);
+        let datetime = Moment().format("YYYY-MM-DD");
+        let parsed = await AsyncStorage.getItem("DoctorLoginData");
+        let jsonparsed = await JSON.parse(parsed);
+        let doctorname = jsonparsed?.fullname;
+        let departmentname = jsonparsed?.department;
+        await Client.post("/getAppointmentForDoctor", {
+          doctor: doctorname,
+          department: departmentname,
+          date: datetime,
+        }).then((response) => {
+          setData(response.data);
 
-            //console.log("Data set");
-            //console.log(data);
-            setLoading(false);
-          }
-        );
+          //console.log("Data set");
+          //console.log(data);
+          setLoading(false);
+        });
       } catch (error) {
         console.log("Can't fetch appointments " + error);
       }
@@ -93,8 +63,10 @@ const ViewAppointments = () => {
             {data.map((see) => (
               <View style={styles.view2} key={see.id}>
                 <Text style={styles.service}>{see.patient}</Text>
-                <Text style={styles.department}>{see.date}</Text>
-                <Text style={styles.price}>{see.time}</Text>
+                <Text style={styles.department}>{see?.department}</Text>
+                <Text style={styles.price}>
+                  {Moment(see?.date).format("DD-MM-YYYY")}-{see?.time}
+                </Text>
               </View>
             ))}
           </View>

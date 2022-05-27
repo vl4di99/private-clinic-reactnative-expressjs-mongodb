@@ -10,9 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import AsyncStorage, {
-  useAsyncStorage,
-} from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import BackgroundStack from "../../../theme/BackgroundStack";
 
 import { AuthContext } from "../../../contexts/AuthProvider";
@@ -21,28 +19,25 @@ const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 
 const Stack = createStackNavigator();
-//const username = AuthContext.username;
-
-//let LoginData = "";
-
-//var user = "";
 
 const Profile = () => {
   const { setIsLoggedIn } = React.useContext(AuthContext);
 
-  const [profileElements, setProfileElements] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [fullname, setFullname] = React.useState("");
+  const [loading, setLoading] = useState(false);
 
   React.useEffect(() => {
+    setLoading(true);
     const getProfile = async () => {
-      var profileElements = await AsyncStorage.getItem("LoginData");
-      profileElements = JSON.parse(profileElements);
-      setUsername(profileElements.username);
-      setFullname(profileElements.fullname);
+      var parsed = await AsyncStorage.getItem("LoginData");
+      let profileElements = await JSON.parse(parsed);
+      setUsername(profileElements?.username);
+      setFullname(profileElements?.fullname);
+      setLoading(false);
     };
     getProfile();
-  }, [profileElements]);
+  }, []);
 
   const logout = async () => {
     //await AsyncStorage.removeItem('@token');
@@ -53,18 +48,27 @@ const Profile = () => {
   return (
     <BackgroundStack>
       <ScrollView style={styles.scrollview}>
-        <View style={styles.view}>
-          <Text style={styles.title}>My profile</Text>
-          <Text style={styles.subtitle}>Username: {username}</Text>
-          <Text style={styles.subtitle}>Patient name: {fullname}</Text>
-          <TouchableOpacity
-            onPress={logout}
-            style={styles.logoutButton}
-            activeOpacity={0.5}
-          >
-            <Text style={styles.logoutButtonText}>LOGOUT</Text>
-          </TouchableOpacity>
-        </View>
+        {loading && (
+          <View>
+            <Text>Loading profile</Text>
+          </View>
+        )}
+        {!loading && (
+          <View style={styles.view}>
+            <Text style={styles.title}>My profile</Text>
+            <Text style={styles.subtitle}>Username:</Text>
+            <Text style={styles.subtitle2}>{username}</Text>
+            <Text style={styles.subtitle}>Patient name:</Text>
+            <Text style={styles.subtitle2}>{fullname}</Text>
+            <TouchableOpacity
+              onPress={logout}
+              style={styles.logoutButton}
+              activeOpacity={0.5}
+            >
+              <Text style={styles.logoutButtonText}>LOGOUT</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </ScrollView>
     </BackgroundStack>
   );
@@ -113,13 +117,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: WIDTH / 22,
     marginTop: HEIGHT / 200,
-    color: "#800020",
+    color: "#281C22",
   },
   subtitle2: {
     textAlign: "center",
-    fontSize: WIDTH / 23,
-    marginTop: HEIGHT / 30,
-    color: "#800020",
+    fontSize: WIDTH / 19,
+    marginBottom: HEIGHT / 30,
+    color: "#B8255F",
   },
   subtitle3: {
     textAlign: "center",
