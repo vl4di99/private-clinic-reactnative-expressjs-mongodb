@@ -38,21 +38,24 @@ const Blog = () => {
   const [titleText, setTitleText] = useState("");
   const [authorText, setAuthorText] = useState("");
   const [contentText, setContentText] = useState("");
-
-  const fetchPosts = useCallback(async () => {
-    await Client.get("/blog")
-      .then((response) => {
-        setData(response.data);
-        // console.log(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.log("Can't fetch blog posts: " + error);
-      });
-  }, [data]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        await Client.get("/blog").then((response) => {
+          setData(response.data);
+          // console.log(JSON.stringify(response.data));
+          setLoading(false);
+        });
+      } catch (error) {
+        console.log("Can't fetch blog " + error);
+      }
+    };
+
     fetchPosts();
-  }, [fetchPosts]);
+  }, []);
 
   const deleteBlogItem = (id) => {
     Client.delete(`/blog/${id}`)
@@ -80,120 +83,127 @@ const Blog = () => {
   };
   return (
     <BackgroundStack>
-      <ScrollView style={styles.scrollview}>
-        <View style={styles.view}>
-          {data.map((see) => (
-            <View style={styles.blogView} key={see._id}>
-              <Text style={styles.blogTitle}>{see.title}</Text>
-              <TouchableOpacity
-                style={styles.delete}
-                onPress={() => deleteBlogItem(see._id)}
-              >
-                <Text>🗑</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.edit}
-                onPress={() => {
-                  setEditModalData(see);
-                  displayEditModal(true);
-                }}
-              >
-                <Text>✏️</Text>
-              </TouchableOpacity>
-
-              <Image
-                style={{
-                  width: "100%",
-                  height: HEIGHT / 3.3,
-                  resizeMode: "contain",
-                  alignSelf: "center",
-                }}
-                source={{ uri: see.img }}
-                resizeMode="stretch"
-              />
-              <TouchableOpacity
-                style={styles.read}
-                onPress={() => {
-                  setModalData(see);
-                  displayModal(true);
-                }}
-              >
-                <Text>Read</Text>
-              </TouchableOpacity>
-              <Text style={styles.subtitle2}>Author: {see.author}</Text>
-            </View>
-          ))}
-          <Modal
-            animationType={"slide"}
-            transparent={false}
-            visible={modalVisible}
-          >
-            <ModalBackground>
-              <ScrollView>
-                <View style={styles.modalView}>
-                  <Text style={styles.modalTitle}>{modalData.title}</Text>
-                  <Text style={styles.modalText}>{modalData.content}</Text>
-                  <Text
-                    style={styles.closeModal}
-                    onPress={() => {
-                      displayModal(!modalVisible);
-                    }}
-                  >
-                    Close
-                  </Text>
-                </View>
-              </ScrollView>
-            </ModalBackground>
-          </Modal>
-
-          <Modal
-            animationType={"slide"}
-            transparent={false}
-            visible={editModalVisible}
-          >
-            <ScrollView>
-              <TextInput
-                placeholder="Title"
-                style={styles.text_input}
-                defaultValue={editModalData.title}
-                onChangeText={(event) => setTitleText(event)}
-              />
-              <TextInput
-                placeholder="Author"
-                style={styles.text_input}
-                defaultValue={editModalData.author}
-                onChangeText={(event) => setAuthorText(event)}
-              />
-              <TextInput
-                placeholder="Content"
-                multiline={true}
-                style={styles.textarea_input}
-                NumberOfLines={15}
-                defaultValue={editModalData.content}
-                onChangeText={(event) => setContentText(event)}
-              />
-
-              <TouchableOpacity
-                style={styles.saveButton}
-                onPress={() => {
-                  editBlogItem(editModalData._id);
-                }}
-              >
-                <Text style={styles.saveButtonText}>SAVE EDIT</Text>
-              </TouchableOpacity>
-
-              <Text
-                style={styles.closeModal}
-                onPress={() => {
-                  displayEditModal(!editModalVisible);
-                }}
-              >
-                Close
-              </Text>
-            </ScrollView>
-          </Modal>
+      {loading && (
+        <View>
+          <Text>Loading profile</Text>
         </View>
-      </ScrollView>
+      )}
+      {!loading && (
+        <ScrollView style={styles.scrollview}>
+          <View style={styles.view}>
+            {data.map((see) => (
+              <View style={styles.blogView} key={see._id}>
+                <Text style={styles.blogTitle}>{see.title}</Text>
+                <TouchableOpacity
+                  style={styles.delete}
+                  onPress={() => deleteBlogItem(see._id)}
+                >
+                  <Text>🗑</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.edit}
+                  onPress={() => {
+                    setEditModalData(see);
+                    displayEditModal(true);
+                  }}
+                >
+                  <Text>✏️</Text>
+                </TouchableOpacity>
+
+                <Image
+                  style={{
+                    width: "100%",
+                    height: HEIGHT / 3.3,
+                    resizeMode: "contain",
+                    alignSelf: "center",
+                  }}
+                  source={{ uri: see.img }}
+                  resizeMode="stretch"
+                />
+                <TouchableOpacity
+                  style={styles.read}
+                  onPress={() => {
+                    setModalData(see);
+                    displayModal(true);
+                  }}
+                >
+                  <Text>Read</Text>
+                </TouchableOpacity>
+                <Text style={styles.subtitle2}>Author: {see.author}</Text>
+              </View>
+            ))}
+            <Modal
+              animationType={"slide"}
+              transparent={false}
+              visible={modalVisible}
+            >
+              <ModalBackground>
+                <ScrollView>
+                  <View style={styles.modalView}>
+                    <Text style={styles.modalTitle}>{modalData.title}</Text>
+                    <Text style={styles.modalText}>{modalData.content}</Text>
+                    <Text
+                      style={styles.closeModal}
+                      onPress={() => {
+                        displayModal(!modalVisible);
+                      }}
+                    >
+                      Close
+                    </Text>
+                  </View>
+                </ScrollView>
+              </ModalBackground>
+            </Modal>
+
+            <Modal
+              animationType={"slide"}
+              transparent={false}
+              visible={editModalVisible}
+            >
+              <ScrollView>
+                <TextInput
+                  placeholder="Title"
+                  style={styles.text_input}
+                  defaultValue={editModalData.title}
+                  onChangeText={(event) => setTitleText(event)}
+                />
+                <TextInput
+                  placeholder="Author"
+                  style={styles.text_input}
+                  defaultValue={editModalData.author}
+                  onChangeText={(event) => setAuthorText(event)}
+                />
+                <TextInput
+                  placeholder="Content"
+                  multiline={true}
+                  style={styles.textarea_input}
+                  NumberOfLines={15}
+                  defaultValue={editModalData.content}
+                  onChangeText={(event) => setContentText(event)}
+                />
+
+                <TouchableOpacity
+                  style={styles.saveButton}
+                  onPress={() => {
+                    editBlogItem(editModalData._id);
+                  }}
+                >
+                  <Text style={styles.saveButtonText}>SAVE EDIT</Text>
+                </TouchableOpacity>
+
+                <Text
+                  style={styles.closeModal}
+                  onPress={() => {
+                    displayEditModal(!editModalVisible);
+                  }}
+                >
+                  Close
+                </Text>
+              </ScrollView>
+            </Modal>
+          </View>
+        </ScrollView>
+      )}
     </BackgroundStack>
   );
 };

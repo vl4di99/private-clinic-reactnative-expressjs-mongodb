@@ -25,84 +25,89 @@ const Stack = createStackNavigator();
 const ManualTrackerHistory = () => {
   const [dataR, setDataR] = useState([]);
   const [loginData, setLoginData] = useState([]);
-
-  const getUsername = async () => {
-    try {
-      let parsed = await AsyncStorage.getItem("LoginData");
-      setLoginData(JSON.parse(parsed).username);
-      //parsed = await JSON.parse(parsed);
-      //console.log(parsed);
-      //setLoginData(parsed.username);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchPosts = useCallback(async () => {
-    await getUsername();
-    //console.log(loginData);
-    let user = loginData;
-    let doctor = false;
-
-    await Client.post("/tracker/get", { username: user, doctor: doctor })
-      .then((response) => {
-        //console.log(JSON.stringify(response.data));
-        setDataR(response.data);
-        //console.log(JSON.stringify(data));
-        //console.log(response.data);
-        // console.log(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.log("Can't fetch blog posts: " + error);
-      });
-  }, [dataR]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        let parsed = await AsyncStorage.getItem("LoginData");
+        let jsonp = await JSON.parse(parsed);
+        let user = jsonp.username;
+        let doctor = false;
+        //parsed = await JSON.parse(parsed);
+        //console.log(parsed);
+        //setLoginData(parsed.username);
+        await Client.post("/tracker/get", { username: user, doctor: doctor })
+          .then((response) => {
+            //console.log(JSON.stringify(response.data));
+            setDataR(response.data);
+            //console.log(JSON.stringify(data));
+            //console.log(response.data);
+            // console.log(JSON.stringify(response.data));
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.log("Can't fetch blog posts: " + error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchPosts();
-  }, [fetchPosts]);
+  }, []);
 
   return (
     <BackgroundStack>
-      <ScrollView style={styles.scrollview}>
-        <View style={styles.view}>
-          {dataR.map((see) => (
-            <View style={styles.blogView} key={see._id}>
-              <Text style={styles.blogTitle}>
-                {Moment(see.date).format("DD MMM YYYY HH:MM")} {see?.mood}
-              </Text>
-              <View style={styles.inlineItemsContainer}>
-                <Text style={styles.modalText}>
-                  Sleep 8H:
-                  <Checkbox value={see.sleep} />
-                </Text>
-                <Text style={styles.modalTextRight}>
-                  Water 2L: <Checkbox value={see.water} />
-                </Text>
-              </View>
-              <View style={styles.inlineItemsContainer}>
-                <Text style={styles.modalText}>
-                  Meditation: <Checkbox value={see.meditation} />
-                </Text>
-                <Text style={styles.modalTextRight}>
-                  Medication: <Checkbox value={see.medication} />
-                </Text>
-              </View>
-              <Text style={styles.modalTextMiddle}>
-                Exercise: <Checkbox value={see.exercise} />
-              </Text>
-              <View style={styles.inlineItemsContainer}>
-                <Text style={[styles.modalTextMiddle, { color: "red" }]}>
-                  Heart Info:
-                </Text>
-
-                <Text style={styles.modalTextRight}>Sys: {see.systolic}</Text>
-                <Text style={styles.modalTextRight}>Dias: {see.diastolic}</Text>
-                <Text style={styles.modalTextRight}>HR: {see.hr}</Text>
-              </View>
-            </View>
-          ))}
+      {loading && (
+        <View>
+          <Text>Loading your tracker history...</Text>
         </View>
-      </ScrollView>
+      )}
+      {!loading && (
+        <ScrollView style={styles.scrollview}>
+          <View style={styles.view}>
+            {dataR.map((see) => (
+              <View style={styles.blogView} key={see._id}>
+                <Text style={styles.blogTitle}>
+                  {Moment(see.date).format("DD MMM YYYY HH:MM")} {see?.mood}
+                </Text>
+                <View style={styles.inlineItemsContainer}>
+                  <Text style={styles.modalText}>
+                    Sleep 8H:
+                    <Checkbox value={see.sleep} />
+                  </Text>
+                  <Text style={styles.modalTextRight}>
+                    Water 2L: <Checkbox value={see.water} />
+                  </Text>
+                </View>
+                <View style={styles.inlineItemsContainer}>
+                  <Text style={styles.modalText}>
+                    Meditation: <Checkbox value={see.meditation} />
+                  </Text>
+                  <Text style={styles.modalTextRight}>
+                    Medication: <Checkbox value={see.medication} />
+                  </Text>
+                </View>
+                <Text style={styles.modalTextMiddle}>
+                  Exercise: <Checkbox value={see.exercise} />
+                </Text>
+                <View style={styles.inlineItemsContainer}>
+                  <Text style={[styles.modalTextMiddle, { color: "red" }]}>
+                    Heart Info:
+                  </Text>
+
+                  <Text style={styles.modalTextRight}>Sys: {see.systolic}</Text>
+                  <Text style={styles.modalTextRight}>
+                    Dias: {see.diastolic}
+                  </Text>
+                  <Text style={styles.modalTextRight}>HR: {see.hr}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+      )}
     </BackgroundStack>
   );
 };

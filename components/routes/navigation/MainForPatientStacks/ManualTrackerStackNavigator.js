@@ -34,6 +34,7 @@ const ManualTracker = () => {
 
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const moodOptions = [
     { emoji: "🤢", description: "Sick" },
@@ -46,10 +47,16 @@ const ManualTracker = () => {
 
   React.useEffect(() => {
     const getProfile = async () => {
-      var profileElements = await AsyncStorage.getItem("LoginData");
-      profileElements = JSON.parse(profileElements);
-      setUsername(profileElements.username);
-      setFullname(profileElements.fullname);
+      try {
+        setLoading(true);
+        var profileElements = await AsyncStorage.getItem("LoginData");
+        profileElements = JSON.parse(profileElements);
+        setUsername(profileElements.username);
+        setFullname(profileElements.fullname);
+        setLoading(false);
+      } catch (error) {
+        console.log("TrackerError: " + error);
+      }
     };
     getProfile();
   }, []);

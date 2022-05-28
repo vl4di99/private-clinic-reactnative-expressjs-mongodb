@@ -2,7 +2,13 @@ import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { AntDesign, Ionicons, Fontisto } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Ionicons,
+  Fontisto,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 
 import HomeStackNavigator from "./navigation/MainForPatientStacks/HomeStackNavigator";
 import LocationsStackNavigator from "./navigation/MainForDoctorStacks/LocationsStackNavigator";
@@ -82,7 +88,7 @@ export const DoctorAppStack = () => {
         component={ManualTrackerStackNavigator}
         options={{
           drawerIcon: (config) => (
-            <AntDesign size={18} name={"hearto"} color="#2495D4"></AntDesign>
+            <MaterialIcons size={18} name={"track-changes"} color="#2495D4" />
           ),
           drawerLabelStyle: {
             fontSize: 14,
@@ -96,11 +102,11 @@ export const DoctorAppStack = () => {
         component={CreateBlogPostStackNavigator}
         options={{
           drawerIcon: (config) => (
-            <Ionicons
+            <MaterialCommunityIcons
               size={18}
-              name={"reader-outline"}
+              name={"pencil-plus"}
               color="#F33A6A"
-            ></Ionicons>
+            />
           ),
           drawerLabelStyle: {
             fontSize: 14,
@@ -114,11 +120,7 @@ export const DoctorAppStack = () => {
         component={WritePatientHistoryStackNavigator}
         options={{
           drawerIcon: (config) => (
-            <Ionicons
-              size={18}
-              name={"reader-outline"}
-              color="#2495D4"
-            ></Ionicons>
+            <Ionicons size={18} name={"md-pencil"} color="#2495D4"></Ionicons>
           ),
           drawerLabelStyle: {
             fontSize: 14,
@@ -132,11 +134,7 @@ export const DoctorAppStack = () => {
         component={ManualTrackerHistoryStackNavigator}
         options={{
           drawerIcon: (config) => (
-            <Ionicons
-              size={18}
-              name={"reader-outline"}
-              color="#F33A6A"
-            ></Ionicons>
+            <MaterialIcons size={18} name={"history"} color="#F33A6A" />
           ),
           drawerLabelStyle: {
             fontSize: 14,

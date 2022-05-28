@@ -17,6 +17,7 @@ export default function App() {
   LogBox.ignoreLogs([
     "Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`",
   ]);
+  //LogBox.ignoreAllLogs();
   return (
     <AuthProvider>
       <Router />

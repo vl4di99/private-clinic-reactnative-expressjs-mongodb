@@ -25,76 +25,87 @@ const Blog = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalData, setModalData] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const displayModal = (show) => {
     setModalVisible(show);
   };
 
-  const fetchPosts = useCallback(async () => {
-    await Client.get("/blog")
-      .then((response) => {
-        setData(response.data);
-        // console.log(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.log("Can't fetch blog posts: " + error);
-      });
-  }, [data]);
-
   useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        await Client.get("/blog").then((response) => {
+          setData(response.data);
+          // console.log(JSON.stringify(response.data));
+          setLoading(false);
+        });
+      } catch (error) {
+        console.log("Can't fetch blog " + error);
+      }
+    };
+
     fetchPosts();
-  }, [fetchPosts]);
+  }, []);
 
   return (
     <BackgroundStack>
-      <ScrollView style={styles.scrollview}>
-        <View style={styles.view}>
-          {data.map((see) => (
-            <View style={styles.blogView} key={see._id}>
-              <Text style={styles.blogTitle}>{see.title}</Text>
+      {loading && (
+        <View>
+          <Text>Loading profile</Text>
+        </View>
+      )}
+      {!loading && (
+        <ScrollView style={styles.scrollview}>
+          <View style={styles.view}>
+            {data.map((see) => (
+              <View style={styles.blogView} key={see._id}>
+                <Text style={styles.blogTitle}>{see.title}</Text>
 
-              <Image
-                style={{
-                  width: "100%",
-                  height: HEIGHT / 3.3,
-                  resizeMode: "contain",
-                  alignSelf: "center",
-                }}
-                source={{ uri: see.img }}
-                resizeMode="stretch"
-              />
-              <TouchableOpacity
-                style={styles.read}
-                onPress={() => {
-                  setModalData(see);
-                  displayModal(true);
-                }}
-              >
-                <Text>Read</Text>
-              </TouchableOpacity>
-              <Text style={styles.subtitle2}>Author: {see.author}</Text>
-            </View>
-          ))}
-          <Modal
-            animationType={"slide"}
-            transparent={false}
-            visible={modalVisible}
-          >
-            <ModalBackground>
-              <ScrollView>
-                <Text style={styles.modalText}>{modalData.content}</Text>
-                <Text
-                  style={styles.closeModal}
+                <Image
+                  style={{
+                    width: "100%",
+                    height: HEIGHT / 3.3,
+                    resizeMode: "contain",
+                    alignSelf: "center",
+                  }}
+                  source={{ uri: see.img }}
+                  resizeMode="stretch"
+                />
+                <TouchableOpacity
+                  style={styles.read}
                   onPress={() => {
-                    displayModal(!modalVisible);
+                    setModalData(see);
+                    displayModal(true);
                   }}
                 >
-                  Close
-                </Text>
-              </ScrollView>
-            </ModalBackground>
-          </Modal>
-        </View>
-      </ScrollView>
+                  <Text>Read</Text>
+                </TouchableOpacity>
+                <Text style={styles.subtitle2}>Author: {see.author}</Text>
+              </View>
+            ))}
+            <Modal
+              animationType={"slide"}
+              transparent={false}
+              visible={modalVisible}
+            >
+              <ModalBackground>
+                <ScrollView>
+                  <Text style={styles.modalText}>{modalData.content}</Text>
+                  <Text
+                    style={styles.closeModal}
+                    onPress={() => {
+                      displayModal(!modalVisible);
+                    }}
+                  >
+                    Close
+                  </Text>
+                </ScrollView>
+              </ModalBackground>
+            </Modal>
+          </View>
+        </ScrollView>
+      )}
     </BackgroundStack>
   );
 };

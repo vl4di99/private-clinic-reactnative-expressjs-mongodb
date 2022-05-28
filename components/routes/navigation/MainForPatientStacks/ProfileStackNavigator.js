@@ -35,6 +35,7 @@ const Profile = () => {
       setUsername(profileElements?.username);
       setFullname(profileElements?.fullname);
       setLoading(false);
+      return profileElements;
     };
     getProfile();
   }, []);

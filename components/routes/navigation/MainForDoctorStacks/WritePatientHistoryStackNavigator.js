@@ -26,24 +26,29 @@ const WritePatientHistory = () => {
   const [patientName, setPatientName] = useState("");
   const [date, setDate] = useState(new Date());
   const [history, setHistory] = useState("");
-  const [DoctorLoginData, setDoctorLoginData] = useState("");
   const [DoctorFullname, setDoctorFullname] = useState("");
   const [DoctorDepartment, setDoctorDepartment] = useState("");
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [timeText, setTimeText] = useState("");
   const [dateText, setDateText] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getLoginData = async () => {
-      let parsed = await AsyncStorage.getItem("DoctorLoginData");
-      parsed = JSON.parse(parsed);
-      setDoctorLoginData(parsed);
-      setDoctorFullname(DoctorLoginData.fullname);
-      setDoctorDepartment(DoctorLoginData.department);
+      try {
+        setLoading(true);
+        let parsed = await AsyncStorage.getItem("DoctorLoginData");
+        let nparsed = await JSON.parse(parsed);
+        setDoctorFullname(nparsed.fullname);
+        setDoctorDepartment(nparsed.department);
+        setLoading(false);
+      } catch (error) {
+        console.log("Write Patient History error " + error);
+      }
     };
     getLoginData();
-  }, [DoctorLoginData]);
+  }, []);
 
   const saveHistory = async () => {
     var patient = patientName;
@@ -71,48 +76,55 @@ const WritePatientHistory = () => {
 
   return (
     <BackgroundStack>
-      <ScrollView style={styles.scrollview}>
-        <View style={styles.aboutUs}>
-          <View>
-            <TextInput
-              placeholder="Patient Name"
-              style={styles.text_input}
-              onChangeText={(event) => setPatientName(event)}
-            />
-            <TextInput
-              placeholder="History"
-              multiline={true}
-              style={styles.textarea_input}
-              NumberOfLines={15}
-              onChangeText={(event) => setHistory(event)}
-            />
-            <TextInput
-              placeholder="Doctor name"
-              style={[
-                styles.text_input,
-                { justifyContent: "center", color: "black" },
-              ]}
-              value={DoctorFullname}
-              editable={false}
-              textAlign={"center"}
-            />
-            <TextInput
-              placeholder="Doctor department"
-              style={[
-                styles.text_input,
-                { justifyContent: "center", color: "black" },
-              ]}
-              value={DoctorDepartment}
-              editable={false}
-              textAlign={"center"}
-            />
-
-            <TouchableOpacity style={styles.saveButton} onPress={saveHistory}>
-              <Text style={styles.saveButtonText}>SAVE</Text>
-            </TouchableOpacity>
-          </View>
+      {loading && (
+        <View>
+          <Text>Loading doctor data...</Text>
         </View>
-      </ScrollView>
+      )}
+      {!loading && (
+        <ScrollView style={styles.scrollview}>
+          <View style={styles.aboutUs}>
+            <View>
+              <TextInput
+                placeholder="Patient Name"
+                style={styles.text_input}
+                onChangeText={(event) => setPatientName(event)}
+              />
+              <TextInput
+                placeholder="History"
+                multiline={true}
+                style={styles.textarea_input}
+                NumberOfLines={15}
+                onChangeText={(event) => setHistory(event)}
+              />
+              <TextInput
+                placeholder="Doctor name"
+                style={[
+                  styles.text_input,
+                  { justifyContent: "center", color: "black" },
+                ]}
+                value={DoctorFullname}
+                editable={false}
+                textAlign={"center"}
+              />
+              <TextInput
+                placeholder="Doctor department"
+                style={[
+                  styles.text_input,
+                  { justifyContent: "center", color: "black" },
+                ]}
+                value={DoctorDepartment}
+                editable={false}
+                textAlign={"center"}
+              />
+
+              <TouchableOpacity style={styles.saveButton} onPress={saveHistory}>
+                <Text style={styles.saveButtonText}>SAVE</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      )}
     </BackgroundStack>
   );
 };

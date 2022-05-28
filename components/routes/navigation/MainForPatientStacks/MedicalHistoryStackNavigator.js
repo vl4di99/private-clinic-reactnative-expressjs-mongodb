@@ -25,6 +25,7 @@ const MedicalHistory = () => {
   const [profileElements, setProfileElements] = React.useState("");
   const [fullname, setFullname] = React.useState("");
   const [data, setData] = React.useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalData, setModalData] = useState("");
@@ -32,75 +33,81 @@ const MedicalHistory = () => {
     setModalVisible(show);
   };
 
-  const getHistory = async () => {
-    Client.post("/medicalHistory/get", { fullname })
-      .then((response) => {
-        setData(response.data);
-        //console.log(data);
-      })
-      .catch((error) => {
-        Alert.alert(
-          "Error",
-          "An error occured while getting your history. Please contact the administrator"
-        );
-        console.log("Error while getting history: " + error);
-      });
-  };
-
   useEffect(() => {
-    const getProfile = async () => {
-      var profileElements = await AsyncStorage.getItem("LoginData");
-      profileElements = JSON.parse(profileElements);
-      setFullname(profileElements.fullname);
+    const getHistory = async () => {
+      try {
+        setLoading(true);
+        var profileElements = await AsyncStorage.getItem("LoginData");
+        profileElements = await JSON.parse(profileElements);
+        let fullname = profileElements.fullname;
+        //setFullname(profileElements.fullname);
+        await Client.post("/medicalHistory/get", { fullname }).then(
+          (response) => {
+            setData(response.data);
+            //console.log(data);
+            setLoading(false);
+          }
+        );
+      } catch (error) {
+        console.log("Error while getting history: " + error);
+      }
     };
-    getProfile();
     getHistory();
-  }, [getHistory]);
+  }, []);
 
   return (
     <BackgroundStack>
-      <ScrollView style={styles.scrollview}>
-        <View style={styles.view}>
-          <Text style={styles.title}>My Medical History </Text>
-          {data.map((see) => (
-            <View style={styles.blogView} key={see._id}>
-              <Text style={styles.blogTitle}>
-                {Moment(see.date).format("DD.MM.YYYY")}
-              </Text>
-              <TouchableOpacity
-                style={styles.read}
-                onPress={() => {
-                  setModalData(see);
-                  displayModal(true);
-                }}
-              >
-                <Text>Read</Text>
-              </TouchableOpacity>
-              <Text style={styles.subtitle2}>Doctor: {see.doctor}</Text>
-              <Text style={styles.subtitle2}>Department: {see.department}</Text>
-            </View>
-          ))}
-          <Modal
-            animationType={"slide"}
-            transparent={false}
-            visible={modalVisible}
-          >
-            <ModalBackground>
-              <ScrollView>
-                <Text style={styles.modalText}>{modalData.history}</Text>
-                <Text
-                  style={styles.closeModal}
+      {loading && (
+        <View>
+          <Text>Loading your history...</Text>
+        </View>
+      )}
+      {!loading && (
+        <ScrollView style={styles.scrollview}>
+          <View style={styles.view}>
+            <Text style={styles.title}>My Medical History </Text>
+            {data.map((see) => (
+              <View style={styles.blogView} key={see._id}>
+                <Text style={styles.blogTitle}>
+                  {Moment(see.date).format("DD.MM.YYYY")}
+                </Text>
+                <TouchableOpacity
+                  style={styles.read}
                   onPress={() => {
-                    displayModal(!modalVisible);
+                    setModalData(see);
+                    displayModal(true);
                   }}
                 >
-                  Close
+                  <Text>Read</Text>
+                </TouchableOpacity>
+                <Text style={styles.subtitle2}>Doctor: {see.doctor}</Text>
+                <Text style={styles.subtitle2}>
+                  Department: {see.department}
                 </Text>
-              </ScrollView>
-            </ModalBackground>
-          </Modal>
-        </View>
-      </ScrollView>
+              </View>
+            ))}
+            <Modal
+              animationType={"slide"}
+              transparent={false}
+              visible={modalVisible}
+            >
+              <ModalBackground>
+                <ScrollView>
+                  <Text style={styles.modalText}>{modalData.history}</Text>
+                  <Text
+                    style={styles.closeModal}
+                    onPress={() => {
+                      displayModal(!modalVisible);
+                    }}
+                  >
+                    Close
+                  </Text>
+                </ScrollView>
+              </ModalBackground>
+            </Modal>
+          </View>
+        </ScrollView>
+      )}
     </BackgroundStack>
   );
 };

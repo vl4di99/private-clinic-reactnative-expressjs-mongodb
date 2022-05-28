@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Client from "../../../../api/Client";
+import Moment from "moment";
 import BackgroundStack from "../../../theme/BackgroundStack";
 
 const Stack = createStackNavigator();
