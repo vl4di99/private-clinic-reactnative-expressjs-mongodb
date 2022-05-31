@@ -22,6 +22,7 @@ const Stack = createStackNavigator();
 
 const Blog = () => {
   const [data, setData] = useState([]);
+  var editData = [];
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalData, setModalData] = useState("");
@@ -31,13 +32,11 @@ const Blog = () => {
 
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [editModalData, setEditModalData] = useState("");
+
   const displayEditModal = (show) => {
     setEditModalVisible(show);
   };
 
-  const [titleText, setTitleText] = useState("");
-  const [authorText, setAuthorText] = useState("");
-  const [contentText, setContentText] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -68,9 +67,9 @@ const Blog = () => {
   };
 
   const editBlogItem = (id) => {
-    var title = titleText;
-    var author = authorText;
-    var content = contentText;
+    var title = editData.title;
+    var author = editData.author;
+    var content = editData.content;
     Client.patch(`/blog/${id}`, { title, author, content })
       .then(() => {
         displayEditModal(!editModalVisible);
@@ -81,6 +80,7 @@ const Blog = () => {
         Alert.alert("Failed!", "Please contact the developer!");
       });
   };
+
   return (
     <BackgroundStack>
       {loading && (
@@ -105,6 +105,9 @@ const Blog = () => {
                   onPress={() => {
                     setEditModalData(see);
                     displayEditModal(true);
+                    editData = see;
+                    console.log(editData);
+                    //setEditData([see.title,see.author,see.content]);
                   }}
                 >
                   <Text>✏️</Text>
@@ -165,13 +168,13 @@ const Blog = () => {
                   placeholder="Title"
                   style={styles.text_input}
                   defaultValue={editModalData.title}
-                  onChangeText={(event) => setTitleText(event)}
+                  onChangeText={(event) => (editData.title = event)}
                 />
                 <TextInput
                   placeholder="Author"
                   style={styles.text_input}
                   defaultValue={editModalData.author}
-                  onChangeText={(event) => setAuthorText(event)}
+                  onChangeText={(event) => (editData.author = event)}
                 />
                 <TextInput
                   placeholder="Content"
@@ -179,14 +182,12 @@ const Blog = () => {
                   style={styles.textarea_input}
                   NumberOfLines={15}
                   defaultValue={editModalData.content}
-                  onChangeText={(event) => setContentText(event)}
+                  onChangeText={(event) => (editData.content = event)}
                 />
 
                 <TouchableOpacity
                   style={styles.saveButton}
-                  onPress={() => {
-                    editBlogItem(editModalData._id);
-                  }}
+                  onPress={() => editBlogItem(editModalData._id)}
                 >
                   <Text style={styles.saveButtonText}>SAVE EDIT</Text>
                 </TouchableOpacity>
