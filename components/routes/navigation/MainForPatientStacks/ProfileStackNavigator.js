@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,8 +6,6 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  AppState,
-  ActivityIndicator,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -41,7 +39,6 @@ const Profile = () => {
   }, []);
 
   const logout = async () => {
-    //await AsyncStorage.removeItem('@token');
     await AsyncStorage.clear();
     await setIsLoggedIn(false);
   };

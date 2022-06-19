@@ -3,7 +3,6 @@ import { Text, StyleSheet } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import BlogStackNavigator from "./navigation/MainForPatientStacks/BlogStackNavigator";
 import NewAppointmentStackNavigator from "./navigation/MainForPatientStacks/NewAppointmentStackNavigator";

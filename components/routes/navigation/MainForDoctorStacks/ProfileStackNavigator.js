@@ -6,28 +6,20 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  AppState,
-  ActivityIndicator,
   Modal,
   Alert,
   TextInput,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import AsyncStorage, {
-  useAsyncStorage,
-} from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
 import BackgroundStack from "../../../theme/BackgroundStack";
-
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 
 const Stack = createStackNavigator();
-//const username = AuthContext.username;
-
-//let LoginData = "";
 
 const Profile = () => {
   const { setDoctorIsLoggedIn } = React.useContext(AuthContext);
@@ -81,7 +73,6 @@ const Profile = () => {
   };
 
   const logout = async () => {
-    //await AsyncStorage.removeItem('@token');
     await AsyncStorage.clear();
     await setDoctorIsLoggedIn(false);
   };

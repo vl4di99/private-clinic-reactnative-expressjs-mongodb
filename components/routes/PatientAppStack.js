@@ -1,7 +1,6 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import Icon from "react-native-vector-icons/FontAwesome";
 import {
   AntDesign,
   Ionicons,
@@ -9,8 +8,6 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 
-import vitamins1 from "../../components/images/vitamins1.png";
-import HomeStackNavigator from "./navigation/MainForPatientStacks/HomeStackNavigator";
 import LocationsStackNavigator from "./navigation/MainForPatientStacks/LocationsStackNavigator";
 import ServicesPricesStackNavigator from "./navigation/MainForPatientStacks/ServicesPricesStackNavigator";
 import BottomTabNavigator from "./PatientBottomTabNavigator";

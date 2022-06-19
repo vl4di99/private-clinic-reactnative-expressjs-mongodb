@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  View,
-  Text,
-  ImageBackground,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { Text, ImageBackground, StyleSheet, Dimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import vitamins from "../../../images/vitamins1.png";
-import BackgroundStack from "../../../theme/BackgroundStack";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -45,11 +38,7 @@ const styles = StyleSheet.create({
     marginTop: HEIGHT / 15,
   },
   image: {
-    // marginLeft: WIDTH / 3.8,
-    // marginRight: WIDTH / 3.8,
-    // marginTop: HEIGHT / 12,
     width: WIDTH,
     height: HEIGHT,
-    //opacity: 0.1,
   },
 });

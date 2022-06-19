@@ -1,41 +1,5 @@
-/*import React from 'react'
-import Background from '../components/Background'
-import Logo from '../components/Logo'
-import Header from '../components/Header'
-import Button from '../components/Button'
-import Paragraph from '../components/Paragraph'
-
-export default function StartScreen({ navigation }) {
-  return (
-    <Background>
-      <Logo />
-      <Header>Private Clinic</Header>
-      <Paragraph>
-        The easiest way to start with your amazing application.
-      </Paragraph>
-      <Button
-        mode="contained"
-        onPress={() => navigation.navigate('LoginScreen')}
-      >
-        Login
-      </Button>
-      <Button
-        mode="outlined"
-        onPress={() => navigation.navigate('RegisterScreen')}
-      >
-        Sign Up
-      </Button>
-    </Background>
-  )
-}*/
 import React from "react";
-import {
-  Text,
-  Button,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 
 import Logo from "../elements/Logo";
 import Theme from "../theme/Theme";

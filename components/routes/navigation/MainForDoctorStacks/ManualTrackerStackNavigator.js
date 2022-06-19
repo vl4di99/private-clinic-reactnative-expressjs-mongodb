@@ -293,7 +293,6 @@ const styles = StyleSheet.create({
   subtitle3: {
     textAlign: "left",
     fontSize: WIDTH / 19,
-    //marginTop: HEIGHT / 30,
     color: "#454C73",
 
     marginRight: WIDTH / 30,
@@ -304,7 +303,6 @@ const styles = StyleSheet.create({
     marginLeft: WIDTH / 15,
     marginRight: WIDTH / 15,
     marginBottom: HEIGHT / 15,
-    //alignItems: "center",
   },
   view2: {
     marginLeft: WIDTH / 10,

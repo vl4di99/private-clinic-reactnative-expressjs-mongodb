@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
   Modal,
   Image,
-  TextInput,
-  Alert,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Client from "../../../../api/Client";
@@ -37,7 +35,6 @@ const Blog = () => {
         setLoading(true);
         await Client.get("/blog").then((response) => {
           setData(response.data);
-          // console.log(JSON.stringify(response.data));
           setLoading(false);
         });
       } catch (error) {
@@ -138,7 +135,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     marginRight: WIDTH / 10,
     marginBottom: WIDTH / 30,
-    //fontSize: "20",
   },
   read: {
     color: "#734F96",
@@ -160,7 +156,6 @@ const styles = StyleSheet.create({
     alignContent: "flex-end",
     alignItems: "flex-end",
     marginRight: WIDTH / 10,
-    //fontSize: "20",
   },
   subtitle: {
     textAlign: "left",
@@ -223,12 +218,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   blogTitle: {
-    //marginTop: HEIGHT / 2,
     textAlign: "center",
     alignItems: "center",
     fontSize: WIDTH / 15,
     color: "#734F96",
-    //marginBottom: WIDTH / 12,
   },
   closeModal: {
     fontSize: HEIGHT * 0.04,

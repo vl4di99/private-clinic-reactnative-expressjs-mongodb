@@ -5,8 +5,6 @@ import {
   Dimensions,
   StyleSheet,
   ScrollView,
-  Alert,
-  Image,
   TouchableOpacity,
   Modal,
 } from "react-native";
@@ -39,12 +37,12 @@ const MedicalHistory = () => {
         setLoading(true);
         var profileElements = await AsyncStorage.getItem("LoginData");
         profileElements = await JSON.parse(profileElements);
-        let fullname = profileElements.fullname;
-        //setFullname(profileElements.fullname);
+        var fullname = profileElements.fullname;
+        console.log(fullname);
         await Client.post("/medicalHistory/get", { fullname }).then(
           (response) => {
             setData(response.data);
-            //console.log(data);
+            console.log(response.data);
             setLoading(false);
           }
         );
@@ -194,12 +192,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   blogTitle: {
-    //marginTop: HEIGHT / 2,
     textAlign: "center",
     alignItems: "center",
     fontSize: WIDTH / 15,
     color: "#734F96",
-    //marginBottom: WIDTH / 12,
   },
   read: {
     color: "#734F96",

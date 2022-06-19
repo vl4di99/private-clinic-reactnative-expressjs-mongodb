@@ -1,16 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  Modal,
-  Image,
-  TextInput,
-  Alert,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView, StyleSheet, Dimensions } from "react-native";
 import Checkbox from "expo-checkbox";
 import { createStackNavigator } from "@react-navigation/stack";
 import Client from "../../../../api/Client";
@@ -35,16 +24,9 @@ const ManualTrackerHistory = () => {
         let jsonp = await JSON.parse(parsed);
         let user = jsonp.username;
         let doctor = false;
-        //parsed = await JSON.parse(parsed);
-        //console.log(parsed);
-        //setLoginData(parsed.username);
         await Client.post("/tracker/get", { username: user, doctor: doctor })
           .then((response) => {
-            //console.log(JSON.stringify(response.data));
             setDataR(response.data);
-            //console.log(JSON.stringify(data));
-            //console.log(response.data);
-            // console.log(JSON.stringify(response.data));
             setLoading(false);
           })
           .catch((error) => {
@@ -165,7 +147,6 @@ const styles = StyleSheet.create({
     alignContent: "flex-end",
     alignItems: "flex-end",
     marginRight: WIDTH / 10,
-    //fontSize: "20",
   },
   subtitle: {
     textAlign: "left",
@@ -228,12 +209,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   blogTitle: {
-    //marginTop: HEIGHT / 2,
     textAlign: "center",
     alignItems: "center",
     fontSize: WIDTH * 0.05,
     color: "#734F96",
-    //marginBottom: WIDTH / 12,
   },
   closeModal: {
     fontSize: HEIGHT * 0.04,
@@ -243,19 +222,16 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: HEIGHT * 0.02,
-    //marginTop: HEIGHT * 0.005,
     padding: HEIGHT * 0.01,
     textAlign: "left",
   },
   modalTextRight: {
     fontSize: HEIGHT * 0.02,
-    //marginTop: HEIGHT * 0.005,
     padding: HEIGHT * 0.01,
     textAlign: "right",
   },
   modalTextMiddle: {
     fontSize: HEIGHT * 0.02,
-    //marginTop: HEIGHT * 0.005,
     padding: HEIGHT * 0.01,
     textAlign: "center",
   },

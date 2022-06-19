@@ -2,7 +2,6 @@ import {
   ImageBackground,
   StyleSheet,
   Dimensions,
-  Image,
   KeyboardAvoidingView,
 } from "react-native";
 import pink from "../images/pink.png";
@@ -12,11 +11,7 @@ const HEIGHT = Dimensions.get("window").height;
 
 const ThemePatient = ({ children }) => {
   return (
-    <ImageBackground
-      //source={require("../images/phoneLicentaVitamins.png")}
-      source={pink}
-      style={styles.image}
-    >
+    <ImageBackground source={pink} style={styles.image}>
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         {children}
       </KeyboardAvoidingView>

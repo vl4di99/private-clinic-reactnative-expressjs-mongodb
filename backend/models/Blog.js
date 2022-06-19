@@ -5,15 +5,8 @@ const postSchema = mongoose.Schema({
   author: String,
   content: String,
   img: {
-    type: String
-  }
-    //contentType: String
-
-  //image: String,
-  /*createdAt: {
-    type: Date,
-    default: new Date(),
-  },*/
+    type: String,
+  },
 });
 
 const Blog = mongoose.model("Blog", postSchema);

@@ -3,10 +3,8 @@ import { Text, StyleSheet } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import BlogStackNavigator from "./navigation/MainForDoctorStacks/BlogStackNavigator";
-import AppointmentsStackNavigator from "./navigation/MainForDoctorStacks/AppointmentsStackNavigator";
 import ProfileStackNavigator from "./navigation/MainForDoctorStacks/ProfileStackNavigator";
 import ViewAppointments from "./navigation/MainForDoctorStacks/ViewAppointments";
 

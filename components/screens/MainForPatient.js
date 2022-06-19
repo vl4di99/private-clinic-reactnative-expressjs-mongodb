@@ -3,8 +3,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import { AntDesign, Ionicons, Fontisto } from "@expo/vector-icons";
 import vitamins from "../images/vitamins1.png";
-import { createStackNavigator } from "@react-navigation/stack";
-//import { Contact as ContactImp } from "../Drawers/Contact";
 
 import {
   StyleSheet,
@@ -18,10 +16,6 @@ import {
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const Drawer = createDrawerNavigator();
-//const onPress = { onPress };
-//const pink = "#F33A6A";
-
-//import { login_username } from "../Start/Login";
 var login_username = "HHH";
 
 function HomeScreen({ navigation }) {
@@ -37,11 +31,7 @@ function ProfileScreen({ navigation }) {
   return (
     <ImageBackground source={vitamins} style={styles.image}>
       <View style={styles.profile}>
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.5}
-          //onPress={onPress}
-        >
+        <TouchableOpacity style={styles.button} activeOpacity={0.5}>
           <Text style={styles.text}>Profile</Text>
         </TouchableOpacity>
       </View>
@@ -53,11 +43,7 @@ function NewAppointmentScreen({ navigation }) {
   return (
     <ImageBackground source={vitamins} style={styles.image}>
       <View style={styles.profile}>
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.5}
-          //onPress={onPress}
-        >
+        <TouchableOpacity style={styles.button} activeOpacity={0.5}>
           <Text style={styles.text}>New appointment</Text>
         </TouchableOpacity>
       </View>
@@ -69,11 +55,7 @@ function ServicesAndPrices({ navigation }) {
   return (
     <ImageBackground source={vitamins} style={styles.image}>
       <View style={styles.profile}>
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.5}
-          //onPress={onPress}
-        >
+        <TouchableOpacity style={styles.button} activeOpacity={0.5}>
           <Text style={styles.text}>Services and Prices</Text>
         </TouchableOpacity>
       </View>
@@ -85,11 +67,7 @@ function ManualTracker({ navigation }) {
   return (
     <ImageBackground source={vitamins} style={styles.image}>
       <View style={styles.profile}>
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.5}
-          //onPress={onPress}
-        >
+        <TouchableOpacity style={styles.button} activeOpacity={0.5}>
           <Text style={styles.text}>Manual Tracker</Text>
         </TouchableOpacity>
       </View>
@@ -101,11 +79,7 @@ function MedicalHistory({ navigation }) {
   return (
     <ImageBackground source={vitamins} style={styles.image}>
       <View style={styles.profile}>
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.5}
-          //onPress={onPress}
-        >
+        <TouchableOpacity style={styles.button} activeOpacity={0.5}>
           <Text style={styles.text}>Medical history</Text>
         </TouchableOpacity>
       </View>
@@ -120,7 +94,6 @@ function MedicalBlog({ navigation }) {
         <TouchableOpacity
           style={styles.button}
           activeOpacity={0.5}
-          //onPress={onPress}
           onPress={() => navigation.navigate("MedicalBlog")}
         >
           <Text style={styles.text}>Medical Blog</Text>
@@ -134,11 +107,7 @@ function AboutUs({ navigation }) {
   return (
     <ImageBackground source={vitamins} style={styles.image}>
       <View style={styles.profile}>
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.5}
-          //onPress={AboutUs}
-        >
+        <TouchableOpacity style={styles.button} activeOpacity={0.5}>
           <Text style={styles.text}>About us</Text>
         </TouchableOpacity>
       </View>
@@ -156,12 +125,7 @@ function Contact({ navigation }) {
           E-mail address: diananechita1999@gmail.com
         </Text>
         <Text style={styles.smallText}>Fax: diananechita1999@gmail.com</Text>
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.5}
-          //onPress={onPress}
-          //onPress={() => navigation.navigate("Contact")}
-        >
+        <TouchableOpacity style={styles.button} activeOpacity={0.5}>
           <Text style={styles.text}>Contact</Text>
         </TouchableOpacity>
       </View>
@@ -333,7 +297,6 @@ const styles = StyleSheet.create({
   profile: {
     flex: 1,
     justifyContent: "center",
-    //backgroundColor: "#D9C4EC",
     alignItems: "center",
   },
   button: {
@@ -350,12 +313,8 @@ const styles = StyleSheet.create({
     marginTop: HEIGHT / 15,
   },
   image: {
-    // marginLeft: WIDTH / 3.8,
-    // marginRight: WIDTH / 3.8,
-    // marginTop: HEIGHT / 12,
     width: WIDTH,
     height: HEIGHT,
-    //opacity: 0.1,
   },
   textContact: {
     fontSize: 18,

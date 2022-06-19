@@ -6,15 +6,11 @@ import {
   Dimensions,
   ScrollView,
   TextInput,
-  Image,
   TouchableOpacity,
-  Platform,
   Alert,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Moment from "moment";
 import Client from "../../../../api/Client";
 import BackgroundStack from "../../../theme/BackgroundStack";
 

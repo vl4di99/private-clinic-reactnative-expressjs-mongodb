@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  View,
   Text,
   StyleSheet,
   Dimensions,
@@ -9,13 +8,11 @@ import {
   Alert,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import DateTimePicker from "@react-native-community/datetimepicker";
 
 import Logo from "../../../elements/Logo";
 import Theme from "../../../theme/Theme";
 import Client from "../../../../api/Client";
 import { FloatingLabelInput } from "react-native-floating-label-input";
-import start from "../../../screens/Start";
 
 const Stack = createStackNavigator();
 const { width: WIDTH } = Dimensions.get("window");
@@ -49,9 +46,6 @@ const AddNewDoctor = () => {
           } else {
             Alert.alert("Account created! You can now login!");
           }
-          //props.navigation.navigate(Login);
-          //MainForPatient();
-          //console.log(response);
         })
         .catch(function (error) {
           console.log(error);

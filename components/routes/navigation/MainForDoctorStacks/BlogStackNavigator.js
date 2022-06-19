@@ -59,7 +59,12 @@ const Blog = () => {
   const deleteBlogItem = (id) => {
     Client.delete(`/blog/${id}`)
       .then((response) => {
-        console.log(response.data);
+        console.log(response);
+        if (response.status == "200")
+          Alert.alert(
+            "Deleted post",
+            "The post has been deleted successfully!"
+          );
       })
       .catch((error) => {
         console.log(error);

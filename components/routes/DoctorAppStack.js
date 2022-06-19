@@ -1,7 +1,6 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import Icon from "react-native-vector-icons/FontAwesome";
 import {
   AntDesign,
   Ionicons,
@@ -9,19 +8,15 @@ import {
   MaterialIcons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
-
-import HomeStackNavigator from "./navigation/MainForPatientStacks/HomeStackNavigator";
 import LocationsStackNavigator from "./navigation/MainForDoctorStacks/LocationsStackNavigator";
 import ServicesPricesStackNavigator from "./navigation/MainForDoctorStacks/ServicesPricesStackNavigator";
 import ManualTrackerStackNavigator from "./navigation/MainForDoctorStacks/ManualTrackerStackNavigator";
-import BlogStackNavigator from "./navigation/MainForDoctorStacks/BlogStackNavigator";
 import CreateBlogPostStackNavigator from "./navigation/MainForDoctorStacks/CreateBlogPostStackNavigator";
 import AboutUsStackNavigator from "./navigation/MainForDoctorStacks/AboutUsStackNavigator";
 import ContactStackNavigator from "./navigation/MainForDoctorStacks/ContactStackNavigator";
 import TermsAndConditionsStackNavigator from "./navigation/MainForDoctorStacks/TermsAndConditionsStackNavigator";
 import AddNewDoctorStackNavigator from "./navigation/MainForDoctorStacks/AddNewDoctorStackNavigator";
 import DoctorBottomTabNavigator from "./DoctorBottomTabNavigator";
-import ViewAppointmentsStackNavigator from "./navigation/MainForDoctorStacks/ViewAppointments";
 import WritePatientHistoryStackNavigator from "./navigation/MainForDoctorStacks/WritePatientHistoryStackNavigator";
 import ManualTrackerHistoryStackNavigator from "./navigation/MainForDoctorStacks/ManualTrackerHistoryStackNavigator";
 

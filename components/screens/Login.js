@@ -6,18 +6,14 @@ import {
   Alert,
 } from "react-native";
 import { FloatingLabelInput } from "react-native-floating-label-input";
-import { useState, useContext, createContext, useEffect } from "react";
+import { useState, useContext } from "react";
 // When user closes the app, we persist value to know if he was logged in or not
-import AsyncStorage, {
-  useAsyncStorage,
-} from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AuthContext } from "../contexts/AuthProvider";
-
 import Logo from "../elements/Logo";
 import Theme from "../theme/Theme";
 import Client from "../../api/Client";
-//import { PatientAppStack } from '../routes/PatientAppStack';
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -26,7 +22,6 @@ var LoginData = "";
 
 const Login = ({ navigation }) => {
   const { setIsLoggedIn } = useContext(AuthContext);
-  //const { setItem } = useAsyncStorage('@token');
 
   const logInUser = async () => {
     setIsLoggedIn(true);
@@ -38,7 +33,6 @@ const Login = ({ navigation }) => {
   const [userName, setUserName] = useState("");
   const [passWord, setPassWord] = useState("");
   const [loggedIn, setLoggedIn] = useState("");
-  // const [loginStatus, setLoginStatus] = useState("");
 
   const { show } = useState(false);
 
@@ -52,7 +46,6 @@ const Login = ({ navigation }) => {
           Alert.alert(response.data.message);
         } else {
           LoginData = response.data;
-          //  console.log(LoginData);
           logInUser();
           Alert.alert(
             "User " + response.data.username + " logged in successfully"

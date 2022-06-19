@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  Image,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, Dimensions, ScrollView, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Client from "../../../../api/Client";
 import BackgroundStack from "../../../theme/BackgroundStack";
@@ -27,8 +19,6 @@ const DoctorWorkingHours = () => {
       try {
         await Client.get("/getWorkingHours").then((response) => {
           setData(response.data);
-          //console.log(data);
-          // console.log(JSON.stringify(response.data));
           setLoading(false);
         });
       } catch (error) {

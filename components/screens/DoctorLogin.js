@@ -8,15 +8,12 @@ import {
   Alert,
 } from "react-native";
 import { FloatingLabelInput } from "react-native-floating-label-input";
-import AsyncStorage, {
-  useAsyncStorage,
-} from "@react-native-async-storage/async-storage";
-
-import { AuthContext } from "../contexts/AuthProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Logo from "../elements/Logo";
 import ThemeDoctor from "../theme/ThemeDoctor";
 import Client from "../../api/Client";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -25,7 +22,6 @@ var DoctorLoginData = "";
 
 const DoctorLogin = ({ navigation }) => {
   const { setDoctorIsLoggedIn } = useContext(AuthContext);
-  // const { setItem } = useAsyncStorage('@token');
 
   const logInDoctor = async () => {
     setDoctorIsLoggedIn(true);
@@ -51,7 +47,6 @@ const DoctorLogin = ({ navigation }) => {
           Alert.alert(response.data.message);
         } else {
           DoctorLoginData = response.data;
-          //  console.log(DoctorLoginData);
           logInDoctor();
           Alert.alert(
             "Doctor " + response.data.username + " logged in successfully"

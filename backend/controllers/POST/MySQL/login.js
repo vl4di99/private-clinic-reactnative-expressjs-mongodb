@@ -12,19 +12,22 @@ exports.login = function (req, res) {
       if (error) {
         res.send(error);
       }
-
-      if (result.length > 0) {
-        bcrypt.compare(password, result[0].password, (error, response) => {
-          if (response) {
-            req.session.user = result;
-            //   console.log(req.session.user);
-            res.send(result[0]);
-          } else {
-            res.send({ message: "Wrong username/password combination!" });
-          }
-        });
-      } else {
-        res.send({ message: "Invalid username/password" });
+      try {
+        if (result.length > 0) {
+          bcrypt.compare(password, result[0].password, (error, response) => {
+            if (response) {
+              req.session.user = result;
+              //   console.log(req.session.user);
+              res.send(result[0]);
+            } else {
+              res.send({ message: "Wrong username/password combination!" });
+            }
+          });
+        } else {
+          res.send({ message: "Invalid username/password" });
+        }
+      } catch (error) {
+        res.send(error);
       }
     }
   );

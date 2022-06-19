@@ -2,7 +2,6 @@ import React from "react";
 import { ScrollView, Text, StyleSheet, Dimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import BackgroundStack from "../../../theme/BackgroundStack";
-//import styles from "react-native-material-dropdown/src/components/dropdown/styles";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");

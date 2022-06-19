@@ -1,15 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   Dimensions,
   ScrollView,
   StyleSheet,
-  Image,
-  ActivityIndicator,
   Alert,
   TouchableOpacity,
-  Button,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -27,7 +24,6 @@ const ViewAppointments = () => {
   const [loading, setLoading] = useState(false);
 
   const deleteAppointment = async (id) => {
-    //var id = deleteId;
     await Client.delete(`/deleteAppointmentById`, { data: { id: id } })
       .then((response) => {
         console.log(response.data);
@@ -54,7 +50,6 @@ const ViewAppointments = () => {
           date: datetime,
         }).then((response) => {
           setData(response.data);
-          // console.log(JSON.stringify(response.data));
           setLoading(false);
         });
       } catch (error) {
@@ -81,7 +76,6 @@ const ViewAppointments = () => {
                 <TouchableOpacity
                   style={styles.delete}
                   onPress={() => {
-                    //setDeleteId(see.id);
                     deleteAppointment(see.id);
                   }}
                 >

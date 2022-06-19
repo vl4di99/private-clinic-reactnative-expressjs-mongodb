@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-//import styles from "react-native-material-dropdown-v2/src/components/dropdown/styles";
 import BackgroundStack from "../../../theme/BackgroundStack";
 
 const { width: WIDTH } = Dimensions.get("window");

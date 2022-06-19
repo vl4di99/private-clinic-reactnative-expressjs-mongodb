@@ -2,31 +2,24 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  ScrollView,
   StyleSheet,
   Dimensions,
   TextInput,
-  Button,
   Alert,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import Client from "../../../../api/Client";
-//import {Buffer} from "buffer";
 import AWSAPI from "../../../../api/AWSApi";
-//import * as buffer from "buffer";
 import { RNS3 } from "react-native-aws3";
 import BackgroundStack from "../../../theme/BackgroundStack";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const Stack = createStackNavigator();
-//const fs = require("react-native-fs");
-
 const awsOptions = {
   keyPrefix: "",
   bucket: AWSAPI.awsKeys.AWS_BUCKET_NAME,
@@ -58,8 +51,6 @@ const CreateBlogPost = () => {
             throw new Error("Failed to upload image to S3");
             Alert.alert("Failed", "Image upload failed");
           } else {
-            //setimgS3URL(response.body.postResponse.location);
-            // Location of image in the AWS S3
             saveToMongo(response.body.postResponse.location);
           }
         } catch (error) {

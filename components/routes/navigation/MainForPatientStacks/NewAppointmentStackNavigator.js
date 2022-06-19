@@ -15,6 +15,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
 import BackgroundStack from "../../../theme/BackgroundStack";
+import moment from "moment";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -27,6 +28,7 @@ const NewAppointment = () => {
   const [show, setShow] = useState(false);
   const [timeText, setTimeText] = useState("");
   const [dateText, setDateText] = useState("");
+  const [viewTime, setViewTime] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [user, setUser] = useState("");
@@ -94,7 +96,9 @@ const NewAppointment = () => {
       tempDate.getDate();
     let fTime = tempDate.getHours() + ":" + tempDate.getMinutes();
     setDateText(fDate);
-    setTimeText(fTime);
+    let v = moment(tempDate).format("HH:mm:ss");
+    setTimeText(v);
+    setViewTime(moment(tempDate).format("HH:mm"));
   };
 
   const showMode = (currentMode) => {
@@ -180,7 +184,7 @@ const NewAppointment = () => {
                 You selected:
                 {"\n\n"}Department: {selectedDepartment} {"\n"}Doctor:{" "}
                 {selectedDoctor}
-                {"\n"}Date: {dateText} {"\n"}Hour: {timeText} {"\n"}User: {user}
+                {"\n"}Date: {dateText} {"\n"}Hour: {viewTime} {"\n"}User: {user}
               </Text>
               <TouchableOpacity
                 onPress={setAppointmentNow}

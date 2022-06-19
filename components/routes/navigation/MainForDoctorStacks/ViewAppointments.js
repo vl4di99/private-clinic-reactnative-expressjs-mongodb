@@ -1,20 +1,9 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
-import {
-  View,
-  Text,
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  Image,
-  ActivityIndicator,
-  Alert,
-  Button,
-} from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { View, Text, Dimensions, ScrollView, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Client from "../../../../api/Client";
 import BackgroundStack from "../../../theme/BackgroundStack";
-import { getFreeDiskStorageAsync } from "expo-file-system";
 import Moment from "moment";
 
 const Stack = createStackNavigator();
@@ -41,9 +30,6 @@ const ViewAppointments = () => {
           date: datetime,
         }).then((response) => {
           setData(response.data);
-
-          //console.log("Data set");
-          //console.log(data);
           setLoading(false);
         });
       } catch (error) {
