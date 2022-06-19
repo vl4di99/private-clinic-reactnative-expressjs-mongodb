@@ -28,11 +28,14 @@ const Profile = () => {
   const [startHour, setStartHour] = useState("");
   const [endHour, setEndHour] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalSecretVisible, setModalSecretVisible] = useState(false);
   const [pass1, setPass1] = useState("");
   const [pass2, setPass2] = useState("");
   const [pass3, setPass3] = useState("");
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
+  const [secret, setSecret] = useState("");
+  const [newSecret, setNewSecret] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -70,6 +73,24 @@ const Profile = () => {
           console.log(err);
         });
     }
+  };
+
+  const changeSecret = async () => {
+    Client.post("/changeSecretDoctor", {
+      username: username,
+      secret: secret,
+      newsecret: newSecret,
+    })
+      .then((response) => {
+        if (response.data.message) {
+          Alert.alert("Error!", response.data.message);
+        } else {
+          Alert.alert("Saved!", response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const logout = async () => {
@@ -136,12 +157,55 @@ const Profile = () => {
                 </View>
               </View>
             </Modal>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalSecretVisible}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={styles.title}>Enter your Secret:</Text>
+                  <Text style={styles.label}>Old Secret</Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => setSecret(text)}
+                  />
+                  <Text style={styles.label}>New Secret</Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => setNewSecret(text)}
+                  />
+
+                  <TouchableOpacity
+                    onPress={changeSecret}
+                    style={styles.logoutButton}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={styles.logoutButtonText}>Save</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setModalSecretVisible(!modalSecretVisible)}
+                    style={styles.logoutButton}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={styles.logoutButtonText}>Close</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
             <TouchableOpacity
               onPress={() => setModalVisible(true)}
               style={styles.logoutButton}
               activeOpacity={0.5}
             >
               <Text style={styles.logoutButtonText}>Change Password</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setModalSecretVisible(true)}
+              style={styles.logoutButton}
+              activeOpacity={0.5}
+            >
+              <Text style={styles.logoutButtonText}>Change Secret</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={logout}

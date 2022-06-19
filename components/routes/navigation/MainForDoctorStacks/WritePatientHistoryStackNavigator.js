@@ -19,7 +19,7 @@ const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 
 const WritePatientHistory = () => {
-  const [patientName, setPatientName] = useState("");
+  const [patientUserName, setPatientUserName] = useState("");
   const [date, setDate] = useState(new Date());
   const [history, setHistory] = useState("");
   const [DoctorFullname, setDoctorFullname] = useState("");
@@ -47,7 +47,7 @@ const WritePatientHistory = () => {
   }, []);
 
   const saveHistory = async () => {
-    var patient = patientName;
+    var patient = patientUserName;
     var doctor = DoctorFullname;
     var department = DoctorDepartment;
 
@@ -82,9 +82,9 @@ const WritePatientHistory = () => {
           <View style={styles.aboutUs}>
             <View>
               <TextInput
-                placeholder="Patient Name"
+                placeholder="Patient Username"
                 style={styles.text_input}
-                onChangeText={(event) => setPatientName(event)}
+                onChangeText={(event) => setPatientUserName(event)}
               />
               <TextInput
                 placeholder="History"

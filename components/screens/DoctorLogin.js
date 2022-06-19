@@ -109,6 +109,14 @@ const DoctorLogin = ({ navigation }) => {
         />
 
         <TouchableOpacity
+          style={styles.forgotButton}
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate("ForgotPasswordDoctor")}
+        >
+          <Text style={styles.forgotButtonText}>Forgot Password?</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
           style={styles.loginButton}
           activeOpacity={0.5}
           onPress={login_now}
@@ -146,5 +154,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "absolute", //Here is the trick
     bottom: (HEIGHT * 30) / 100,
+  },
+  forgotButton: {
+    backgroundColor: "#2F1A3B",
+    alignItems: "center",
+    borderRadius: (HEIGHT * 3) / 100,
+    marginTop: (HEIGHT * 3) / 100,
+    width: (WIDTH * 40) / 100,
+    height: (HEIGHT * 5.3) / 100,
+    borderColor: "white",
+    borderWidth: 3,
+  },
+  forgotButtonText: {
+    color: "#EEEEEE",
+    paddingVertical: (HEIGHT * 1.1) / 100,
+    fontSize: (HEIGHT * 1.7) / 100,
+    textAlign: "center",
   },
 });

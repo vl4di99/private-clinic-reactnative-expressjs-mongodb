@@ -92,6 +92,13 @@ app.post("/changePasswordDoctor", changePassword.changePassDoc);
 const getWorkingHours = require("./controllers/GET/MySQL/getWorkingHours");
 app.get("/getWorkingHours", getWorkingHours.getDoctorWorkingHours);
 
+const forgotPassword = require("./controllers/POST/MySQL/forgotPassword");
+app.post("/forgotPatient", forgotPassword.forgotPasswordPatient);
+app.post("/forgotDoctor", forgotPassword.forgotPasswordDoctor);
+
+const changeSecretDoctor = require("./controllers/POST/MySQL/changeSecret");
+app.post("/changeSecretDoctor", changeSecretDoctor.changeSecretDoctor);
+
 app.listen(port, () => {
   console.log("Database Server is running at http://localhost:" + port);
 });

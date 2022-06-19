@@ -37,12 +37,10 @@ const MedicalHistory = () => {
         setLoading(true);
         var profileElements = await AsyncStorage.getItem("LoginData");
         profileElements = await JSON.parse(profileElements);
-        var fullname = profileElements.fullname;
-        console.log(fullname);
-        await Client.post("/medicalHistory/get", { fullname }).then(
+        var patient = profileElements.username;
+        await Client.post("/medicalHistory/get", { patient }).then(
           (response) => {
             setData(response.data);
-            console.log(response.data);
             setLoading(false);
           }
         );

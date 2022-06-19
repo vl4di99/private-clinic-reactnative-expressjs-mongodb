@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, LogBox } from "react-native";
 import { Router } from "./components/routes/Router";
-import MainForPatient from "./components/screens/MainForPatient";
 import AuthProvider from "./components/contexts/AuthProvider";
 
 export default function App() {
@@ -22,7 +21,6 @@ export default function App() {
     <AuthProvider>
       <Router />
     </AuthProvider>
-    //<MainForPatient/>
   );
 }
 

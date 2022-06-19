@@ -7,48 +7,44 @@ import {
 } from "react-native";
 import { FloatingLabelInput } from "react-native-floating-label-input";
 import { useState } from "react";
-
 import Logo from "../elements/Logo";
-import Theme from "../theme/Theme";
+import ThemeDoctor from "../theme/ThemeDoctor";
 import Client from "../../api/Client";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 
-const Register = ({ navigation }) => {
-  const [fullName, setFullName] = useState("");
+const ForgotPasswordDoctor = ({ navigation }) => {
   const [userName, setUserName] = useState("");
   const [passWord, setPassWord] = useState("");
-  const [confPassWord, setConfPassWord] = useState("");
   const [secret, setSecret] = useState("");
   const [show, setShow] = useState(false);
 
-  const register_now = () => {
-    if (passWord != confPassWord) {
-      Alert.alert("Passwords don't match!");
-    } else {
-      Client.post("/register", {
-        username: userName,
-        password: passWord,
-        fullname: fullName,
-        secret: secret,
+  const forgotPass = () => {
+    Client.post("/forgotDoctor", {
+      username: userName,
+      password: passWord,
+      secret: secret,
+    })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.message) {
+          //console.log("Login message: ", response.data.message);
+          Alert.alert(response.data.message);
+        } else {
+          Alert.alert(
+            "User " + `${userName}` + " resetted password successfully"
+          );
+          navigation.goBack();
+        }
       })
-        .then((response) => {
-          if (response.data === false) {
-            Alert.alert("User already exists!");
-          } else {
-            Alert.alert("Account created! You can now login!");
-            navigation.goBack();
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
-    <Theme>
+    <ThemeDoctor>
       <Logo />
       <FloatingLabelInput
         label={"Username"}
@@ -70,29 +66,9 @@ const Register = ({ navigation }) => {
           paddingHorizontal: 5,
         }}
       />
-      <FloatingLabelInput
-        label={"Full Name"}
-        value={fullName}
-        onChangeText={(value) => setFullName(value)}
-        containerStyles={{
-          marginBottom: "5%",
-          borderColor: "#ABDEE6",
-          borderWidth: 3,
-          borderRadius: 15,
-          height: (HEIGHT * 7) / 100,
-          paddingHorizontal: 20,
-        }}
-        customLabelStyles={{
-          colorFocused: "red",
-          fontSizeFocused: 12,
-        }}
-        labelStyles={{
-          paddingHorizontal: 5,
-        }}
-      />
 
       <FloatingLabelInput
-        label={"Password"}
+        label={"New Password"}
         isPassword
         togglePassword={show}
         value={passWord}
@@ -117,32 +93,7 @@ const Register = ({ navigation }) => {
       />
 
       <FloatingLabelInput
-        label={"Confirm Password"}
-        isPassword
-        togglePassword={show}
-        value={confPassWord}
-        onChangeText={(value) => setConfPassWord(value)}
-        customShowPasswordComponent={<Text>Show</Text>}
-        customHidePasswordComponent={<Text>Hide</Text>}
-        containerStyles={{
-          marginBottom: "5%",
-          borderColor: "#ABDEE6",
-          borderWidth: 3,
-          borderRadius: 15,
-          height: (HEIGHT * 7) / 100,
-          paddingHorizontal: 20,
-        }}
-        customLabelStyles={{
-          colorFocused: "red",
-          fontSizeFocused: 12,
-        }}
-        labelStyles={{
-          paddingHorizontal: 5,
-        }}
-      />
-
-      <FloatingLabelInput
-        label={"Secret Word (Used To Reset Password)"}
+        label={"Secret"}
         value={secret}
         onChangeText={(value) => setSecret(value)}
         containerStyles={{
@@ -165,15 +116,15 @@ const Register = ({ navigation }) => {
       <TouchableOpacity
         style={styles.loginButton}
         activeOpacity={0.5}
-        onPress={register_now}
+        onPress={forgotPass}
       >
-        <Text style={styles.loginButtonText}>REGISTER</Text>
+        <Text style={styles.loginButtonText}>Change Pass</Text>
       </TouchableOpacity>
-    </Theme>
+    </ThemeDoctor>
   );
 };
 
-export default Register;
+export default ForgotPasswordDoctor;
 
 const styles = StyleSheet.create({
   loginButton: {

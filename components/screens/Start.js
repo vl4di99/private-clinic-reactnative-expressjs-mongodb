@@ -30,6 +30,13 @@ const Start = ({ navigation }) => {
         <Text style={styles.registerButtonText}>REGISTER</Text>
       </TouchableOpacity>
       <TouchableOpacity
+        style={styles.forgotButton}
+        activeOpacity={0.5}
+        onPress={() => navigation.navigate("ForgotPasswordPatient")}
+      >
+        <Text style={styles.forgotButtonText}>Forgot Password?</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
         style={styles.doctorPage}
         onPress={() => navigation.navigate("DoctorLogin")}
       >
@@ -72,6 +79,22 @@ const styles = StyleSheet.create({
     color: "#EEEEEE",
     paddingVertical: (HEIGHT * 1.1) / 100,
     fontSize: (HEIGHT * 2.2) / 100,
+    textAlign: "center",
+  },
+  forgotButton: {
+    backgroundColor: "#2F1A3B",
+    alignItems: "center",
+    borderRadius: (HEIGHT * 3) / 100,
+    marginTop: (HEIGHT * 3) / 100,
+    width: (WIDTH * 40) / 100,
+    height: (HEIGHT * 5.3) / 100,
+    borderColor: "white",
+    borderWidth: 3,
+  },
+  forgotButtonText: {
+    color: "#EEEEEE",
+    paddingVertical: (HEIGHT * 1.1) / 100,
+    fontSize: (HEIGHT * 1.7) / 100,
     textAlign: "center",
   },
   doctorPage: {

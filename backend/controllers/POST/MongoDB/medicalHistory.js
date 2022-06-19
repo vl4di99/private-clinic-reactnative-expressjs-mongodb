@@ -15,8 +15,8 @@ exports.createPost = async (req, res) => {
 
 exports.getPost = async (req, res) => {
   try {
-    const patient_fullname = req.body.fullname;
-    const post = await MedicalHistory.find({ patient: patient_fullname });
+    const patient_username = req.body.patient;
+    const post = await MedicalHistory.find({ patient: patient_username });
     res.status(200).json(post);
   } catch (error) {
     res.status(404).json({

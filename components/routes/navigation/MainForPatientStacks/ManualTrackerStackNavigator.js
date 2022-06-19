@@ -86,7 +86,7 @@ const ManualTracker = () => {
       isDoctor,
     })
       .then((response) => {
-        Alert.alert(JSON.stringify(response.data));
+        Alert.alert("Saved!", "Data saved successfully!");
       })
       .catch((error) => {
         console.log("Error in saving tracker: " + error);

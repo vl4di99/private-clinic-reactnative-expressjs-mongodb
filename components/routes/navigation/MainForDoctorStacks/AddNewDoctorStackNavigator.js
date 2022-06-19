@@ -23,6 +23,7 @@ const AddNewDoctor = () => {
   const [userName, setUserName] = useState("");
   const [passWord, setPassWord] = useState("");
   const [confPassWord, setConfPassWord] = useState("");
+  const [secret, setSecret] = useState("");
   const [department, setDepartment] = useState("");
   const [start_work_hour, setStart_work_hour] = useState("");
   const [end_work_hour, setEnd_work_hour] = useState("");
@@ -39,6 +40,7 @@ const AddNewDoctor = () => {
         department: department,
         start_work_hour: start_work_hour,
         end_work_hour: end_work_hour,
+        secret: secret,
       })
         .then((response) => {
           if (response.data === false) {
@@ -218,6 +220,27 @@ const AddNewDoctor = () => {
           }}
         />
 
+        <FloatingLabelInput
+          label={"Secret (Used If Forgot Password)"}
+          value={secret}
+          onChangeText={(value) => setSecret(value)}
+          containerStyles={{
+            marginBottom: "5%",
+            borderColor: "#ABDEE6",
+            borderWidth: 3,
+            borderRadius: 15,
+            height: (HEIGHT * 7) / 100,
+            paddingHorizontal: 20,
+          }}
+          customLabelStyles={{
+            colorFocused: "red",
+            fontSizeFocused: 12,
+          }}
+          labelStyles={{
+            paddingHorizontal: 5,
+          }}
+        />
+
         <TouchableOpacity
           style={styles.loginButton}
           activeOpacity={0.5}
@@ -264,7 +287,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#2f1a3b",
     alignItems: "center",
     borderRadius: (HEIGHT * 3) / 100,
-    marginTop: (HEIGHT * 3) / 100,
+    marginTop: (HEIGHT * 1) / 100,
     width: (WIDTH * 40) / 100,
     height: (HEIGHT * 6) / 100,
     borderColor: "white",
