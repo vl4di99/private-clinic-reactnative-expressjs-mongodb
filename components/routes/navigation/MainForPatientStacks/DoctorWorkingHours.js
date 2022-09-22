@@ -19,6 +19,7 @@ const DoctorWorkingHours = () => {
       setLoading(true);
       try {
         await Client.get("/getWorkingHours").then((response) => {
+          console.log(response.data);
           setData(response.data);
           setLoading(false);
         });
