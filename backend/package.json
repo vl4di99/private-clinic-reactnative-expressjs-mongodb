@@ -23,7 +23,7 @@
     "dotenv": "~16.0.0",
     "ejs": "~3.1.6",
     "multer-gridfs-storage": "~5.0.2",
-    "aws-sdk": "~2.1101.0",
+    "aws-sdk": "~2.1354.0",
     "base64-arraybuffer": "~1.0.2",
     "react-native-fs": "~2.19.0"
   },
